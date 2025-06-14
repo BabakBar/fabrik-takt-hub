@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Microphone, Search, ArrowDown } from 'lucide-react';
+import { Mic, Search, ArrowDown } from 'lucide-react';
 
 const SolutionSection = () => {
   return (
@@ -24,7 +24,7 @@ const SolutionSection = () => {
             {/* Step 1: Capture */}
             <div className="text-center relative">
               <div className="bg-amber-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Microphone className="text-white" size={32} />
+                <Mic className="text-white" size={32} />
               </div>
               <div className="absolute -top-4 -right-4 bg-amber-100 text-amber-600 w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
                 1
@@ -38,7 +38,7 @@ const SolutionSection = () => {
               {/* Example */}
               <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg" dir="rtl">
                 <div className="flex items-center gap-2 justify-center mb-2">
-                  <Microphone size={16} className="text-blue-500" />
+                  <Mic size={16} className="text-blue-500" />
                   <span className="text-sm text-blue-600">پیام صوتی</span>
                 </div>
                 <p className="text-sm text-slate-700">

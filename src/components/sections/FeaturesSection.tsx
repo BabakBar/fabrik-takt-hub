@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Microphone, Search } from 'lucide-react';
+import { Mic, Search } from 'lucide-react';
 
 const FeaturesSection = () => {
   return (
@@ -20,7 +20,7 @@ const FeaturesSection = () => {
           <div className="bg-white rounded-2xl p-8 shadow-lg">
             <div className="flex items-center gap-4 mb-6" dir="rtl">
               <div className="bg-blue-100 p-3 rounded-full">
-                <Microphone className="text-blue-600" size={24} />
+                <Mic className="text-blue-600" size={24} />
               </div>
               <h3 className="text-2xl font-bold text-slate-700">ضبط آسان صدا و متن</h3>
             </div>

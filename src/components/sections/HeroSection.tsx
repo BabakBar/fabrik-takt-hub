@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowDown, Microphone } from 'lucide-react';
+import { ArrowDown, Mic } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -74,7 +74,7 @@ const HeroSection = () => {
                 <div className="flex justify-end">
                   <div className="bg-blue-500 text-white p-3 rounded-lg max-w-xs" dir="rtl">
                     <div className="flex items-center gap-2 mb-1">
-                      <Microphone size={16} />
+                      <Mic size={16} />
                       <span className="text-xs">پیام صوتی 0:15</span>
                     </div>
                     <div className="text-sm">
@@ -108,7 +108,7 @@ const HeroSection = () => {
 
             {/* Floating Elements */}
             <div className="absolute -top-4 -right-4 bg-amber-500 text-white p-3 rounded-full animate-pulse">
-              <Microphone size={20} />
+              <Mic size={20} />
             </div>
             <div className="absolute -bottom-4 -left-4 bg-green-500 text-white p-3 rounded-full">
               <ArrowDown size={20} />
