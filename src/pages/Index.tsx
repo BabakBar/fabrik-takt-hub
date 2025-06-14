@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Header from '../components/layout/Header';
 import HeroSection from '../components/sections/HeroSection';
 import ProblemSection from '../components/sections/ProblemSection';
 import SolutionSection from '../components/sections/SolutionSection';
@@ -13,15 +14,18 @@ import Footer from '../components/layout/Footer';
 const Index = () => {
   return (
     <div className="min-h-screen bg-white">
-      <HeroSection />
-      <ProblemSection />
-      <SolutionSection />
-      <FeaturesSection />
-      <TechStackSection />
-      <ExamplesSection />
-      <SocialProofSection />
-      <PilotCTASection />
-      <Footer />
+      <Header />
+      <div className="pt-20">
+        <HeroSection />
+        <ProblemSection />
+        <SolutionSection />
+        <FeaturesSection />
+        <TechStackSection />
+        <ExamplesSection />
+        <SocialProofSection />
+        <PilotCTASection />
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -1,8 +1,11 @@
 
 import React from 'react';
 import { ArrowDown, Mic } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 overflow-hidden">
       {/* Background Pattern */}
@@ -15,42 +18,42 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 py-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen">
           {/* Content */}
-          <div className="text-center lg:text-right" dir="rtl">
+          <div className="text-center lg:text-right">
             <h1 className="text-5xl lg:text-6xl font-bold text-slate-700 mb-6 leading-tight">
-              مغز هوشمند
-              <span className="text-amber-500 block">کارخانه شما</span>
+              {t('hero.title')}
+              <span className="text-amber-500 block">{t('hero.titleAccent')}</span>
             </h1>
             
             <p className="text-xl lg:text-2xl text-slate-600 mb-8 leading-relaxed">
-              دانش ۲۰ ساله کارگران خود را در ۲ دقیقه جستجو کنید
+              {t('hero.subtitle')}
             </p>
             
             <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto lg:mx-0">
-              سیستم هوش مصنوعی که تجربه کارگران بازنشسته را حفظ و قابل جستجو می‌کند
+              {t('hero.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-end">
               <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                عضویت در برنامه آزمایشی
+                {t('hero.ctaPrimary')}
               </button>
               <button className="border-2 border-slate-400 text-slate-600 hover:bg-slate-50 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300">
-                مشاهده نحوه کارکرد
+                {t('hero.ctaSecondary')}
               </button>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-gray-200">
               <div className="text-center">
-                <div className="text-2xl font-bold text-amber-500">95%+</div>
-                <div className="text-sm text-slate-500">دقت تشخیص فارسی</div>
+                <div className="text-2xl font-bold text-amber-500">{t('hero.stat1')}</div>
+                <div className="text-sm text-slate-500">{t('hero.stat1Label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-amber-500">2-3s</div>
-                <div className="text-sm text-slate-500">سرعت پردازش</div>
+                <div className="text-2xl font-bold text-amber-500">{t('hero.stat2')}</div>
+                <div className="text-sm text-slate-500">{t('hero.stat2Label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-amber-500">1000+</div>
-                <div className="text-sm text-slate-500">دانش ثبت شده</div>
+                <div className="text-2xl font-bold text-amber-500">{t('hero.stat3')}</div>
+                <div className="text-sm text-slate-500">{t('hero.stat3Label')}</div>
               </div>
             </div>
           </div>
@@ -72,7 +75,7 @@ const HeroSection = () => {
               <div className="bg-gray-50 p-4 space-y-4 h-64">
                 {/* Voice Message */}
                 <div className="flex justify-end">
-                  <div className="bg-blue-500 text-white p-3 rounded-lg max-w-xs" dir="rtl">
+                  <div className="bg-blue-500 text-white p-3 rounded-lg max-w-xs">
                     <div className="flex items-center gap-2 mb-1">
                       <Mic size={16} />
                       <span className="text-xs">پیام صوتی 0:15</span>
@@ -85,7 +88,7 @@ const HeroSection = () => {
 
                 {/* AI Response */}
                 <div className="flex justify-start">
-                  <div className="bg-white p-3 rounded-lg shadow-sm max-w-xs" dir="rtl">
+                  <div className="bg-white p-3 rounded-lg shadow-sm max-w-xs">
                     <div className="text-sm text-slate-700">
                       ✅ دانش ثبت شد
                       <br />
@@ -96,7 +99,7 @@ const HeroSection = () => {
 
                 {/* Search Result */}
                 <div className="flex justify-start">
-                  <div className="bg-green-50 border border-green-200 p-3 rounded-lg max-w-xs" dir="rtl">
+                  <div className="bg-green-50 border border-green-200 p-3 rounded-lg max-w-xs">
                     <div className="text-xs text-green-600 font-semibold mb-1">راه‌حل یافت شد</div>
                     <div className="text-sm text-slate-700">
                       بررسی سنسور دما و restart controller
