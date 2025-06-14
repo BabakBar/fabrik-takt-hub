@@ -32,6 +32,13 @@ const translations = {
     'hero.stat2Label': 'سرعت پردازش',
     'hero.stat3': '1000+',
     'hero.stat3Label': 'دانش ثبت شده',
+    'hero.botName': 'فبریک‌تکت ربات',
+    'hero.botStatus': 'آنلاین',
+    'hero.voiceMessage': 'پیام صوتی 0:15',
+    'hero.userMessage': 'دستگاه CNC شماره ۴۵۲ متوقف شده...',
+    'hero.botResponse': '✅ دانش ثبت شد\n🔍 جستجوی مشابه: /search CNC E-77',
+    'hero.solutionFound': 'راه‌حل یافت شد',
+    'hero.solutionText': 'بررسی سنسور دما و restart controller',
     
     // Problem Section
     'problem.title': 'آیا ارزشمندترین دانش شما در حال ترک کارخانه است؟',
@@ -65,6 +72,18 @@ const translations = {
     'solution.step3Title': 'بازیابی',
     'solution.step3Desc': 'کارگران دیگر راه‌حل را فوراً پیدا می‌کنند',
     'solution.techTitle': 'مبتنی بر پیشرفته‌ترین تکنولوژی‌ها',
+    'solution.exampleInput': 'دستگاه CNC شماره ۴۵۲ متوقف شده و کد خطای E-77 میده',
+    'solution.voiceMessage': 'پیام صوتی',
+    'solution.analysisResult': 'نتیجه تحلیل AI:',
+    'solution.equipment': '🏭 دستگاه: CNC-452',
+    'solution.type': '⚠️ نوع: خرابی',
+    'solution.errorCode': '🔧 کد خطا: E-77',
+    'solution.searchQuery': 'جستجو: CNC E-77',
+    'solution.searchResult': '✅ راه‌حل: بررسی سنسور دما و restart controller',
+    'solution.solveTime': 'زمان حل: کمتر از ۲ ثانیه',
+    'solution.aiTech': 'هوش مصنوعی پیشرفته',
+    'solution.processingSpeed': 'سرعت پردازش',
+    'solution.accuracy': 'تشخیص اصطلاحات فارسی',
     
     // Features
     'features.title': 'ویژگی‌های طراحی شده برای کارخانه‌های ایرانی',
@@ -80,6 +99,63 @@ const translations = {
     'features.ctaTitle': 'آماده تجربه آینده مدیریت دانش هستید؟',
     'features.ctaDesc': 'همین امروز با برنامه آزمایشی شروع کنید',
     'features.ctaButton': 'شروع رایگان ۳ ماهه',
+
+    // Tech Stack
+    'tech.title': 'ساخته شده با پیشرفته‌ترین تکنولوژی‌ها',
+    'tech.subtitle': 'استفاده از آخرین نوآوری‌ها در هوش مصنوعی و پردازش زبان طبیعی',
+    'tech.ai': 'هوش مصنوعی',
+    'tech.aiDesc': 'Google Gemini 2.0 Pro برای تحلیل دقیق',
+    'tech.voice': 'تشخیص گفتار', 
+    'tech.voiceDesc': 'پردازش صدای فارسی با دقت بالا',
+    'tech.nlp': 'پردازش زبان طبیعی',
+    'tech.nlpDesc': 'درک عمیق متن و مفاهیم فنی',
+    'tech.search': 'جستجوی هوشمند',
+    'tech.searchDesc': 'الگوریتم‌های پیشرفته برای یافتن اطلاعات',
+
+    // Examples
+    'examples.title': 'نمونه‌هایی از کاربرد واقعی',
+    'examples.subtitle': 'ببینید چگونه کارخانه‌ها از تکت استفاده می‌کنند',
+    'examples.maintenance': 'نگهداری و تعمیرات',
+    'examples.maintenanceDesc': 'ثبت و جستجوی راه‌حل‌های تعمیراتی',
+    'examples.troubleshooting': 'عیب‌یابی',
+    'examples.troubleshootingDesc': 'تشخیص سریع مشکلات و ارائه راه‌حل',
+    'examples.training': 'آموزش کارکنان',
+    'examples.trainingDesc': 'انتقال دانش به نیروهای جدید',
+
+    // Social Proof
+    'social.title': 'کارخانه‌ها به ما اعتماد می‌کنند',
+    'social.subtitle': 'شرکت‌های پیشرو از تکت استفاده می‌کنند',
+    'social.testimonial1': 'تکت زندگی کاری ما را متحول کرده است',
+    'social.testimonial2': 'دیگر مشکلات تکراری نداریم',
+    'social.testimonial3': 'کارکنان جدید سریع‌تر یاد می‌گیرند',
+
+    // Pilot CTA
+    'pilot.title': 'آینده کارخانه خود را امروز تضمین کنید',
+    'pilot.subtitle': 'به برنامه آزمایشی محدود ما بپیوندید',
+    'pilot.feature1': '۳ ماه استفاده رایگان',
+    'pilot.feature2': 'پشتیبانی اختصاصی',
+    'pilot.feature3': 'آموزش کامل تیم',
+    'pilot.feature4': 'راه‌اندازی در کمتر از یک هفته',
+    'pilot.cta': 'درخواست شرکت در برنامه آزمایشی',
+    'pilot.limited': 'ظرفیت محدود - فقط ۱۰ کارخانه',
+
+    // Footer
+    'footer.product': 'محصول',
+    'footer.features': 'ویژگی‌ها',
+    'footer.pricing': 'قیمت‌گذاری',
+    'footer.examples': 'نمونه‌ها',
+    'footer.company': 'شرکت',
+    'footer.about': 'درباره ما',
+    'footer.careers': 'فرصت‌های شغلی',
+    'footer.contact': 'تماس با ما',
+    'footer.support': 'پشتیبانی',
+    'footer.help': 'راهنما',
+    'footer.docs': 'مستندات',
+    'footer.api': 'API',
+    'footer.legal': 'قوانین',
+    'footer.privacy': 'حریم خصوصی',
+    'footer.terms': 'شرایط استفاده',
+    'footer.rights': 'تمام حقوق محفوظ است',
   },
   en: {
     // Navigation
@@ -101,6 +177,13 @@ const translations = {
     'hero.stat2Label': 'Processing Speed',
     'hero.stat3': '1000+',
     'hero.stat3Label': 'Knowledge Entries',
+    'hero.botName': 'FabrikTakt Bot',
+    'hero.botStatus': 'Online',
+    'hero.voiceMessage': 'Voice message 0:15',
+    'hero.userMessage': 'CNC machine #452 stopped working...',
+    'hero.botResponse': '✅ Knowledge recorded\n🔍 Similar search: /search CNC E-77',
+    'hero.solutionFound': 'Solution Found',
+    'hero.solutionText': 'Check temperature sensor and restart controller',
     
     // Problem Section
     'problem.title': 'Is Your Most Valuable Knowledge Walking Out the Door?',
@@ -134,6 +217,18 @@ const translations = {
     'solution.step3Title': 'Retrieve',
     'solution.step3Desc': 'Other workers instantly find the solution',
     'solution.techTitle': 'Built on Cutting-Edge Technology',
+    'solution.exampleInput': 'CNC machine #452 stopped and showing error code E-77',
+    'solution.voiceMessage': 'Voice message',
+    'solution.analysisResult': 'AI Analysis Result:',
+    'solution.equipment': '🏭 Equipment: CNC-452',
+    'solution.type': '⚠️ Type: Malfunction',
+    'solution.errorCode': '🔧 Error Code: E-77',
+    'solution.searchQuery': 'Search: CNC E-77',
+    'solution.searchResult': '✅ Solution: Check temperature sensor and restart controller',
+    'solution.solveTime': 'Resolution time: Under 2 seconds',
+    'solution.aiTech': 'Advanced AI Technology',
+    'solution.processingSpeed': 'Processing Speed',
+    'solution.accuracy': 'Technical Term Recognition',
     
     // Features
     'features.title': 'Features Designed for Modern Manufacturing',
@@ -149,6 +244,63 @@ const translations = {
     'features.ctaTitle': 'Ready to Experience the Future of Knowledge Management?',
     'features.ctaDesc': 'Start with our pilot program today',
     'features.ctaButton': 'Start Free 3-Month Trial',
+
+    // Tech Stack
+    'tech.title': 'Built with Cutting-Edge Technology',
+    'tech.subtitle': 'Leveraging the latest innovations in AI and natural language processing',
+    'tech.ai': 'Artificial Intelligence',
+    'tech.aiDesc': 'Google Gemini 2.0 Pro for precise analysis',
+    'tech.voice': 'Speech Recognition',
+    'tech.voiceDesc': 'High-accuracy multilingual voice processing',
+    'tech.nlp': 'Natural Language Processing',
+    'tech.nlpDesc': 'Deep understanding of text and technical concepts',
+    'tech.search': 'Smart Search',
+    'tech.searchDesc': 'Advanced algorithms for information retrieval',
+
+    // Examples
+    'examples.title': 'Real-World Application Examples',
+    'examples.subtitle': 'See how factories are using Takt in practice',
+    'examples.maintenance': 'Maintenance & Repair',
+    'examples.maintenanceDesc': 'Record and search maintenance solutions',
+    'examples.troubleshooting': 'Troubleshooting',
+    'examples.troubleshootingDesc': 'Quick problem diagnosis and solutions',
+    'examples.training': 'Employee Training',
+    'examples.trainingDesc': 'Transfer knowledge to new workforce',
+
+    // Social Proof
+    'social.title': 'Trusted by Leading Manufacturers',
+    'social.subtitle': 'Industry leaders rely on Takt for knowledge management',
+    'social.testimonial1': 'Takt has transformed our operations',
+    'social.testimonial2': 'No more recurring problems on our floor',
+    'social.testimonial3': 'New employees learn faster than ever',
+
+    // Pilot CTA
+    'pilot.title': 'Secure Your Factory\'s Future Today',
+    'pilot.subtitle': 'Join our exclusive pilot program',
+    'pilot.feature1': '3 months free usage',
+    'pilot.feature2': 'Dedicated support',
+    'pilot.feature3': 'Complete team training',
+    'pilot.feature4': 'Setup in under one week',
+    'pilot.cta': 'Request Pilot Program Access',
+    'pilot.limited': 'Limited capacity - Only 10 factories',
+
+    // Footer
+    'footer.product': 'Product',
+    'footer.features': 'Features',
+    'footer.pricing': 'Pricing',
+    'footer.examples': 'Examples',
+    'footer.company': 'Company',
+    'footer.about': 'About Us',
+    'footer.careers': 'Careers',
+    'footer.contact': 'Contact',
+    'footer.support': 'Support',
+    'footer.help': 'Help Center',
+    'footer.docs': 'Documentation',
+    'footer.api': 'API',
+    'footer.legal': 'Legal',
+    'footer.privacy': 'Privacy Policy',
+    'footer.terms': 'Terms of Service',
+    'footer.rights': 'All rights reserved',
   }
 };
 

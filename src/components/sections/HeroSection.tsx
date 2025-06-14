@@ -4,7 +4,7 @@ import { ArrowDown, Mic } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const HeroSection = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 overflow-hidden">
@@ -67,8 +67,8 @@ const HeroSection = () => {
                   <span className="text-blue-500 font-bold text-sm">T</span>
                 </div>
                 <div>
-                  <div className="font-semibold">FabrikTakt Bot</div>
-                  <div className="text-xs opacity-75">آنلاین</div>
+                  <div className="font-semibold">{t('hero.botName')}</div>
+                  <div className="text-xs opacity-75">{t('hero.botStatus')}</div>
                 </div>
               </div>
               
@@ -78,10 +78,10 @@ const HeroSection = () => {
                   <div className="bg-blue-500 text-white p-3 rounded-lg max-w-xs">
                     <div className="flex items-center gap-2 mb-1">
                       <Mic size={16} />
-                      <span className="text-xs">پیام صوتی 0:15</span>
+                      <span className="text-xs">{t('hero.voiceMessage')}</span>
                     </div>
                     <div className="text-sm">
-                      دستگاه CNC شماره ۴۵۲ متوقف شده...
+                      {t('hero.userMessage')}
                     </div>
                   </div>
                 </div>
@@ -89,10 +89,8 @@ const HeroSection = () => {
                 {/* AI Response */}
                 <div className="flex justify-start">
                   <div className="bg-white p-3 rounded-lg shadow-sm max-w-xs">
-                    <div className="text-sm text-slate-700">
-                      ✅ دانش ثبت شد
-                      <br />
-                      🔍 جستجوی مشابه: /search CNC E-77
+                    <div className="text-sm text-slate-700" style={{ whiteSpace: 'pre-line' }}>
+                      {t('hero.botResponse')}
                     </div>
                   </div>
                 </div>
@@ -100,9 +98,9 @@ const HeroSection = () => {
                 {/* Search Result */}
                 <div className="flex justify-start">
                   <div className="bg-green-50 border border-green-200 p-3 rounded-lg max-w-xs">
-                    <div className="text-xs text-green-600 font-semibold mb-1">راه‌حل یافت شد</div>
+                    <div className="text-xs text-green-600 font-semibold mb-1">{t('hero.solutionFound')}</div>
                     <div className="text-sm text-slate-700">
-                      بررسی سنسور دما و restart controller
+                      {t('hero.solutionText')}
                     </div>
                   </div>
                 </div>
