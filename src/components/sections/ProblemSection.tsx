@@ -45,8 +45,8 @@ const ProblemSection = () => {
                 <span className="text-red-500 font-bold">✗</span>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-700 mb-2">دانش حیاتی فقط در ذهن کارگران موجود است</h3>
-                <p className="text-slate-600">تجربیات ارزشمند هنگام بازنشستگی از بین می‌رود</p>
+                <h3 className="font-semibold text-slate-700 mb-2">{t('problem.pain1Title')}</h3>
+                <p className="text-slate-600">{t('problem.pain1Desc')}</p>
               </div>
             </div>
 
@@ -55,8 +55,8 @@ const ProblemSection = () => {
                 <span className="text-red-500 font-bold">✗</span>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-700 mb-2">مشکلات مشابه بارها توسط شیفت‌های مختلف حل می‌شود</h3>
-                <p className="text-slate-600">عدم اشتراک‌گذاری راه‌حل‌ها منجر به اتلاف وقت می‌شود</p>
+                <h3 className="font-semibold text-slate-700 mb-2">{t('problem.pain2Title')}</h3>
+                <p className="text-slate-600">{t('problem.pain2Desc')}</p>
               </div>
             </div>
 
@@ -65,8 +65,8 @@ const ProblemSection = () => {
                 <span className="text-red-500 font-bold">✗</span>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-700 mb-2">کارمندان جدید ماه‌ها طول می‌کشد تا مولد شوند</h3>
-                <p className="text-slate-600">عدم دسترسی به دانش تجربی سرعت یادگیری را کاهش می‌دهد</p>
+                <h3 className="font-semibold text-slate-700 mb-2">{t('problem.pain3Title')}</h3>
+                <p className="text-slate-600">{t('problem.pain3Desc')}</p>
               </div>
             </div>
 
@@ -75,8 +75,8 @@ const ProblemSection = () => {
                 <span className="text-red-500 font-bold">✗</span>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-700 mb-2">راه‌حل‌ها در دفترچه‌ها و مکالمات غیررسمی پراکنده است</h3>
-                <p className="text-slate-600">عدم مرکزیت اطلاعات دسترسی سریع را غیرممکن می‌کند</p>
+                <h3 className="font-semibold text-slate-700 mb-2">{t('problem.pain4Title')}</h3>
+                <p className="text-slate-600">{t('problem.pain4Desc')}</p>
               </div>
             </div>
           </div>
@@ -87,10 +87,10 @@ const ProblemSection = () => {
               <div className="text-center space-y-4">
                 <div className="text-6xl">⚠️</div>
                 <h3 className="text-2xl font-bold text-slate-700">
-                  بحران دانش در صنعت
+                  {t('problem.crisisTitle')}
                 </h3>
                 <p className="text-slate-600">
-                  هر روز که می‌گذرد، دانش ارزشمند از کارخانه شما خارج می‌شود
+                  {t('problem.crisisDesc')}
                 </p>
               </div>
             </div>

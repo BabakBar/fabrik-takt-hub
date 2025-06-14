@@ -44,6 +44,16 @@ const translations = {
     'problem.stat3Label': 'ماه متوسط آموزش جایگزین',
     'problem.stat4': 'میلیاردها',
     'problem.stat4Label': 'تومان خسارت سالانه',
+    'problem.pain1Title': 'دانش حیاتی فقط در ذهن کارگران موجود است',
+    'problem.pain1Desc': 'تجربیات ارزشمند هنگام بازنشستگی از بین می‌رود',
+    'problem.pain2Title': 'مشکلات مشابه بارها توسط شیفت‌های مختلف حل می‌شود',
+    'problem.pain2Desc': 'عدم اشتراک‌گذاری راه‌حل‌ها منجر به اتلاف وقت می‌شود',
+    'problem.pain3Title': 'کارمندان جدید ماه‌ها طول می‌کشد تا مولد شوند',
+    'problem.pain3Desc': 'عدم دسترسی به دانش تجربی سرعت یادگیری را کاهش می‌دهد',
+    'problem.pain4Title': 'راه‌حل‌ها در دفترچه‌ها و مکالمات غیررسمی پراکنده است',
+    'problem.pain4Desc': 'عدم مرکزیت اطلاعات دسترسی سریع را غیرممکن می‌کند',
+    'problem.crisisTitle': 'بحران دانش در صنعت',
+    'problem.crisisDesc': 'هر روز که می‌گذرد، دانش ارزشمند از کارخانه شما خارج می‌شود',
     
     // Solution Section
     'solution.title': 'آشنایی با تکت: دستیار هوشمند کارخانه شما',
@@ -57,10 +67,19 @@ const translations = {
     'solution.techTitle': 'مبتنی بر پیشرفته‌ترین تکنولوژی‌ها',
     
     // Features
-    'features.title': 'ویژگی‌های کلیدی سیستم',
-    'features.subtitle': 'طراحی شده خصوصاً برای کارخانه‌های ایرانی',
-    
-    // And more translations...
+    'features.title': 'ویژگی‌های طراحی شده برای کارخانه‌های ایرانی',
+    'features.subtitle': 'هر ویژگی با درک عمیق از نیازهای واقعی تولیدکنندگان طراحی شده است',
+    'features.voiceTitle': 'ضبط آسان صدا و متن',
+    'features.voiceDesc': 'کارگران مثل WhatsApp با تلگرام صحبت می‌کنند - بدون نیاز به آموزش یا تغییر عادات',
+    'features.aiTitle': 'تحلیل هوشمند محتوا',
+    'features.aiDesc': 'شناسایی خودکار دستگاه، نوع مشکل، و عوامل مرتبط برای دسته‌بندی و جستجوی بهتر',
+    'features.searchTitle': 'جستجوی فوری و دقیق',
+    'features.searchDesc': 'یافتن هر راه‌حل در کمتر از ۲ ثانیه با جستجوی متنی کامل و هوشمند',
+    'features.culturalTitle': 'طراحی برای فرهنگ ایرانی',
+    'features.culturalDesc': 'تاریخ شمسی، زبان فارسی، و درک عمیق از فرهنگ کاری ایرانی',
+    'features.ctaTitle': 'آماده تجربه آینده مدیریت دانش هستید؟',
+    'features.ctaDesc': 'همین امروز با برنامه آزمایشی شروع کنید',
+    'features.ctaButton': 'شروع رایگان ۳ ماهه',
   },
   en: {
     // Navigation
@@ -77,7 +96,7 @@ const translations = {
     'hero.ctaPrimary': 'Join Pilot Program',
     'hero.ctaSecondary': 'See How It Works',
     'hero.stat1': '95%+',
-    'hero.stat1Label': 'Persian Recognition Accuracy',
+    'hero.stat1Label': 'Recognition Accuracy',
     'hero.stat2': '2-3s',
     'hero.stat2Label': 'Processing Speed',
     'hero.stat3': '1000+',
@@ -85,7 +104,7 @@ const translations = {
     
     // Problem Section
     'problem.title': 'Is Your Most Valuable Knowledge Walking Out the Door?',
-    'problem.subtitle': 'Iranian manufacturers lose billions annually due to knowledge drain when experienced workers retire',
+    'problem.subtitle': 'Manufacturers lose billions annually due to knowledge drain when experienced workers retire',
     'problem.stat1': '41%',
     'problem.stat1Label': 'Workforce approaching retirement',
     'problem.stat2': '30%',
@@ -94,12 +113,22 @@ const translations = {
     'problem.stat3Label': 'Months average replacement training',
     'problem.stat4': 'Billions',
     'problem.stat4Label': 'Annual losses from knowledge drain',
+    'problem.pain1Title': 'Critical knowledge exists only in workers\' minds',
+    'problem.pain1Desc': 'Valuable experience is lost when workers retire',
+    'problem.pain2Title': 'Same problems solved repeatedly by different shifts',
+    'problem.pain2Desc': 'Lack of solution sharing leads to wasted time',
+    'problem.pain3Title': 'New employees take months to become productive',
+    'problem.pain3Desc': 'No access to experiential knowledge slows learning',
+    'problem.pain4Title': 'Solutions scattered across notebooks and informal conversations',
+    'problem.pain4Desc': 'Decentralized information makes quick access impossible',
+    'problem.crisisTitle': 'Knowledge Crisis in Manufacturing',
+    'problem.crisisDesc': 'Every day that passes, valuable knowledge leaves your factory',
     
     // Solution Section
-    'solution.title': 'Meet Takt: Your Shop Floor\'s AI Assistant',
+    'solution.title': 'Meet Takt: Your Factory\'s AI Assistant',
     'solution.subtitle': 'Simple yet powerful system that captures and makes worker knowledge searchable in 3 easy steps',
     'solution.step1Title': 'Capture',
-    'solution.step1Desc': 'Worker sends voice or text via Telegram',
+    'solution.step1Desc': 'Worker sends voice or text via messaging app',
     'solution.step2Title': 'Analyze',
     'solution.step2Desc': 'AI analyzes and categorizes the information',
     'solution.step3Title': 'Retrieve',
@@ -107,10 +136,19 @@ const translations = {
     'solution.techTitle': 'Built on Cutting-Edge Technology',
     
     // Features
-    'features.title': 'Key System Features',
-    'features.subtitle': 'Designed specifically for Iranian manufacturers',
-    
-    // And more translations...
+    'features.title': 'Features Designed for Modern Manufacturing',
+    'features.subtitle': 'Every feature built with deep understanding of real manufacturing needs',
+    'features.voiceTitle': 'Effortless Voice & Text Capture',
+    'features.voiceDesc': 'Workers communicate naturally through familiar messaging - no training or habit changes required',
+    'features.aiTitle': 'Intelligent Content Analysis',
+    'features.aiDesc': 'Automatic identification of equipment, problem type, and related factors for better categorization and search',
+    'features.searchTitle': 'Instant Smart Search',
+    'features.searchDesc': 'Find any solution in under 2 seconds with comprehensive full-text intelligent search',
+    'features.culturalTitle': 'Built for Global Manufacturing',
+    'features.culturalDesc': 'Multi-language support, cultural adaptation, and deep understanding of manufacturing workflows',
+    'features.ctaTitle': 'Ready to Experience the Future of Knowledge Management?',
+    'features.ctaDesc': 'Start with our pilot program today',
+    'features.ctaButton': 'Start Free 3-Month Trial',
   }
 };
 
