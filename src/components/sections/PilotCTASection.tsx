@@ -1,7 +1,10 @@
 
 import React, { useState } from 'react';
+import { Rocket, Shield, Clock, Users, Sparkles, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const PilotCTASection = () => {
+  const { t, language } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -21,236 +24,290 @@ const PilotCTASection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log('Form submitted:', formData);
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16" dir="rtl">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            آینده کارخانه خود را امروز تضمین کنید
+    <section className="py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-amber-400/10 to-orange-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-400/30 px-6 py-3 rounded-full text-amber-200 font-semibold mb-6 animate-fade-in">
+            <Rocket className="w-5 h-5" />
+            <span>{language === 'fa' ? 'فرصت محدود' : 'Limited Opportunity'}</span>
+            <Sparkles className="w-4 h-4 animate-pulse" />
+          </div>
+          
+          <h2 className="text-5xl lg:text-6xl font-bold mb-8 animate-fade-in delay-200">
+            <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+              {language === 'fa' 
+                ? 'آینده کارخانه خود را امروز تضمین کنید'
+                : 'Secure Your Factory\'s Future Today'
+              }
+            </span>
           </h2>
-          <p className="text-xl text-slate-200 max-w-3xl mx-auto">
-            عضویت در برنامه آزمایشی محدود - تعداد جاهای باقی‌مانده محدود است
+          <p className="text-xl text-blue-100 max-w-4xl mx-auto animate-fade-in delay-300">
+            {language === 'fa'
+              ? 'عضویت در برنامه آزمایشی محدود - تعداد جاهای باقی‌مانده محدود است'
+              : 'Join our exclusive pilot program - Limited spots available for forward-thinking manufacturers'
+            }
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Form */}
-          <div className="bg-white text-slate-800 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 text-center" dir="rtl">
-              فرم درخواست عضویت
-            </h3>
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Enhanced Form */}
+          <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-10 shadow-2xl border border-white/20 animate-fade-in delay-400">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+                <Rocket className="w-8 h-8 text-amber-400" />
+                {language === 'fa' ? 'فرم درخواست عضویت' : 'Pilot Application Form'}
+              </h3>
+              <p className="text-blue-200">
+                {language === 'fa' 
+                  ? 'اطلاعات خود را وارد کنید تا با شما تماس بگیریم'
+                  : 'Share your details and we\'ll contact you within 24 hours'
+                }
+              </p>
+            </div>
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div dir="rtl">
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    نام *
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-blue-200 mb-3">
+                    {language === 'fa' ? 'نام *' : 'Name *'}
                   </label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                    placeholder="نام شما"
+                    className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-blue-200 transition-all duration-300"
+                    placeholder={language === 'fa' ? 'نام شما' : 'Your Name'}
                     required
-                    dir="rtl"
                   />
                 </div>
 
-                <div dir="rtl">
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    شرکت *
+                <div>
+                  <label className="block text-sm font-semibold text-blue-200 mb-3">
+                    {language === 'fa' ? 'شرکت *' : 'Company *'}
                   </label>
                   <input
                     type="text"
                     name="company"
                     value={formData.company}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                    placeholder="نام شرکت"
+                    className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-blue-200 transition-all duration-300"
+                    placeholder={language === 'fa' ? 'نام شرکت' : 'Company Name'}
                     required
-                    dir="rtl"
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div dir="rtl">
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    ایمیل *
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-blue-200 mb-3">
+                    {language === 'fa' ? 'ایمیل *' : 'Email *'}
                   </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                    placeholder="email@company.com"
+                    className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-blue-200 transition-all duration-300"
+                    placeholder="your@company.com"
                     required
-                    dir="ltr"
                   />
                 </div>
 
-                <div dir="rtl">
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    تلفن
+                <div>
+                  <label className="block text-sm font-semibold text-blue-200 mb-3">
+                    {language === 'fa' ? 'تلفن' : 'Phone'}
                   </label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                    placeholder="09xxxxxxxxx"
-                    dir="ltr"
+                    className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-blue-200 transition-all duration-300"
+                    placeholder={language === 'fa' ? '09xxxxxxxxx' : '+1 (555) 123-4567'}
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div dir="rtl">
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    صنعت *
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-blue-200 mb-3">
+                    {language === 'fa' ? 'صنعت *' : 'Industry *'}
                   </label>
                   <select
                     name="industry"
                     value={formData.industry}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                    className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white transition-all duration-300"
                     required
-                    dir="rtl"
                   >
-                    <option value="">انتخاب کنید</option>
-                    <option value="automotive">قطعه‌سازی خودرو</option>
-                    <option value="machinery">ماشین‌آلات</option>
-                    <option value="food">غذایی</option>
-                    <option value="metals">فلزات</option>
-                    <option value="other">سایر</option>
+                    <option value="" className="bg-slate-800">
+                      {language === 'fa' ? 'انتخاب کنید' : 'Select Industry'}
+                    </option>
+                    <option value="automotive" className="bg-slate-800">
+                      {language === 'fa' ? 'قطعه‌سازی خودرو' : 'Automotive'}
+                    </option>
+                    <option value="machinery" className="bg-slate-800">
+                      {language === 'fa' ? 'ماشین‌آلات' : 'Machinery'}
+                    </option>
+                    <option value="food" className="bg-slate-800">
+                      {language === 'fa' ? 'غذایی' : 'Food & Beverage'}
+                    </option>
+                    <option value="metals" className="bg-slate-800">
+                      {language === 'fa' ? 'فلزات' : 'Metals'}
+                    </option>
+                    <option value="other" className="bg-slate-800">
+                      {language === 'fa' ? 'سایر' : 'Other'}
+                    </option>
                   </select>
                 </div>
 
-                <div dir="rtl">
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    تعداد کارمندان *
+                <div>
+                  <label className="block text-sm font-semibold text-blue-200 mb-3">
+                    {language === 'fa' ? 'تعداد کارمندان *' : 'Company Size *'}
                   </label>
                   <select
                     name="companySize"
                     value={formData.companySize}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                    className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white transition-all duration-300"
                     required
-                    dir="rtl"
                   >
-                    <option value="">انتخاب کنید</option>
-                    <option value="10-50">۱۰-۵۰ نفر</option>
-                    <option value="50-200">۵۰-۲۰۰ نفر</option>
-                    <option value="200+">بیش از ۲۰۰ نفر</option>
+                    <option value="" className="bg-slate-800">
+                      {language === 'fa' ? 'انتخاب کنید' : 'Select Size'}
+                    </option>
+                    <option value="10-50" className="bg-slate-800">
+                      {language === 'fa' ? '۱۰-۵۰ نفر' : '10-50 employees'}
+                    </option>
+                    <option value="50-200" className="bg-slate-800">
+                      {language === 'fa' ? '۵۰-۲۰۰ نفر' : '50-200 employees'}
+                    </option>
+                    <option value="200+" className="bg-slate-800">
+                      {language === 'fa' ? 'بیش از ۲۰۰ نفر' : '200+ employees'}
+                    </option>
                   </select>
                 </div>
               </div>
 
-              <div dir="rtl">
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  چالش اصلی کارخانه شما *
+              <div>
+                <label className="block text-sm font-semibold text-blue-200 mb-3">
+                  {language === 'fa' ? 'چالش اصلی کارخانه شما *' : 'Your Main Manufacturing Challenge *'}
                 </label>
                 <textarea
                   name="challenge"
                   value={formData.challenge}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                  placeholder="لطفاً در چند جمله توضیح دهید که بزرگترین چالش شما در حفظ و انتقال دانش کارگران چیست..."
+                  className="w-full p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-blue-200 transition-all duration-300 resize-none"
+                  placeholder={language === 'fa' 
+                    ? 'لطفاً در چند جمله توضیح دهید که بزرگترین چالش شما در حفظ و انتقال دانش کارگران چیست...'
+                    : 'Describe your biggest challenge in capturing and sharing worker knowledge...'
+                  }
                   required
-                  dir="rtl"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+                className="group w-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-400 hover:via-orange-400 hover:to-red-400 text-white font-bold py-5 px-8 rounded-xl transition-all duration-300 text-lg shadow-2xl hover:shadow-amber-500/25 transform hover:scale-105 flex items-center justify-center gap-3"
               >
-                درخواست عضویت در پایلوت
+                <Rocket className="w-6 h-6 group-hover:animate-pulse" />
+                {language === 'fa' ? 'درخواست عضویت در پایلوت' : 'Apply for Pilot Program'}
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
 
-              <p className="text-sm text-slate-500 text-center" dir="rtl">
-                🔒 اطلاعات شما محفوظ و مطابق GDPR محافظت می‌شود
+              <p className="text-sm text-blue-200 text-center flex items-center justify-center gap-2">
+                <Shield className="w-4 h-4" />
+                {language === 'fa' 
+                  ? '🔒 اطلاعات شما محفوظ و مطابق GDPR محافظت می‌شود'
+                  : '🔒 Your data is secure and GDPR compliant'
+                }
               </p>
             </form>
           </div>
 
-          {/* Benefits */}
-          <div className="space-y-8">
+          {/* Enhanced Benefits */}
+          <div className="space-y-8 animate-fade-in delay-600">
             <div>
-              <h3 className="text-2xl font-bold mb-6" dir="rtl">
-                مزایای برنامه آزمایشی:
+              <h3 className="text-3xl font-bold mb-8 flex items-center gap-3">
+                <Sparkles className="w-8 h-8 text-amber-400 animate-pulse" />
+                {language === 'fa' ? 'مزایای برنامه آزمایشی:' : 'Exclusive Pilot Benefits:'}
               </h3>
               
-              <div className="space-y-4">
-                <div className="flex items-start gap-4" dir="rtl">
-                  <div className="bg-green-500 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-white text-sm">✓</span>
+              <div className="space-y-6">
+                {[
+                  {
+                    icon: Clock,
+                    title: language === 'fa' ? 'دسترسی رایگان ۳ ماهه' : '3-Month Free Access',
+                    desc: language === 'fa' ? 'بدون هیچ هزینه‌ای تمام قابلیت‌ها را امتحان کنید' : 'Full feature access with zero cost'
+                  },
+                  {
+                    icon: Users,
+                    title: language === 'fa' ? 'پشتیبانی اختصاصی' : 'Dedicated Support',
+                    desc: language === 'fa' ? 'کارشناس مخصوص شما در تمام مراحل کمک می‌کند' : 'Personal expert guides you through implementation'
+                  },
+                  {
+                    icon: Rocket,
+                    title: language === 'fa' ? 'آموزش تیم شما' : 'Team Training Included',
+                    desc: language === 'fa' ? 'جلسات آموزشی رایگان برای کارکنان' : 'Free training sessions for your staff'
+                  },
+                  {
+                    icon: Sparkles,
+                    title: language === 'fa' ? 'راه‌اندازی در کمتر از ۱ هفته' : 'Setup in Under 1 Week',
+                    desc: language === 'fa' ? 'شروع سریع بدون توقف تولید' : 'Quick start without production downtime'
+                  }
+                ].map((benefit, index) => (
+                  <div key={index} className="group flex items-start gap-6 p-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-2xl border border-white/20 hover:border-amber-400/50 transition-all duration-300 hover:scale-105">
+                    <div className="bg-gradient-to-br from-amber-500 to-orange-500 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg">
+                      <benefit.icon className="text-white w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xl text-white mb-2 group-hover:text-amber-200 transition-colors">
+                        {benefit.title}
+                      </h4>
+                      <p className="text-blue-200 leading-relaxed">{benefit.desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">دسترسی رایگان ۳ ماهه</h4>
-                    <p className="text-slate-300">بدون هیچ هزینه‌ای تمام قابلیت‌ها را امتحان کنید</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4" dir="rtl">
-                  <div className="bg-green-500 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">پشتیبانی اختصاصی</h4>
-                    <p className="text-slate-300">کارشناس مخصوص شما در تمام مراحل کمک می‌کند</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4" dir="rtl">
-                  <div className="bg-green-500 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">آموزش تیم شما</h4>
-                    <p className="text-slate-300">جلسات آموزشی رایگان برای کارکنان</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4" dir="rtl">
-                  <div className="bg-green-500 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">راه‌اندازی در کمتر از ۱ هفته</h4>
-                    <p className="text-slate-300">شروع سریع بدون توقف تولید</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Urgency */}
-            <div className="bg-gradient-to-r from-red-600 to-red-700 p-6 rounded-xl">
-              <h4 className="text-xl font-bold mb-3" dir="rtl">
-                ⏰ فرصت محدود!
+            {/* Enhanced Urgency */}
+            <div className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 p-8 rounded-2xl shadow-2xl border border-red-500/50 animate-pulse">
+              <h4 className="text-2xl font-bold mb-4 flex items-center gap-3">
+                <Clock className="w-7 h-7 text-red-200" />
+                {language === 'fa' ? '⏰ فرصت محدود!' : '⏰ Limited Time!'}
               </h4>
-              <p className="text-red-100" dir="rtl">
-                فقط ۲۰ جای باقی‌مانده برای برنامه آزمایشی این ماه. 
-                درخواست خود را همین امروز ثبت کنید.
+              <p className="text-red-100 text-lg leading-relaxed">
+                {language === 'fa' 
+                  ? 'فقط ۲۰ جای باقی‌مانده برای برنامه آزمایشی این ماه. درخواست خود را همین امروز ثبت کنید.'
+                  : 'Only 20 spots remaining for this month\'s pilot program. Apply today to secure your position.'
+                }
               </p>
             </div>
 
             {/* Contact Alternative */}
             <div className="text-center">
-              <p className="text-slate-300 mb-4" dir="rtl">
-                سوال دارید؟ مستقیماً با تیم ما صحبت کنید
+              <p className="text-blue-200 mb-6 text-lg">
+                {language === 'fa' 
+                  ? 'سوال دارید؟ مستقیماً با تیم ما صحبت کنید'
+                  : 'Have questions? Speak directly with our team'
+                }
               </p>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-slate-800 px-6 py-3 rounded-lg font-semibold transition-colors">
-                تماس با تیم فروش
+              <button className="group border-2 border-white/40 text-white hover:bg-white/10 hover:border-white px-8 py-4 rounded-xl font-bold transition-all duration-300 backdrop-blur-sm flex items-center gap-3 mx-auto">
+                <Users className="w-5 h-5 group-hover:animate-pulse" />
+                {language === 'fa' ? 'تماس با تیم فروش' : 'Contact Sales Team'}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
