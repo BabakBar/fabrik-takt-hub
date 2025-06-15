@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Mic, Search, Brain, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -11,7 +10,7 @@ const SolutionSection = () => {
       icon: Mic,
       iconBg: 'bg-amber-500',
       title: t('solution.step1Title'),
-      desc: t('solution.step1Desc'),
+      desc: language === 'fa' ? 'اپراتورها و تکنسین‌ها مشکلات، راه‌حل‌ها و به‌روزرسانی‌ها را با استفاده از صدا یا متن ساده ثبت می‌کنند.' : 'Operators and technicians log issues, fixes, and updates using simple voice or text. No complex forms, no workflow disruption.',
       demo: (
         <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg text-left">
           <div className="flex items-center gap-2 mb-3">
@@ -28,7 +27,7 @@ const SolutionSection = () => {
       icon: Brain,
       iconBg: 'bg-slate-700',
       title: t('solution.step2Title'),
-      desc: t('solution.step2Desc'),
+      desc: language === 'fa' ? 'هوش مصنوعی فوراً اطلاعات را درک، ساختاربندی و به ماشین و فرآیند صحیح مرتبط کرده و حافظه کارخانه شما را می‌سازد.' : 'Our AI instantly understands, structures, and links the information to the right machine and process, building your factory\'s memory.',
       demo: (
         <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg text-left">
           <div className="flex items-center gap-2 text-slate-700 font-medium mb-3">
@@ -47,7 +46,7 @@ const SolutionSection = () => {
       icon: Search,
       iconBg: 'bg-green-500',
       title: t('solution.step3Title'),
-      desc: t('solution.step3Desc'),
+      desc: language === 'fa' ? 'هر کسی می‌تواند با زبان طبیعی از سیستم سؤال کند تا پاسخ‌های فوری و راهنمایی‌های عملی برای حل سریع‌تر مشکلات دریافت کند.' : 'Anyone can query the system in natural language to get immediate answers and actionable guidance for faster problem-solving.',
       demo: (
         <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg text-left">
           <div className="flex items-center gap-2 text-green-600 font-medium mb-3">
@@ -73,14 +72,17 @@ const SolutionSection = () => {
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-3 bg-amber-100 border border-amber-200/80 px-6 py-3 rounded-full text-amber-700 font-semibold mb-6 shadow-sm">
               <Sparkles className="w-5 h-5" />
-              <span>{language === 'fa' ? 'راه‌حل هوشمند' : 'The AI Solution'}</span>
+              <span>{language === 'fa' ? 'راه حل ۳ مرحله‌ای' : 'The 3-Step Solution'}</span>
             </div>
             
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-              {t('solution.title')}
+              {language === 'fa' ? 'از آشفتگی به شفافیت در چند دقیقه' : 'From Chaos to Clarity in Minutes'}
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              {t('solution.subtitle')}
+              {language === 'fa' 
+                ? 'فابریک‌تکت واقعیت خام کارگاه شما را ثبت و آن را به هوش ساختاریافته و عملی تبدیل می‌کند که تیم شما را راهنمایی می‌کند.'
+                : 'FabrikTakt captures raw shop floor reality and transforms it into structured, actionable intelligence that guides your team.'
+              }
             </p>
           </div>
 
@@ -100,7 +102,7 @@ const SolutionSection = () => {
                 <h3 className="text-xl font-bold text-slate-800 mb-3">
                   {step.title}
                 </h3>
-                <p className="text-slate-500 mb-6 leading-relaxed min-h-[100px]">
+                <p className="text-slate-500 mb-6 leading-relaxed min-h-[120px]">
                   {step.desc}
                 </p>
                 {step.demo}

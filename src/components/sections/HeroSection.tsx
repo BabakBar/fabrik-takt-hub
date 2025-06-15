@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowDown, Mic, Sparkles, Brain, Play } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -21,19 +22,20 @@ const HeroSection = () => {
               {/* AI Badge */}
               <div className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-500/30 px-6 py-3 rounded-full text-amber-300 font-medium animate-gentle-fade shadow-lg shadow-amber-500/20">
                 <Brain className="w-5 h-5 text-amber-400" />
-                <span className="text-sm">{language === 'fa' ? 'هوش مصنوعی پیشرفته' : 'Advanced AI Technology'}</span>
+                <span className="text-sm">{language === 'fa' ? 'هاب هوشمند عملیاتی' : 'AI-Powered Intelligence Hub'}</span>
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               </div>
 
               <div className="space-y-6">
                 <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
-                  {language === 'fa' ? 'جستجوی 20 سال دانش کارگری در 2 دقیقه' : 'Search 20 years of worker knowledge in 2 minutes'}
+                  {language === 'fa' ? 'مغز هوشمند کارخانه شما' : 'Your Factory\'s AI Brain.'}
+                  <span className="text-amber-400 block mt-2">{language === 'fa' ? 'از آشفتگی تا شفافیت عملیاتی' : 'Turn Chaos into Clarity.'}</span>
                 </h1>
                 
                 <p className="text-xl text-slate-300 leading-relaxed max-w-2xl">
                   {language === 'fa' 
-                    ? 'با هوش مصنوعی پیشرفته، مشکلات فنی کارخانه را با گفتار حل کنید'
-                    : 'Solve manufacturing problems instantly with voice-powered AI that understands your factory'
+                    ? 'فابریک‌تکت دانش پنهان و داده‌های آنی را ثبت می‌کند تا با ارائه بینش‌های عملی، تیم شما را برای افزایش بهره‌وری، کیفیت و کاهش توقفات توانمند سازد.'
+                    : 'FabrikTakt captures hidden knowledge and real-time data, providing actionable insights to empower your team, boost efficiency, and reduce downtime.'
                   }
                 </p>
               </div>

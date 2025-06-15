@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mic, Search, Brain, Globe, ArrowRight, Sparkles } from 'lucide-react';
+import { BrainCircuit, ListChecks, LineChart, Wrench, ArrowRight, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const FeaturesSection = () => {
@@ -8,28 +8,28 @@ const FeaturesSection = () => {
 
   const features = [
     {
-      icon: Mic,
-      title: t('features.voiceTitle'),
-      desc: t('features.voiceDesc'),
-      iconBg: 'bg-amber-500'
+      icon: BrainCircuit,
+      title: language === 'fa' ? 'مرکز دانش متمرکز' : 'Centralized Knowledge Hub',
+      desc: language === 'fa' ? 'یک حافظه زنده و قابل جستجو از هر راه‌حل، فرآیند و بهترین عملکرد از باتجربه‌ترین کارگران خود ایجاد کنید.' : 'Create a living, searchable memory of every fix, process, and best practice from your most experienced workers.',
+      iconBg: 'bg-blue-500'
     },
     {
-      icon: Brain,
-      title: t('features.aiTitle'),
-      desc: t('features.aiDesc'),
-      iconBg: 'bg-slate-700'
-    },
-    {
-      icon: Search,
-      title: t('features.searchTitle'),
-      desc: t('features.searchDesc'),
+      icon: ListChecks,
+      title: language === 'fa' ? 'دستورالعمل‌های کاری دیجیتال' : 'Dynamic Work Instructions',
+      desc: language === 'fa' ? 'اپراتورها را با دستورالعمل‌های واضح و گام‌به‌گام راهنمایی کنید که با کار، ماشین و سطح مهارت خاص سازگار است.' : 'Guide operators with clear, step-by-step instructions that adapt to the specific job, machine, and skill level.',
       iconBg: 'bg-green-500'
     },
     {
-      icon: Globe,
-      title: t('features.culturalTitle'),
-      desc: t('features.culturalDesc'),
-      iconBg: 'bg-blue-500'
+      icon: LineChart,
+      title: language === 'fa' ? 'دید آنی عملیاتی' : 'Real-Time Operational Visibility',
+      desc: language === 'fa' ? 'وضعیت کار، زمان توقف و کیفیت را به صورت آنی نظارت کنید تا تصمیمات پیشگیرانه و مبتنی بر داده بگیرید.' : 'Monitor job status, downtime, and quality in real-time to make proactive, data-driven decisions.',
+      iconBg: 'bg-amber-500'
+    },
+    {
+      icon: Wrench,
+      title: language === 'fa' ? 'هوشمندی نگهداری و تعمیرات' : 'AI-Powered Maintenance',
+      desc: language === 'fa' ? 'فعالیت‌های نگهداری را به رویدادهای تولیدی مرتبط کنید. با بینش‌های حاصل از داده‌های تاریخی، مشکلات را پیش‌بینی کنید.' : 'Link maintenance activities to production events. Predict issues and reduce downtime with insights from historical data.',
+      iconBg: 'bg-slate-700'
     }
   ];
 
@@ -44,10 +44,13 @@ const FeaturesSection = () => {
             </div>
             
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-              {t('features.title')}
+              {language === 'fa' ? 'یک هاب، کنترل کامل عملیاتی' : 'One Hub, Total Operational Control'}
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              {t('features.subtitle')}
+              {language === 'fa' 
+                ? 'فابریک‌تکت چیزی فراتر از یک ابزار است - این سیستم عصبی مرکزی کارخانه شماست. ببینید چه کارهایی می‌توانید انجام دهید.'
+                : 'FabrikTakt is more than a tool—it\'s your factory\'s central nervous system. Here’s what it empowers you to do.'
+              }
             </p>
           </div>
 
@@ -63,7 +66,7 @@ const FeaturesSection = () => {
                   </h3>
                 </div>
                 
-                <p className="text-slate-600 leading-relaxed">
+                <p className="text-slate-600 leading-relaxed min-h-[90px]">
                   {feature.desc}
                 </p>
               </div>

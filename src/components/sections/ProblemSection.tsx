@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { AlertTriangle, TrendingDown, Clock, DollarSign, Target, BrainCircuit, Timer, Repeat } from 'lucide-react';
+import { AlertTriangle, TrendingDown, Clock, DollarSign, BrainCircuit, Users, EyeOff, GitFork } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const ProblemSection = () => {
@@ -8,28 +7,28 @@ const ProblemSection = () => {
 
   const painPoints = [
     { 
-      title: language === 'fa' ? 'دانش محدود کارگران جوان' : 'Limited knowledge of new workers',
-      desc: language === 'fa' ? 'کارگران جدید نمی‌دانند مشکلات پیچیده را چگونه حل کنند' : 'New workers don\'t know how to solve complex problems',
+      title: language === 'fa' ? 'دانش پراکنده' : 'Fragmented Knowledge',
+      desc: language === 'fa' ? 'راه‌حل‌های حیاتی در دفترچه‌ها و حافظه‌ها گم شده و تیم شما را مجبور به حل مکرر مشکلات می‌کند.' : 'Critical fixes get lost in notebooks and memory, forcing your team to solve the same problems repeatedly.',
       icon: BrainCircuit,
       iconColor: 'text-red-500' 
     },
     { 
-      title: language === 'fa' ? 'زمان طولانی عیب‌یابی' : 'Long troubleshooting times',
-      desc: language === 'fa' ? 'ساعت‌ها جستجو در دفترچه‌ها و مشاوره با همکاران' : 'Hours spent searching manuals and consulting colleagues',
-      icon: Timer,
+      title: language === 'fa' ? 'نقاط کور عملیاتی' : 'Operational Blind Spots',
+      desc: language === 'fa' ? 'عدم دید آنی منجر به توقف‌های غیرمنتظره، زمان‌بندی ناکارآمد و مشکلات کیفیتی ردیابی‌ناپذیر می‌شود.' : 'Lack of real-time visibility leads to surprise downtime, inefficient scheduling, and quality issues that are hard to trace.',
+      icon: EyeOff,
       iconColor: 'text-amber-500'
     },
     { 
-      title: language === 'fa' ? 'هزینه‌های توقف تولید' : 'Production downtime costs',
-      desc: language === 'fa' ? 'هر دقیقه توقف تولید هزاران دلار ضرر' : 'Every minute of downtime costs thousands of dollars',
-      icon: DollarSign,
-      iconColor: 'text-slate-500'
+      title: language === 'fa' ? 'موانع آموزشی' : 'Training Bottlenecks',
+      desc: language === 'fa' ? 'آموزش اپراتورهای جدید کند و ناهماهنگ است زیرا دانش عملی و تجربی به راحتی در دسترس نیست.' : 'Onboarding new operators is slow and inconsistent when practical, experience-based knowledge isn\'t easily accessible.',
+      icon: Users,
+      iconColor: 'text-blue-500'
     },
     { 
-      title: language === 'fa' ? 'تکرار مشکلات حل‌شده' : 'Repeated solved problems',
-      desc: language === 'fa' ? 'همان مشکلات بارها و بارها حل می‌شوند' : 'Same problems get solved over and over again',
-      icon: Repeat,
-      iconColor: 'text-blue-500'
+      title: language === 'fa' ? 'تیم‌های جدا از هم' : 'Disconnected Teams',
+      desc: language === 'fa' ? 'تیم‌های نگهداری، تولید و کیفیت در سیلوهای جداگانه کار می‌کنند و بازخورد لازم برای بهبود چابک را از دست می‌دهند.' : 'Maintenance, production, and quality teams operate in silos, missing the feedback loops needed for agile improvement.',
+      icon: GitFork,
+      iconColor: 'text-slate-500'
     }
   ];
 
@@ -40,19 +39,19 @@ const ProblemSection = () => {
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-3 bg-red-100 border border-red-200/80 px-6 py-3 rounded-full text-red-600 font-semibold mb-6 shadow-sm">
               <AlertTriangle className="w-5 h-5" />
-              <span>{language === 'fa' ? 'چالش بحرانی صنعت' : 'Industry Challenge'}</span>
+              <span>{language === 'fa' ? 'چالش اصلی صنعت' : 'The Core Industry Challenge'}</span>
             </div>
             
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               {language === 'fa' 
-                ? 'کارخانه‌ها میلیون‌ها دلار از دست می‌دهند'
-                : 'Factories lose millions to knowledge gaps'
+                ? 'هزینه‌های پنهانی که سودآوری شما را از بین می‌برد'
+                : 'The Hidden Costs Draining Your Factory\'s Profitability'
               }
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
               {language === 'fa'
-                ? 'وقتی کارگران باتجربه بازنشسته می‌شوند، دانش آن‌ها نیز می‌رود'
-                : 'When experienced workers retire, their knowledge walks out the door'
+                ? 'مشکل فراتر از بازنشستگی متخصصان است. داده‌های پراکنده، ارتباطات جزیره‌ای و نقاط کور عملیاتی روزانه باعث ناکارآمدی می‌شوند.'
+                : 'It\'s more than just retiring experts. Fragmented data, communication silos, and operational blind spots create daily inefficiencies.'
               }
             </p>
           </div>
@@ -83,7 +82,7 @@ const ProblemSection = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <h3 className="text-3xl font-bold text-slate-900">
-                {language === 'fa' ? 'چالش‌های حیاتی کارخانه‌ها' : 'Critical Manufacturing Challenges'}
+                {language === 'fa' ? 'چرا کارخانه شما کارایی لازم را ندارد؟' : 'Why Your Factory is Leaking Efficiency'}
               </h3>
               
               <div className="space-y-6">
