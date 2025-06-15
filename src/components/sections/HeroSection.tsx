@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { Star, CircleDot } from "lucide-react"; // Softest approved Lucide icons
+import { BrainCog, Sparkles, Mic } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 
 const accent = "#F9A825";
@@ -56,7 +56,7 @@ const HeroSection = () => {
                 justifyContent: "center",
               }}
             >
-              <Star size={20} color="#fff" strokeWidth={2.5} />
+              <BrainCog size={20} color="#fff" strokeWidth={2.5} />
             </span>
             AI-Powered Intelligence Hub
             <span
@@ -118,7 +118,7 @@ const HeroSection = () => {
               }}
               onClick={() => setPilotModal(true)}
             >
-              <Star size={22} color="#fff" style={{ marginRight: 8 }} />
+              <Sparkles size={22} color="#fff" style={{ marginRight: 8 }} />
               Join Pilot Program
             </Button>
             <Button
@@ -252,7 +252,7 @@ const HeroSection = () => {
                   minHeight: 38,
                 }}
               >
-                <Star size={22} color="#fff" strokeWidth={2.1} />
+                <BrainCog size={22} color="#fff" strokeWidth={2.1} />
               </span>
               <div className="flex flex-col">
                 <span
@@ -284,19 +284,20 @@ const HeroSection = () => {
             {/* Voice Message bubble */}
             <div className="px-5 mt-6 flex flex-row w-full justify-end">
               <div
-                className="rounded-xl py-3 px-4 flex flex-row items-center gap-2"
+                className="rounded-xl py-3 px-4"
                 style={{
                   background: accent,
-                  minWidth: 238,
                   color: "#fff",
                   fontWeight: 500,
                   fontSize: "1rem",
                   boxShadow: "0 2px 8px 0 rgba(249,168,37,0.08)",
                 }}
               >
-                <CircleDot size={20} color="#fff" strokeWidth={2.2} />
-                Voice message 0:15
-                <span className="font-medium ml-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <Mic size={20} color="#fff" strokeWidth={2.2} />
+                  <span>Voice message 0:15</span>
+                </div>
+                <span className="font-medium">
                   CNC machine #452 stopped working
                 </span>
               </div>
@@ -361,7 +362,7 @@ const HeroSection = () => {
                 }}
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <Star
+                  <Sparkles
                     size={18}
                     color={accent}
                     strokeWidth={2.1}
