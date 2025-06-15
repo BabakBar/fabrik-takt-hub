@@ -1,151 +1,450 @@
 
-import React, { useState } from 'react';
-import { ArrowDown, Mic, Sparkles, Brain, Play, ArrowRight, BarChart3, Cog, Users, CheckCircle } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
-import PilotModal from '../modals/PilotModal';
-import { Button } from '../ui/button';
-import { Card } from '../ui/card';
+import React, { useState } from "react";
+import { Button } from "../ui/button";
+import { Star, CircleDot } from "lucide-react"; // Softest approved Lucide icons
+import { useLanguage } from "../../contexts/LanguageContext";
+
+const accent = "#F9A825";
+const slateGray = "#2F4F4F";
+const industrial = "#E5E5E5";
+
+// Utility for box shadow inline (because Tailwind can't do rgba custom shadow)
+const badgeShadow =
+  "0 2px 16px 0 rgba(47, 79, 79, 0.16), 0 0.5px 1px 0 rgba(47, 79, 79, 0.10)";
 
 const HeroSection = () => {
-  const { t, language } = useLanguage();
-  const [isPilotModalOpen, setIsPilotModalOpen] = useState(false);
-
-  const openPilotModal = () => setIsPilotModalOpen(true);
-  const closePilotModal = () => setIsPilotModalOpen(false);
+  const { t } = useLanguage();
+  const [pilotModal, setPilotModal] = useState(false);
+  // For future: replace with real modal
+  // const openPilotModal = () => setPilotModal(true);
 
   return (
-    <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 text-white min-h-screen flex items-center">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-
-        <div className="container relative mx-auto px-4 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Content */}
-            <div className="space-y-8">
-              {/* AI-Powered Badge */}
-              <div className="inline-flex items-center rounded-full bg-amber-600/20 px-4 py-2 text-sm font-medium text-amber-300 ring-1 ring-amber-500/30">
-                <div className="w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center mr-2">
-                  <Brain className="w-3 h-3 text-white" />
-                </div>
-                AI-Powered Intelligence Hub
-                <div className="w-2 h-2 bg-green-400 rounded-full ml-2 animate-pulse"></div>
-              </div>
-
-              {/* Main Headlines */}
-              <div className="space-y-4">
-                <h1 className="text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-white">
-                  Your Factory's AI Brain.
-                </h1>
-                <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-amber-400">
-                  Turn Chaos into Clarity.
-                </h2>
-                <p className="text-xl text-slate-300 max-w-2xl leading-relaxed">
-                  FabrikTakt captures hidden knowledge and real-time data, providing actionable insights to empower your team, boost efficiency, and reduce downtime.
-                </p>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  onClick={openPilotModal}
-                  size="lg" 
-                  className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 text-lg font-medium rounded-xl"
+    <section
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(ellipse at 60% 60%, #222A33 70%, #202532 100%)",
+        // fallback on near-black if not supported
+        backgroundColor: "#222A33",
+      }}
+    >
+      <div className="max-w-7xl w-full mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row gap-12 items-center justify-between relative z-10">
+        {/* LEFT: Content */}
+        <div className="w-full md:w-1/2 flex flex-col gap-6 md:gap-10">
+          {/* Badge */}
+          <div
+            className="inline-flex items-center px-5 py-2 rounded-full font-medium text-base"
+            style={{
+              background: "rgba(249,168,37,0.12)",
+              boxShadow: badgeShadow,
+              color: accent,
+              border: `1.5px solid ${accent}`,
+              fontWeight: 500,
+              letterSpacing: "0.01em",
+              marginBottom: 8,
+            }}
+          >
+            <span
+              style={{
+                background: accent,
+                borderRadius: "50%",
+                width: 30,
+                height: 30,
+                marginRight: 12,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Star size={20} color="#fff" strokeWidth={2.5} />
+            </span>
+            AI-Powered Intelligence Hub
+            <span
+              className="ml-3"
+              style={{
+                background: "#38D265",
+                borderRadius: "50%",
+                width: 9,
+                height: 9,
+                display: "inline-block",
+                marginLeft: 10,
+                boxShadow: "0 0 0 2px rgba(56,210,101,0.2)",
+              }}
+            ></span>
+          </div>
+          {/* Main headline */}
+          <h1
+            style={{
+              color: industrial,
+              fontWeight: 800,
+              fontSize: "clamp(2.6rem, 5vw, 3.5rem)",
+              lineHeight: 1.13,
+              letterSpacing: "-.015em",
+            }}
+            className="mb-2"
+          >
+            Your Factory&apos;s AI Brain.
+            <br />
+            <span style={{ color: accent, fontWeight: 900 }}>
+              Turn Chaos into Clarity.
+            </span>
+          </h1>
+          {/* Subtext/description */}
+          <p
+            style={{
+              color: "#d4dbe2",
+              fontSize: "1.19rem",
+              fontWeight: 400,
+              lineHeight: 1.7,
+              maxWidth: 520,
+            }}
+            className="mb-2"
+          >
+            FabrikTakt captures hidden knowledge and real-time data, providing actionable insights to empower your team, boost efficiency, and reduce downtime.
+          </p>
+          {/* Call to action row */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-2">
+            <Button
+              size="lg"
+              className="rounded-xl px-8 py-4 text-lg font-semibold shadow-none"
+              style={{
+                background: accent,
+                color: "#fff",
+                boxShadow: "0 8px 32px 0 rgba(249,168,37,0.12)",
+                minWidth: 200,
+                minHeight: 56,
+                transition: "transform .18s cubic-bezier(.33,1,.68,1)",
+                border: "none",
+              }}
+              onClick={() => setPilotModal(true)}
+            >
+              <Star size={22} color="#fff" style={{ marginRight: 8 }} />
+              Join Pilot Program
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="rounded-xl px-8 py-4 text-lg font-semibold"
+              style={{
+                background: "transparent",
+                color: "#d4dbe2",
+                border: `1.4px solid #576071`,
+                minWidth: 200,
+                minHeight: 56,
+              }}
+            >
+              See How It Works
+            </Button>
+          </div>
+          {/* Divider line */}
+          <div
+            style={{
+              height: 1.5,
+              background:
+                "linear-gradient(90deg,rgba(249,168,37,0) 6%,rgba(249,168,37,0.32) 40%,rgba(249,168,37,.18) 60%,rgba(249,168,37,0) 94%)",
+              borderRadius: 64,
+              marginTop: 38,
+              marginBottom: 18,
+              opacity: 0.7,
+            }}
+          />
+          {/* Stats row */}
+          <div className="grid grid-cols-3 gap-4 max-w-lg">
+            <div className="flex flex-col items-center">
+              <span
+                style={{
+                  color: accent,
+                  fontWeight: 700,
+                  fontSize: "2rem",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                95%+
+              </span>
+              <span
+                style={{
+                  color: "#d4dbe2",
+                  fontSize: "1rem",
+                  marginTop: 2,
+                  fontWeight: 400,
+                  letterSpacing: "0.01em",
+                }}
+              >
+                Recognition Accuracy
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span
+                style={{
+                  color: accent,
+                  fontWeight: 700,
+                  fontSize: "2rem",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                2-3s
+              </span>
+              <span
+                style={{
+                  color: "#d4dbe2",
+                  fontSize: "1rem",
+                  marginTop: 2,
+                  fontWeight: 400,
+                  letterSpacing: "0.01em",
+                }}
+              >
+                Processing Speed
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span
+                style={{
+                  color: accent,
+                  fontWeight: 700,
+                  fontSize: "2rem",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                1000+
+              </span>
+              <span
+                style={{
+                  color: "#d4dbe2",
+                  fontSize: "1rem",
+                  marginTop: 2,
+                  fontWeight: 400,
+                  letterSpacing: "0.01em",
+                }}
+              >
+                Knowledge Entries
+              </span>
+            </div>
+          </div>
+        </div>
+        {/* RIGHT: Chat demo */}
+        <div className="hidden md:flex w-1/2 items-center justify-end">
+          <div
+            className="relative rounded-2xl p-0"
+            style={{
+              background: "rgba(38,44,56,0.75)",
+              border: "1.5px solid #2F4F4F",
+              minWidth: 410,
+              maxWidth: 440,
+              minHeight: 420,
+              boxShadow: "0 8px 32px 0 rgba(60,64,79,0.18)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+            }}
+          >
+            {/* Chat header */}
+            <div
+              className="flex items-center gap-3 px-5 py-4"
+              style={{ borderBottom: "1.2px solid #374151" }}
+            >
+              <span
+                className="flex items-center justify-center rounded-lg"
+                style={{
+                  background: accent,
+                  width: 38,
+                  height: 38,
+                  minWidth: 38,
+                  minHeight: 38,
+                }}
+              >
+                <Star size={22} color="#fff" strokeWidth={2.1} />
+              </span>
+              <div className="flex flex-col">
+                <span
+                  style={{
+                    fontWeight: 600,
+                    color: "#fff",
+                    fontSize: "1.12rem",
+                    letterSpacing: "0.01em",
+                  }}
                 >
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Join Pilot Program
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-slate-500 text-slate-300 hover:bg-slate-800 px-8 py-4 text-lg font-medium rounded-xl"
-                >
-                  See How It Works
-                </Button>
-              </div>
-
-              {/* Stats Row */}
-              <div className="grid grid-cols-3 gap-8 pt-8">
-                <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-bold text-amber-400 mb-1">95%+</div>
-                  <div className="text-sm text-slate-400">Recognition Accuracy</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-bold text-amber-400 mb-1">2-3s</div>
-                  <div className="text-sm text-slate-400">Processing Speed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-bold text-amber-400 mb-1">1000+</div>
-                  <div className="text-sm text-slate-400">Knowledge Entries</div>
+                  FabrikTakt Bot
+                </span>
+                <div className="flex items-center mt-1 gap-2">
+                  <span
+                    style={{
+                      background: "#38D265",
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      display: "inline-block",
+                    }}
+                  ></span>
+                  <span style={{ color: "#74e6af", fontSize: "0.96rem" }}>
+                    Online
+                  </span>
                 </div>
               </div>
             </div>
-
-            {/* Right Column - Interactive Chat Demo */}
-            <div className="relative">
-              <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-600 rounded-2xl p-6 space-y-4">
-                {/* Chat Header */}
-                <div className="flex items-center gap-3 pb-4 border-b border-slate-700">
-                  <div className="w-10 h-10 bg-amber-500 rounded-2xl flex items-center justify-center">
-                    <Brain className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white">FabrikTakt Bot</h3>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-sm text-green-400">Online</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Voice Message Bubble */}
-                <div className="flex justify-end">
-                  <div className="bg-amber-500 rounded-2xl rounded-tr-sm p-4 max-w-xs">
-                    <div className="flex items-center gap-2 text-white text-sm mb-2">
-                      <Mic className="w-4 h-4" />
-                      Voice message 0:15
-                    </div>
-                    <p className="text-white font-medium">
-                      CNC machine #452 stopped working
-                    </p>
-                  </div>
-                </div>
-
-                {/* Processing Indicator */}
-                <div className="flex items-center gap-2 text-slate-400 px-4">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                  <span className="text-sm">Processing...</span>
-                </div>
-
-                {/* AI Response */}
-                <div className="bg-slate-700/50 rounded-2xl rounded-bl-sm p-4 space-y-3">
-                  <div className="flex items-center gap-2 text-green-400 text-sm font-medium">
-                    <CheckCircle className="w-4 h-4" />
+            {/* Voice Message bubble */}
+            <div className="px-5 mt-6 flex flex-row w-full justify-end">
+              <div
+                className="rounded-xl py-3 px-4 flex flex-row items-center gap-2"
+                style={{
+                  background: accent,
+                  minWidth: 238,
+                  color: "#fff",
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                  boxShadow: "0 2px 8px 0 rgba(249,168,37,0.08)",
+                }}
+              >
+                <CircleDot size={20} color="#fff" strokeWidth={2.2} />
+                Voice message 0:15
+                <span className="font-medium ml-2">
+                  CNC machine #452 stopped working
+                </span>
+              </div>
+            </div>
+            {/* Processing indicator */}
+            <div className="px-5 mt-4">
+              <div
+                className="rounded-md py-2 px-4 inline-flex items-center gap-3"
+                style={{
+                  background: "#374151",
+                  color: "#D7DDF3",
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                  minWidth: 180,
+                }}
+              >
+                <span className="flex gap-1">
+                  <span
+                    style={{
+                      background: accent,
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      display: "inline-block",
+                      marginRight: 2,
+                      animation: "pulse 1.2s infinite",
+                    }}
+                  />
+                  <span
+                    style={{
+                      background: accent,
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      display: "inline-block",
+                      marginRight: 2,
+                      animation: "pulse 1.2s infinite 0.1s",
+                    }}
+                  />
+                  <span
+                    style={{
+                      background: accent,
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      display: "inline-block",
+                      animation: "pulse 1.2s infinite 0.2s",
+                    }}
+                  />
+                </span>
+                Processing...
+              </div>
+            </div>
+            {/* Solution found bubble */}
+            <div className="px-5 mt-5 flex">
+              <div
+                className="rounded-xl bg-white py-4 px-5 flex flex-col gap-2"
+                style={{
+                  minWidth: 300,
+                  boxShadow: "0 2px 8px 0 rgba(47,79,79,0.08)",
+                  border: "1.5px solid #E5E5E5",
+                }}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <Star
+                    size={18}
+                    color={accent}
+                    strokeWidth={2.1}
+                    style={{ borderRadius: "6px", background: "#fff" }}
+                  />
+                  <span style={{ color: slateGray, fontWeight: 700 }}>
                     Solution Found
-                  </div>
-                  <p className="text-slate-200 text-sm leading-relaxed">
-                    Likely issue: Spindle motor failure. Check: Power cable, fuse, and temperature sensor
-                  </p>
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-600">
-                    <div className="flex items-center gap-2 text-green-400 text-sm">
-                      <CheckCircle className="w-4 h-4" />
-                      Solved in 0.8s
-                    </div>
-                    <span className="text-slate-400 text-sm">98% match</span>
-                  </div>
+                  </span>
+                </div>
+                <div
+                  style={{
+                    color: slateGray,
+                    fontWeight: 500,
+                    fontSize: "1rem",
+                  }}
+                >
+                  Likely issue: Spindle motor failure.
+                  <br />
+                  Check: Power cable, fuse, and temperature sensor
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span style={{ color: "#38D265", fontWeight: 600, fontSize: "0.98rem" }}>
+                    Solved in 0.8s
+                  </span>
+                  <span style={{ color: "#888b97", fontWeight: 400, fontSize: "0.94rem" }}>
+                    98% match
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Pilot Modal */}
-      <PilotModal isOpen={isPilotModalOpen} onClose={closePilotModal} />
-    </>
+      </div>
+      {/* Explore More Scroll indicator */}
+      <div
+        className="absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center"
+        aria-hidden="true"
+      >
+        <span
+          style={{
+            color: "#d4dbe2",
+            fontSize: "1.04rem",
+            fontWeight: 400,
+            opacity: 0.74,
+            marginBottom: 12,
+            letterSpacing: "0.01em",
+          }}
+        >
+          Explore More
+        </span>
+        {/* Mouse icon */}
+        <svg width="34" height="48" viewBox="0 0 34 48" fill="none">
+          <rect
+            x="2"
+            y="2"
+            width="30"
+            height="44"
+            rx="15"
+            stroke="#E5E5E5"
+            strokeWidth="3.2"
+            fill="none"
+          />
+          <circle
+            cx="17"
+            cy="14"
+            r="3"
+            fill={accent}
+            style={{
+              animation: "moveDown 1.6s infinite cubic-bezier(.5,1,.5,1)",
+            }}
+          />
+          <style>
+            {`
+          @keyframes moveDown {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(14px); opacity: 0.55; }
+            100% { transform: translateY(0); opacity: 1; }
+          }
+          `}
+          </style>
+        </svg>
+      </div>
+    </section>
   );
 };
 
