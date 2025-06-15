@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { BrainCog, Sparkles, Mic } from "lucide-react";
@@ -8,9 +7,7 @@ const accent = "#F9A825";
 const slateGray = "#2F4F4F";
 const industrial = "#E5E5E5";
 
-// Utility for box shadow inline (because Tailwind can't do rgba custom shadow)
-const badgeShadow =
-  "0 2px 16px 0 rgba(47, 79, 79, 0.16), 0 0.5px 1px 0 rgba(47, 79, 79, 0.10)";
+// The badge shadow is now handled inline for a better glow effect.
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -36,9 +33,9 @@ const HeroSection = () => {
             className="inline-flex items-center px-5 py-2 rounded-full font-medium text-base"
             style={{
               background: "rgba(249,168,37,0.12)",
-              boxShadow: badgeShadow,
+              boxShadow: `0 1px 2px rgba(0,0,0,0.1), 0 0 25px rgba(249, 168, 37, 0.3), inset 0 0 1px 1px rgba(249,168,37,0.5)`,
               color: accent,
-              border: `1.5px solid ${accent}`,
+              border: `1.5px solid rgba(249,168,37,0.7)`,
               fontWeight: 500,
               letterSpacing: "0.01em",
               marginBottom: 8,
@@ -239,7 +236,7 @@ const HeroSection = () => {
           >
             {/* Chat header */}
             <div
-              className="flex items-center gap-3 px-5 py-4"
+              className="flex items-center gap-4 px-5 py-4"
               style={{ borderBottom: "1.2px solid #374151" }}
             >
               <span
@@ -250,6 +247,7 @@ const HeroSection = () => {
                   height: 38,
                   minWidth: 38,
                   minHeight: 38,
+                  boxShadow: '0 4px 12px -1px rgba(0,0,0,0.4), 0 2px 8px -1px rgba(0,0,0,0.3)'
                 }}
               >
                 <BrainCog size={22} color="#fff" strokeWidth={2.1} />
@@ -273,6 +271,7 @@ const HeroSection = () => {
                       height: 8,
                       borderRadius: "50%",
                       display: "inline-block",
+                      animation: "pulse-green-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
                     }}
                   ></span>
                   <span style={{ color: "#74e6af", fontSize: "0.96rem" }}>
@@ -440,6 +439,14 @@ const HeroSection = () => {
             0% { transform: translateY(0); opacity: 1; }
             50% { transform: translateY(14px); opacity: 0.55; }
             100% { transform: translateY(0); opacity: 1; }
+          }
+          @keyframes pulse-green-dot {
+            0%, 100% {
+              box-shadow: 0 0 0 0 rgba(56, 210, 101, 0.5);
+            }
+            50% {
+              box-shadow: 0 0 0 6px rgba(56, 210, 101, 0);
+            }
           }
           `}
           </style>
