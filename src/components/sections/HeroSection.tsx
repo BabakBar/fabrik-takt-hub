@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { BrainCog, Sparkles, Mic } from "lucide-react";
@@ -7,13 +8,9 @@ const accent = "#F9A825";
 const slateGray = "#2F4F4F";
 const industrial = "#E5E5E5";
 
-// The badge shadow is now handled inline for a better glow effect.
-
 const HeroSection = () => {
   const { t } = useLanguage();
   const [pilotModal, setPilotModal] = useState(false);
-  // For future: replace with real modal
-  // const openPilotModal = () => setPilotModal(true);
 
   return (
     <section
@@ -21,54 +18,54 @@ const HeroSection = () => {
       style={{
         background:
           "radial-gradient(ellipse at 60% 60%, #222A33 70%, #202532 100%)",
-        // fallback on near-black if not supported
         backgroundColor: "#222A33",
       }}
     >
       <div className="max-w-7xl w-full mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row gap-12 items-center justify-between relative z-10">
         {/* LEFT: Content */}
         <div className="w-full md:w-1/2 flex flex-col gap-6 md:gap-10">
-          {/* Badge */}
+          {/* Enhanced Badge */}
           <div
-            className="inline-flex items-center px-5 py-2 rounded-full font-medium text-base"
+            className="inline-flex items-center px-6 py-3 rounded-full font-medium text-base w-fit"
             style={{
-              background: "rgba(249,168,37,0.12)",
-              boxShadow: `0 1px 2px rgba(0,0,0,0.1), 0 0 25px rgba(249, 168, 37, 0.3), inset 0 0 1px 1px rgba(249,168,37,0.5)`,
+              background: "linear-gradient(135deg, rgba(249,168,37,0.15) 0%, rgba(249,168,37,0.08) 100%)",
+              boxShadow: `
+                0 2px 12px rgba(0,0,0,0.08),
+                0 0 20px rgba(249, 168, 37, 0.25),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                inset 0 0 1px 1px rgba(249,168,37,0.4)
+              `,
               color: accent,
-              border: `1.5px solid rgba(249,168,37,0.7)`,
-              fontWeight: 500,
-              letterSpacing: "0.01em",
-              marginBottom: 8,
+              border: `1px solid rgba(249,168,37,0.6)`,
+              fontWeight: 600,
+              letterSpacing: "0.005em",
+              backdropFilter: "blur(10px)",
             }}
           >
             <span
+              className="flex items-center justify-center rounded-full mr-3"
               style={{
-                background: accent,
-                borderRadius: "50%",
-                width: 30,
-                height: 30,
-                marginRight: 12,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                background: `linear-gradient(135deg, ${accent} 0%, #FFB84D 100%)`,
+                width: 32,
+                height: 32,
+                boxShadow: "0 2px 8px rgba(249,168,37,0.3), inset 0 1px 0 rgba(255,255,255,0.2)",
               }}
             >
-              <BrainCog size={20} color="#fff" strokeWidth={2.5} />
+              <BrainCog size={18} color="#fff" strokeWidth={2.5} />
             </span>
-            AI-Powered Intelligence Hub
+            <span className="mr-3">AI-Powered Intelligence Hub</span>
             <span
-              className="ml-3"
+              className="inline-block rounded-full"
               style={{
-                background: "#38D265",
-                borderRadius: "50%",
-                width: 9,
-                height: 9,
-                display: "inline-block",
-                marginLeft: 10,
-                boxShadow: "0 0 0 2px rgba(56,210,101,0.2)",
+                background: "linear-gradient(135deg, #38D265 0%, #2BC653 100%)",
+                width: 8,
+                height: 8,
+                boxShadow: "0 0 0 2px rgba(56,210,101,0.3), 0 0 8px rgba(56,210,101,0.4)",
+                animation: "pulse-status 2s ease-in-out infinite",
               }}
-            ></span>
+            />
           </div>
+
           {/* Main headline */}
           <h1
             style={{
@@ -86,6 +83,7 @@ const HeroSection = () => {
               Turn Chaos into Clarity.
             </span>
           </h1>
+
           {/* Subtext/description */}
           <p
             style={{
@@ -99,6 +97,7 @@ const HeroSection = () => {
           >
             FabrikTakt captures hidden knowledge and real-time data, providing actionable insights to empower your team, boost efficiency, and reduce downtime.
           </p>
+
           {/* Call to action row */}
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
             <Button
@@ -133,6 +132,7 @@ const HeroSection = () => {
               See How It Works
             </Button>
           </div>
+
           {/* Divider line */}
           <div
             style={{
@@ -145,6 +145,7 @@ const HeroSection = () => {
               opacity: 0.7,
             }}
           />
+
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-4 max-w-lg">
             <div className="flex flex-col items-center">
@@ -218,6 +219,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
+
         {/* RIGHT: Chat demo */}
         <div className="hidden md:flex w-1/2 items-center justify-end">
           <div
@@ -234,52 +236,79 @@ const HeroSection = () => {
               justifyContent: "flex-start",
             }}
           >
-            {/* Chat header */}
+            {/* Enhanced Chat header */}
             <div
-              className="flex items-center gap-4 px-5 py-4"
-              style={{ borderBottom: "1.2px solid #374151" }}
+              className="flex items-center gap-4 px-6 py-5"
+              style={{ 
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+                background: "linear-gradient(135deg, rgba(249,168,37,0.02) 0%, rgba(47,79,79,0.03) 100%)"
+              }}
             >
-              <span
-                className="flex items-center justify-center rounded-lg"
+              <div
+                className="flex items-center justify-center rounded-xl"
                 style={{
-                  background: accent,
-                  width: 38,
-                  height: 38,
-                  minWidth: 38,
-                  minHeight: 38,
-                  boxShadow: '0 4px 12px -1px rgba(0,0,0,0.4), 0 2px 8px -1px rgba(0,0,0,0.3)'
+                  background: `linear-gradient(135deg, ${accent} 0%, #FFB84D 100%)`,
+                  width: 44,
+                  height: 44,
+                  minWidth: 44,
+                  minHeight: 44,
+                  boxShadow: '0 6px 20px -2px rgba(249,168,37,0.4), 0 2px 8px -1px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)'
                 }}
               >
-                <BrainCog size={22} color="#fff" strokeWidth={2.1} />
-              </span>
-              <div className="flex flex-col">
-                <span
-                  style={{
-                    fontWeight: 600,
-                    color: "#fff",
-                    fontSize: "1.12rem",
-                    letterSpacing: "0.01em",
-                  }}
-                >
-                  FabrikTakt Bot
-                </span>
-                <div className="flex items-center mt-1 gap-2">
+                <BrainCog size={24} color="#fff" strokeWidth={2.2} />
+              </div>
+              <div className="flex flex-col flex-1">
+                <div className="flex items-center justify-between">
                   <span
                     style={{
-                      background: "#38D265",
+                      fontWeight: 700,
+                      color: "#fff",
+                      fontSize: "1.15rem",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    FabrikTakt Bot
+                  </span>
+                  <span
+                    style={{
+                      background: "rgba(56,210,101,0.15)",
+                      color: "#38D265",
+                      fontSize: "0.75rem",
+                      fontWeight: 600,
+                      padding: "2px 8px",
+                      borderRadius: "12px",
+                      border: "1px solid rgba(56,210,101,0.3)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.02em"
+                    }}
+                  >
+                    AI
+                  </span>
+                </div>
+                <div className="flex items-center mt-2 gap-2">
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #38D265 0%, #2BC653 100%)",
                       width: 8,
                       height: 8,
                       borderRadius: "50%",
                       display: "inline-block",
-                      animation: "pulse-green-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+                      boxShadow: "0 0 0 2px rgba(56,210,101,0.3), 0 0 8px rgba(56,210,101,0.4)",
+                      animation: "pulse-status 2s ease-in-out infinite",
                     }}
-                  ></span>
-                  <span style={{ color: "#74e6af", fontSize: "0.96rem" }}>
-                    Online
+                  />
+                  <span style={{ 
+                    color: "#9CA3AF", 
+                    fontSize: "0.9rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.01em"
+                  }}>
+                    Manufacturing Intelligence Online
                   </span>
                 </div>
               </div>
             </div>
+
             {/* Voice Message bubble */}
             <div className="px-5 mt-6 flex flex-row w-full justify-end">
               <div
@@ -301,6 +330,7 @@ const HeroSection = () => {
                 </span>
               </div>
             </div>
+
             {/* Processing indicator */}
             <div className="px-5 mt-4">
               <div
@@ -350,6 +380,7 @@ const HeroSection = () => {
                 Processing...
               </div>
             </div>
+
             {/* Solution found bubble */}
             <div className="px-5 mt-5 flex">
               <div
@@ -395,6 +426,7 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
       {/* Explore More Scroll indicator */}
       <div
         className="absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center"
@@ -440,12 +472,14 @@ const HeroSection = () => {
             50% { transform: translateY(14px); opacity: 0.55; }
             100% { transform: translateY(0); opacity: 1; }
           }
-          @keyframes pulse-green-dot {
+          @keyframes pulse-status {
             0%, 100% {
-              box-shadow: 0 0 0 0 rgba(56, 210, 101, 0.5);
+              opacity: 1;
+              transform: scale(1);
             }
             50% {
-              box-shadow: 0 0 0 6px rgba(56, 210, 101, 0);
+              opacity: 0.7;
+              transform: scale(1.1);
             }
           }
           `}
