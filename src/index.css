@@ -227,3 +227,17 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/* Minimal, modern section transition */
+.section-transition {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(245,158,11,0.02) 5%,
+    rgba(16,23,42,0.06) 50%,
+    rgba(245,158,11,0.02) 95%
+  );
+  margin: 0 auto;
+  display: block;
+}
