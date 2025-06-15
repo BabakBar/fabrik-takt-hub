@@ -53,7 +53,7 @@ const TechStackSection = () => {
               <h3 className="text-xl font-bold text-slate-700 mb-2">
                 {language === 'fa' ? 'هوش مصنوعی' : 'Artificial Intelligence'}
               </h3>
-              <p className="text-slate-600 text-sm">Google Gemini Pro</p>
+              <p className="text-slate-600 text-sm">State-of-the-Art AI Models</p>
               <div className="mt-4 bg-white p-4 rounded-lg shadow-sm">
                 <div className="text-2xl font-bold text-purple-500">95%+</div>
                 <div className="text-xs text-slate-500">
@@ -70,7 +70,7 @@ const TechStackSection = () => {
               <h3 className="text-xl font-bold text-slate-700 mb-2">
                 {language === 'fa' ? 'پایگاه داده' : 'Database'}
               </h3>
-              <p className="text-slate-600 text-sm">PostgreSQL + Supabase</p>
+              <p className="text-slate-600 text-sm">Scalable Database & Storage</p>
               <div className="mt-4 bg-white p-4 rounded-lg shadow-sm">
                 <div className="text-2xl font-bold text-green-500">99.9%</div>
                 <div className="text-xs text-slate-500">
@@ -90,77 +90,77 @@ const TechStackSection = () => {
           </div>
         </div>
 
-        {/* Technical Details */}
+        {/* Enhanced Technical Details Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Google Gemini */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-            <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold">G</span>
+          {/* AI Models */}
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-200 rounded-xl p-6 text-center shadow-lg">
+            <div className="bg-gradient-to-br from-pink-400 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white text-2xl">🧠</span>
             </div>
-            <h4 className="font-bold text-slate-700 mb-2">Google Gemini Pro</h4>
-            <p className="text-sm text-slate-600 mb-4">
+            <h4 className="font-bold text-white mb-2">Advanced Language Processing</h4>
+            <p className="text-sm text-slate-300 mb-4">
               {language === 'fa' 
                 ? 'پیشرفته‌ترین هوش مصنوعی برای تحلیل محتوا'
-                : 'Most advanced AI for content analysis'
+                : 'State-of-the-art AI for content analysis'
               }
             </p>
-            <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-              Latest AI Model
+            <div className="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-semibold">
+              Latest AI Models
             </div>
           </div>
 
           {/* Messaging Integration */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-            <div className="bg-blue-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">M</span>
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-200 rounded-xl p-6 text-center shadow-lg">
+            <div className="bg-gradient-to-br from-blue-400 to-blue-600 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white text-2xl">🗂️</span>
             </div>
-            <h4 className="font-bold text-slate-700 mb-2">
-              {language === 'fa' ? 'پیام‌رسان' : 'Messaging'}
+            <h4 className="font-bold text-white mb-2">
+              {language === 'fa' ? 'پیام‌رسان' : 'Enterprise Database'}
             </h4>
-            <p className="text-sm text-slate-600 mb-4">
+            <p className="text-sm text-slate-300 mb-4">
               {language === 'fa' 
                 ? 'واسط کاربری آشنا، بدون نیاز به آموزش'
-                : 'Familiar interface, no training required'
+                : 'Scalable database & storage solutions'
               }
             </p>
-            <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-              2 Billion Users
-            </div>
-          </div>
-
-          {/* Supabase */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-            <div className="bg-green-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">S</span>
-            </div>
-            <h4 className="font-bold text-slate-700 mb-2">Supabase</h4>
-            <p className="text-sm text-slate-600 mb-4">
-              {language === 'fa' 
-                ? 'ذخیره‌سازی امن و مقیاس‌پذیر'
-                : 'Secure and scalable storage'
-              }
-            </p>
-            <div className="bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+            <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
               Enterprise Security
             </div>
           </div>
 
-          {/* Performance */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-            <div className="bg-amber-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">⚡</span>
+          {/* Database */}
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-200 rounded-xl p-6 text-center shadow-lg">
+            <div className="bg-gradient-to-br from-green-400 to-green-600 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white text-2xl">🚀</span>
             </div>
-            <h4 className="font-bold text-slate-700 mb-2">
-              {language === 'fa' ? 'عملکرد بالا' : 'High Performance'}
-            </h4>
-            <p className="text-sm text-slate-600 mb-4">
+            <h4 className="font-bold text-white mb-2">High Performance Backend</h4>
+            <p className="text-sm text-slate-300 mb-4">
               {language === 'fa' 
-                ? 'سرعت و دقت در هر جستجو'
-                : 'Speed and accuracy in every search'
+                ? 'ذخیره‌سازی امن و مقیاس‌پذیر'
+                : 'Fast & reliable processing engine'
               }
             </p>
-            <div className="bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">
-              Sub-second Search
+            <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+              Ultra Fast
+            </div>
+          </div>
+
+          {/* Performance */}
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-200 rounded-xl p-6 text-center shadow-lg">
+            <div className="bg-gradient-to-br from-amber-400 to-orange-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white text-2xl">⚡</span>
+            </div>
+            <h4 className="font-bold text-white mb-2">
+              {language === 'fa' ? 'عملکرد بالا' : 'Real-time Processing'}
+            </h4>
+            <p className="text-sm text-slate-300 mb-4">
+              {language === 'fa' 
+                ? 'سرعت و دقت در هر جستجو'
+                : 'Instant responses & analysis'
+              }
+            </p>
+            <div className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">
+              Sub-second Response
             </div>
           </div>
         </div>
