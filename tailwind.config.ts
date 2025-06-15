@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -71,9 +72,12 @@ export default {
 				'2xl': '1536px'
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				lg: '12px',
+				md: '10px',
+				sm: '8px',
+				xl: '16px',
+				'2xl': '20px',
+				'3xl': '24px'
 			},
 			keyframes: {
 				'accordion-down': {

@@ -20,10 +20,10 @@ export function CollapsibleSection({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (
-    <div className={cn("border rounded-lg bg-card text-card-foreground", className)}>
+    <div className={cn("border rounded-xl bg-card text-card-foreground", className)}>
       <Button
         variant="ghost"
-        className="w-full justify-between p-6 h-auto text-left"
+        className="w-full justify-between p-6 h-auto text-left rounded-xl"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <h3 className="text-lg font-semibold">{title}</h3>
