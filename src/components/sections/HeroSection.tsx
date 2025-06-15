@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowDown, Mic, Sparkles, Brain, Play, ArrowRight, BarChart3, Cog, Users } from 'lucide-react';
+import { ArrowDown, Mic, Sparkles, Brain, Play, ArrowRight, BarChart3, Cog, Users, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import PilotModal from '../modals/PilotModal';
 import { Button } from '../ui/button';
@@ -15,127 +15,149 @@ const HeroSection = () => {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white min-h-screen flex items-center">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
 
-        <div className="container relative mx-auto px-4 py-20 lg:py-28">
+        <div className="container relative mx-auto px-4 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Content */}
             <div className="space-y-8">
-              {/* Problem */}
+              {/* AI-Powered Badge */}
+              <div className="inline-flex items-center rounded-full bg-orange-500/20 px-4 py-2 text-sm font-medium text-orange-300 ring-1 ring-orange-500/30">
+                <Brain className="w-4 h-4 mr-2" />
+                AI-Powered Intelligence Hub
+                <div className="w-2 h-2 bg-green-400 rounded-full ml-2 animate-pulse"></div>
+              </div>
+
+              {/* Main Headlines */}
               <div className="space-y-4">
-                <div className="inline-flex items-center rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-red-300 ring-1 ring-red-500/20">
-                  ❌ Manufacturing Challenge
-                </div>
-                <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-                  Turn Manufacturing
-                  <span className="text-orange-400"> Chaos </span>
-                  into
-                  <span className="text-green-400"> Clarity</span>
+                <h1 className="text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
+                  Your Factory's AI Brain.
                 </h1>
-                <p className="text-xl text-slate-300 max-w-2xl">
-                  {language === 'fa' 
-                    ? 'از دست دادن دانش حیاتی هنگام ترک کارگران باتجربه را متوقف کنید. بینش‌های عملیاتی را فوراً ثبت، ساختار و بازیابی کنید.'
-                    : 'Stop losing critical knowledge when experienced workers leave. Capture, structure, and retrieve operational insights instantly.'
-                  }
+                <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-orange-400">
+                  Turn Chaos into Clarity.
+                </h2>
+                <p className="text-xl text-slate-300 max-w-2xl leading-relaxed">
+                  FabrikTakt captures hidden knowledge and real-time data, providing actionable insights to empower your team, boost efficiency, and reduce downtime.
                 </p>
               </div>
 
-              {/* Solution Preview */}
-              <div className="grid grid-cols-3 gap-4">
-                <Card className="bg-slate-800/50 border-slate-700 p-4 text-center">
-                  <Users className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                  <p className="text-sm text-slate-300">Voice-First</p>
-                  <p className="text-xs text-slate-400">Natural input</p>
-                </Card>
-                <Card className="bg-slate-800/50 border-slate-700 p-4 text-center">
-                  <Cog className="h-8 w-8 text-purple-400 mx-auto mb-2" />
-                  <p className="text-sm text-slate-300">AI-Powered</p>
-                  <p className="text-xs text-slate-400">Smart analysis</p>
-                </Card>
-                <Card className="bg-slate-800/50 border-slate-700 p-4 text-center">
-                  <BarChart3 className="h-8 w-8 text-green-400 mx-auto mb-2" />
-                  <p className="text-sm text-slate-300">Instant ROI</p>
-                  <p className="text-xs text-slate-400">Proven results</p>
-                </Card>
-              </div>
-
-              {/* Outcome Metrics */}
-              <div className="grid grid-cols-3 gap-6 py-6 border-t border-slate-700">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400">100%</div>
-                  <div className="text-sm text-slate-400">ROI in 6 months</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-400">2-3x</div>
-                  <div className="text-sm text-slate-400">Productivity boost</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-400">90%</div>
-                  <div className="text-sm text-slate-400">Knowledge retention</div>
-                </div>
-              </div>
-
-              {/* CTAs */}
+              {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   onClick={openPilotModal}
                   size="lg" 
-                  className="bg-orange-500 hover:bg-orange-600 text-white"
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg font-medium rounded-lg"
                 >
-                  Get Free AI Audit
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Join Pilot Program
                 </Button>
-                <Button size="lg" variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-800">
-                  Watch 2-Min Demo
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-slate-500 text-slate-300 hover:bg-slate-800 px-8 py-4 text-lg font-medium rounded-lg"
+                >
+                  See How It Works
                 </Button>
+              </div>
+
+              {/* Key Features Row */}
+              <div className="grid grid-cols-3 gap-6 pt-8">
+                <div className="text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-orange-400 mb-1">Voice-First</div>
+                  <div className="text-sm text-slate-400">Natural Interface</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-blue-400 mb-1">AI-Powered</div>
+                  <div className="text-sm text-slate-400">Smart Analysis</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-green-400 mb-1">Instant ROI</div>
+                  <div className="text-sm text-slate-400">Proven Results</div>
+                </div>
+              </div>
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-3 gap-6 pt-4 border-t border-slate-700">
+                <div className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold text-orange-400">95%+</div>
+                  <div className="text-sm text-slate-400">Recognition Accuracy</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold text-blue-400">2-3s</div>
+                  <div className="text-sm text-slate-400">Processing Speed</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold text-green-400">1000+</div>
+                  <div className="text-sm text-slate-400">Knowledge Entries</div>
+                </div>
               </div>
             </div>
 
-            {/* Right Column - Interactive Visual */}
+            {/* Right Column - Interactive Chat Demo */}
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-orange-500/20 to-purple-500/20 p-8 backdrop-blur-sm border border-slate-700">
-                {/* Interactive Dashboard Preview */}
-                <div className="h-full w-full rounded-lg bg-slate-900/80 p-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">Knowledge Dashboard</h3>
-                      <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
-                    </div>
-
-                    {/* Simulated Data */}
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50">
-                        <div className="h-8 w-8 rounded-full bg-orange-500/20 flex items-center justify-center">
-                          🔧
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm text-slate-300">Machine M-401 Issue</p>
-                          <p className="text-xs text-slate-500">Solved in 15 min</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50">
-                        <div className="h-8 w-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                          ⚡
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm text-slate-300">Quality Check Protocol</p>
-                          <p className="text-xs text-slate-500">Updated automatically</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50">
-                        <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                          📊
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm text-slate-300">Productivity Report</p>
-                          <p className="text-xs text-slate-500">+23% this week</p>
-                        </div>
-                      </div>
+              <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-4">
+                {/* Chat Header */}
+                <div className="flex items-center gap-3 pb-4 border-b border-slate-700">
+                  <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                    <Brain className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">FabrikTakt Bot</h3>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span className="text-sm text-green-400">Online</span>
                     </div>
                   </div>
+                </div>
+
+                {/* Voice Message */}
+                <div className="bg-orange-500 rounded-2xl rounded-tl-sm p-4 max-w-xs ml-auto">
+                  <div className="flex items-center gap-2 text-white text-sm mb-2">
+                    <Mic className="w-4 h-4" />
+                    Voice message 0:15
+                  </div>
+                  <p className="text-white font-medium">
+                    CNC machine #452 stopped working
+                  </p>
+                </div>
+
+                {/* Processing Indicator */}
+                <div className="flex items-center gap-2 text-slate-400">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                  <span className="text-sm">Processing...</span>
+                </div>
+
+                {/* AI Response */}
+                <div className="bg-slate-700/50 rounded-2xl rounded-bl-sm p-4 space-y-3">
+                  <div className="flex items-center gap-2 text-green-400 text-sm font-medium">
+                    <CheckCircle className="w-4 h-4" />
+                    Solution Found
+                  </div>
+                  <p className="text-slate-200 text-sm leading-relaxed">
+                    Likely issue: Spindle motor failure. Check: Power cable, fuse, and temperature sensor
+                  </p>
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-600">
+                    <div className="flex items-center gap-2 text-green-400 text-sm">
+                      <CheckCircle className="w-4 h-4" />
+                      Solved in 0.8s
+                    </div>
+                    <span className="text-slate-400 text-sm">98% match</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Explore More Button */}
+              <div className="text-center mt-8">
+                <button className="text-slate-400 hover:text-white transition-colors text-sm font-medium">
+                  Explore More
+                </button>
+                <div className="w-6 h-6 mx-auto mt-2 bg-slate-700 rounded-full flex items-center justify-center">
+                  <ArrowDown className="w-4 h-4 text-slate-400" />
                 </div>
               </div>
             </div>
