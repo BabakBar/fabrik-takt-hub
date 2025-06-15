@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowDown, Mic, Sparkles, Brain, Play } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -57,7 +56,7 @@ const HeroSection = () => {
                   { value: '1000+', label: language === 'fa' ? 'مدخل دانش' : 'Knowledge Entries' }
                 ].map((stat, index) => (
                   <div key={index} className="text-center group">
-                    <div className="text-2xl font-bold text-amber-400 group-hover:scale-110 transition-transform mb-2">
+                    <div className="text-3xl font-bold text-amber-400 group-hover:scale-110 transition-transform mb-2">
                       {stat.value}
                     </div>
                     <div className="text-sm text-slate-400 font-medium">{stat.label}</div>
@@ -68,32 +67,32 @@ const HeroSection = () => {
 
             {/* Chat Interface Demo */}
             <div className="relative">
-              <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md mx-auto">
+              <div className="relative bg-slate-900/50 backdrop-blur-sm ring-1 ring-white/10 rounded-2xl shadow-2xl overflow-hidden max-w-md mx-auto">
                 {/* Header */}
-                <div className="bg-slate-800 px-6 py-4 flex items-center gap-3">
+                <div className="bg-slate-800/70 px-4 py-3 flex items-center gap-3 border-b border-white/10">
                   <div className="relative">
-                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center">
                       <Brain className="text-white w-5 h-5" />
                     </div>
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-slate-800"></div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-slate-800/70"></div>
                   </div>
                   <div>
                     <div className="font-semibold text-white">FabrikTakt Bot</div>
-                    <div className="text-xs text-slate-400 flex items-center gap-1">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="text-xs text-slate-400 flex items-center gap-1.5">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                       Online
                     </div>
                   </div>
                 </div>
                 
                 {/* Messages */}
-                <div className="p-6 space-y-4 bg-gray-50 min-h-[400px]">
+                <div className="p-4 space-y-4 bg-slate-800/50 min-h-[400px]">
                   {/* User Message */}
                   <div className="flex justify-end">
                     <div className="max-w-xs">
-                      <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white p-4 rounded-2xl rounded-tr-md">
-                        <div className="flex items-center gap-2 text-amber-100 mb-2 text-xs">
-                          <Mic size={12} />
+                      <div className="bg-amber-500 text-white p-3 rounded-xl rounded-br-none">
+                        <div className="flex items-center gap-2 text-amber-100 mb-1 text-xs font-medium">
+                          <Mic size={14} />
                           <span>Voice message 0:15</span>
                         </div>
                         <div className="text-sm">
@@ -108,31 +107,31 @@ const HeroSection = () => {
 
                   {/* Processing */}
                   <div className="flex justify-start">
-                    <div className="bg-white border p-3 rounded-2xl flex items-center gap-2 shadow-sm">
-                      <div className="flex gap-1">
+                    <div className="bg-slate-700/80 border border-slate-600 p-3 rounded-xl flex items-center gap-2 shadow-sm">
+                      <div className="flex gap-1.5">
                         <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce delay-100"></div>
-                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce delay-200"></div>
+                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
                       </div>
-                      <span className="text-sm text-slate-600">Processing...</span>
+                      <span className="text-sm text-slate-300">Processing...</span>
                     </div>
                   </div>
 
                   {/* AI Response */}
                   <div className="flex justify-start">
-                    <div className="max-w-xs bg-white border p-4 rounded-2xl rounded-tl-md shadow-sm">
-                      <div className="flex items-center gap-2 text-green-600 font-medium mb-2 text-sm">
-                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="max-w-xs bg-white/90 backdrop-blur-sm border border-slate-200/50 p-4 rounded-xl rounded-bl-none shadow-lg">
+                      <div className="flex items-center gap-2 text-green-600 font-bold mb-2 text-sm">
+                        <Sparkles size={16} className="text-green-500" />
                         Solution Found
                       </div>
-                      <div className="text-sm text-slate-700 mb-3">
+                      <div className="text-sm text-slate-800 mb-3 leading-relaxed">
                         {language === 'fa'
                           ? 'مشکل احتمالی: خرابی موتور اسپیندل. بررسی کنید: کابل برق، فیوز، و سنسور دما'
                           : 'Likely issue: Spindle motor failure. Check: Power cable, fuse, and temperature sensor'
                         }
                       </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-green-600 font-medium">⚡ Solved in 0.8s</span>
+                      <div className="flex items-center justify-between text-xs font-medium border-t border-slate-200 pt-2">
+                        <span className="text-green-600 flex items-center gap-1"><Sparkles size={12} /> Solved in 0.8s</span>
                         <span className="text-slate-500">98% match</span>
                       </div>
                     </div>
@@ -146,7 +145,7 @@ const HeroSection = () => {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <div className="flex flex-col items-center gap-2 text-slate-400 group cursor-pointer">
+        <div className="flex flex-col items-center gap-2 text-slate-400 group cursor-pointer" onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}>
           <span className="text-sm font-medium group-hover:text-amber-400 transition-colors">
             {language === 'fa' ? 'ادامه مطالب' : 'Explore More'}
           </span>
