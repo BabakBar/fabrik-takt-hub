@@ -50,19 +50,21 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
   if (isSubmitted) {
     return (
       <Dialog open={isOpen} onOpenChange={resetModal}>
-        <DialogContent className="max-w-md">
-          <div className="text-center py-6">
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">
+        <DialogContent className="max-w-md bg-white border-2 border-green-200 shadow-2xl">
+          <div className="text-center py-8">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-12 h-12 text-green-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 mb-3">
               {language === 'fa' ? 'درخواست شما ثبت شد!' : 'Application Received!'}
             </h3>
-            <p className="text-slate-600 mb-6">
+            <p className="text-slate-600 mb-8 text-lg">
               {language === 'fa' 
                 ? 'تیم ما ظرف 24 ساعت با شما تماس خواهد گرفت'
                 : 'Our team will contact you within 24 hours to get started'
               }
             </p>
-            <Button onClick={resetModal} className="w-full">
+            <Button onClick={resetModal} className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
               {language === 'fa' ? 'بستن' : 'Close'}
             </Button>
           </div>
@@ -73,15 +75,15 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-2xl">
-            <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-              <Rocket className="w-5 h-5 text-white" />
+      <DialogContent className="max-w-xl bg-white border-2 border-amber-200 shadow-2xl">
+        <DialogHeader className="pb-4">
+          <DialogTitle className="flex items-center gap-3 text-2xl font-bold text-slate-900">
+            <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center shadow-lg">
+              <Rocket className="w-6 h-6 text-white" />
             </div>
             {language === 'fa' ? 'عضویت در برنامه آزمایشی' : 'Join Pilot Program'}
           </DialogTitle>
-          <DialogDescription className="text-base pt-2">
+          <DialogDescription className="text-lg text-amber-700 font-semibold pt-2">
             {language === 'fa'
               ? 'فرصت محدود - تنها 20 جا باقی مانده است'
               : 'Limited opportunity - Only 20 spots remaining'
@@ -89,35 +91,35 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
           </DialogDescription>
         </DialogHeader>
 
-        {/* Pilot Benefits */}
-        <div className="bg-slate-50 p-4 rounded-lg mb-6">
-          <h4 className="font-semibold text-slate-900 mb-3 flex items-center gap-2">
-            <Shield className="w-4 h-4 text-green-600" />
+        {/* Enhanced Pilot Benefits */}
+        <div className="bg-gradient-to-br from-slate-50 to-blue-50 p-6 rounded-xl mb-6 border border-slate-200">
+          <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-lg">
+            <Shield className="w-5 h-5 text-green-600" />
             {language === 'fa' ? 'مزایای برنامه آزمایشی:' : 'Pilot Program Benefits:'}
           </h4>
-          <div className="space-y-2 text-sm text-slate-700">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>{language === 'fa' ? '3 ماه دسترسی رایگان کامل' : '3-month free full access'}</span>
+          <div className="grid grid-cols-1 gap-3">
+            <div className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-slate-800 font-medium">{language === 'fa' ? '3 ماه دسترسی رایگان کامل' : '3-month free full access'}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>{language === 'fa' ? 'کاهش 20% زمان توقف' : 'Reduce downtime by 20%'}</span>
+            <div className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-slate-800 font-medium">{language === 'fa' ? 'کاهش 20% زمان توقف' : 'Reduce downtime by 20%'}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>{language === 'fa' ? 'پشتیبانی اختصاصی و آموزش تیم' : 'Dedicated support & team training'}</span>
+            <div className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-slate-800 font-medium">{language === 'fa' ? 'پشتیبانی اختصاصی و آموزش تیم' : 'Dedicated support & team training'}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-amber-600" />
-              <span>{language === 'fa' ? 'راه‌اندازی در کمتر از 1 هفته' : 'Setup in under 1 week'}</span>
+            <div className="flex items-center gap-3 bg-amber-50 p-3 rounded-lg border border-amber-200">
+              <Clock className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <span className="text-amber-800 font-medium">{language === 'fa' ? 'راه‌اندازی در کمتر از 1 هفته' : 'Setup in under 1 week'}</span>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <Label htmlFor="name" className="text-sm font-medium">
+            <Label htmlFor="name" className="text-sm font-semibold text-slate-700 mb-2 block">
               {language === 'fa' ? 'نام *' : 'Full Name *'}
             </Label>
             <Input
@@ -128,12 +130,12 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
               placeholder={language === 'fa' ? 'نام شما' : 'Your name'}
               required
-              className="mt-1"
+              className="border-2 border-slate-200 focus:border-amber-500 py-3 text-lg"
             />
           </div>
 
           <div>
-            <Label htmlFor="company" className="text-sm font-medium">
+            <Label htmlFor="company" className="text-sm font-semibold text-slate-700 mb-2 block">
               {language === 'fa' ? 'شرکت *' : 'Company *'}
             </Label>
             <Input
@@ -144,12 +146,12 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
               placeholder={language === 'fa' ? 'نام شرکت' : 'Company name'}
               required
-              className="mt-1"
+              className="border-2 border-slate-200 focus:border-amber-500 py-3 text-lg"
             />
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-sm font-medium">
+            <Label htmlFor="email" className="text-sm font-semibold text-slate-700 mb-2 block">
               {language === 'fa' ? 'ایمیل تجاری *' : 'Business Email *'}
             </Label>
             <Input
@@ -160,22 +162,30 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
               placeholder="your@company.com"
               required
-              className="mt-1"
+              className="border-2 border-slate-200 focus:border-amber-500 py-3 text-lg"
             />
           </div>
 
-          <div className="flex gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+          <div className="flex gap-4 pt-6">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={onClose} 
+              className="flex-1 py-3 text-lg border-2 hover:bg-slate-50"
+            >
               {language === 'fa' ? 'انصراف' : 'Cancel'}
             </Button>
-            <Button type="submit" className="flex-1 bg-amber-500 hover:bg-amber-600">
-              <Users className="w-4 h-4 mr-2" />
+            <Button 
+              type="submit" 
+              className="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+            >
+              <Users className="w-5 h-5 mr-2" />
               {language === 'fa' ? 'درخواست عضویت' : 'Apply Now'}
             </Button>
           </div>
         </form>
 
-        <p className="text-xs text-slate-500 text-center mt-4">
+        <p className="text-sm text-slate-500 text-center mt-6 bg-slate-50 p-3 rounded-lg">
           {language === 'fa' 
             ? '🔒 اطلاعات شما محفوظ و مطابق GDPR محافظت می‌شود'
             : '🔒 Your data is secure and GDPR compliant'
