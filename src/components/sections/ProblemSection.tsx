@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { AlertTriangle, TrendingDown, Clock, DollarSign, BrainCircuit, Users, EyeOff, GitFork } from 'lucide-react';
+import { AlertTriangle, TrendingDown, Clock, DollarSign, BrainCircuit, Users, EyeOff, GitFork, Target } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const ProblemSection = () => {

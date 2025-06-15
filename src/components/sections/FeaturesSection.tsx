@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BrainCircuit, ListChecks, LineChart, Wrench, ArrowRight, Sparkles } from 'lucide-react';
+import { BrainCircuit, ListChecks, LineChart, Wrench, Sparkles, Brain } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const FeaturesSection = () => {
