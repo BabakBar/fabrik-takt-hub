@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mic, Search, Brain, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import SectionCard from "../ui/SectionCard";
 
 const SolutionSection = () => {
   const { t, language } = useLanguage();
@@ -66,69 +67,66 @@ const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-3 bg-amber-100 border border-amber-200/80 px-6 py-3 rounded-full text-amber-700 font-semibold mb-6 shadow-sm">
+    <section className="py-8 bg-white relative">
+      {/* SVG "bridge" shape for narrative connection, only on large screens */}
+      <div className="absolute -top-36 left-1/2 -translate-x-1/2 z-0 pointer-events-none hidden md:block">
+        <svg width="750" height="180" viewBox="0 0 750 150" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-15">
+          <ellipse cx="390" cy="75" rx="350" ry="60" fill="#dbeafe"/>
+          <ellipse cx="450" cy="80" rx="160" ry="48" fill="#fef3c7"/>
+        </svg>
+      </div>
+      <div className="container mx-auto px-4 z-10 relative">
+        <SectionCard floating overlapTop className="mb-16 bg-white/95 backdrop-blur-[1.5px] shadow-2xl">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-3 bg-amber-100 border border-amber-200/80 px-6 py-2.5 rounded-full text-amber-700 font-semibold mb-4 shadow-sm">
               <Sparkles className="w-5 h-5" />
-              <span>{language === 'fa' ? 'راه حل ۳ مرحله‌ای' : 'The 3-Step Solution'}</span>
+              <span className="tracking-wide">{language === 'fa' ? 'راه حل ۳ مرحله‌ای' : 'The 3-Step Solution'}</span>
             </div>
-            
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
               {language === 'fa' ? 'از آشفتگی به شفافیت در چند دقیقه' : 'From Chaos to Clarity in Minutes'}
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              {language === 'fa' 
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              {language === 'fa'
                 ? 'فابریک‌تکت واقعیت خام کارگاه شما را ثبت و آن را به هوش ساختاریافته و عملی تبدیل می‌کند که تیم شما را راهنمایی می‌کند.'
-                : 'FabrikTakt captures raw shop floor reality and transforms it into structured, actionable intelligence that guides your team.'
+                : "FabrikTakt captures raw shop floor reality and transforms it into structured, actionable intelligence that guides your team."
               }
             </p>
           </div>
 
-          {/* Clean 3-Step Process */}
-          <div className="grid lg:grid-cols-3 gap-8 mb-24">
+          <div className="grid lg:grid-cols-3 gap-8 mb-16">
             {steps.map((step, index) => (
-              <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-md border border-slate-100">
+              <SectionCard key={index} floating={false} className="bg-white/95 shadow-sm border border-slate-100 p-6">
                 <div className="relative inline-block mb-6">
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto ${step.iconBg} shadow-lg`}>
-                    <step.icon className="text-white w-8 h-8" />
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto ${step.iconBg} shadow-md`}>
+                    <step.icon className="text-white w-7 h-7" />
                   </div>
-                  <div className="absolute -top-2 -right-2 bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md border-2 border-white">
+                  <div className="absolute -top-2 -right-2 bg-slate-800 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shadow-md border-2 border-white">
                     {index + 1}
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-bold text-slate-800 mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-slate-500 mb-6 leading-relaxed min-h-[120px]">
-                  {step.desc}
-                </p>
+                <h3 className="text-lg font-bold text-slate-800 mb-2 tracking-tight">{step.title}</h3>
+                <p className="text-slate-500 mb-5 leading-relaxed min-h-[96px] text-base">{step.desc}</p>
                 {step.demo}
-              </div>
+              </SectionCard>
             ))}
           </div>
 
-          {/* Simple CTA */}
-          <div className="text-center">
-            <div className="bg-amber-500 text-white p-10 rounded-2xl max-w-4xl mx-auto shadow-2xl shadow-amber-500/30">
-              <h3 className="text-3xl font-bold mb-4">
-                {language === 'fa' ? 'آماده تجربه آینده؟' : 'Ready to Experience the Future?'}
-              </h3>
-              <p className="text-amber-100 mb-6 text-lg">
-                {language === 'fa' 
-                  ? 'ببینید چگونه این فناوری کارخانه شما را متحول می‌کند'
-                  : 'See how this technology transforms your manufacturing operations'
-                }
-              </p>
-              <button className="bg-white text-amber-600 px-8 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-colors flex items-center gap-2 mx-auto shadow-md">
-                {language === 'fa' ? 'مشاهده نمونه‌ها' : 'See Live Examples'}
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
+          <SectionCard floating={false} className="bg-amber-500 text-white p-8 rounded-2xl max-w-3xl mx-auto shadow-lg mt-6">
+            <h3 className="text-2xl font-bold mb-3">
+              {language === "fa" ? "آماده تجربه آینده؟" : "Ready to Experience the Future?"}
+            </h3>
+            <p className="text-amber-100 mb-4 text-base">
+              {language === "fa"
+                ? "ببینید چگونه این فناوری کارخانه شما را متحول می‌کند"
+                : "See how this technology transforms your manufacturing operations"
+              }
+            </p>
+            <button className="bg-white text-amber-600 px-7 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-colors flex items-center gap-2 mx-auto shadow-md">
+              {language === "fa" ? "مشاهده نمونه‌ها" : "See Live Examples"}
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </SectionCard>
+        </SectionCard>
       </div>
     </section>
   );
