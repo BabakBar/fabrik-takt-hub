@@ -19,58 +19,58 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white relative">
       <Header />
-      <div className="pt-16 relative">
+      <div className="pt-14 relative">
         {/* Hero Section */}
-        <div className="relative py-12">
+        <div className="relative py-8">
           <HeroSection />
         </div>
 
         <MinimalSeparator color="#e2e8f0" />
 
         {/* Problem Section */}
-        <div className="relative bg-slate-50 py-12">
+        <div className="relative bg-slate-50 py-8">
           <ProblemSection />
         </div>
 
         <MinimalSeparator color="#fef3c7" />
 
         {/* Solution Section */}
-        <div className="relative bg-white py-12">
+        <div className="relative bg-white py-8">
           <SolutionSection />
         </div>
 
         <MinimalSeparator color="#f1f5f9" />
 
         {/* Features Section */}
-        <div className="relative bg-slate-50 py-12">
+        <div className="relative bg-slate-50 py-8">
           <FeaturesSection />
         </div>
 
         <MinimalSeparator color="#ffe6ba" />
 
         {/* Tech Stack Section */}
-        <div className="relative bg-white py-12">
+        <div className="relative bg-white py-8">
           <TechStackSection />
         </div>
 
         <MinimalSeparator color="#0f172a10" />
 
         {/* Examples Section */}
-        <div className="relative bg-slate-900 text-white py-12">
+        <div className="relative bg-slate-900 text-white py-8">
           <ExamplesSection />
         </div>
 
         <MinimalSeparator color="#fff4" />
 
         {/* Social Proof Section */}
-        <div className="relative bg-white py-12">
+        <div className="relative bg-white py-8">
           <SocialProofSection />
         </div>
 
         <MinimalSeparator color="#fde68a" />
 
         {/* Final CTA Section */}
-        <div className="relative bg-gradient-to-br from-amber-50/50 to-orange-50/30 py-10">
+        <div className="relative bg-gradient-to-br from-amber-50/50 to-orange-50/30 py-8">
           <PilotCTASection />
         </div>
 
@@ -81,3 +81,4 @@ const Index = () => {
 };
 
 export default Index;
+
