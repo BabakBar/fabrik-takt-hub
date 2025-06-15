@@ -17,11 +17,11 @@ const MinimalSeparator = ({ color = '#e2e8f0' }: { color?: string }) => (
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-white relative">
+    <div className="min-h-screen bg-slate-50 relative">
       <Header />
       <div className="pt-14 relative">
         {/* Hero Section */}
-        <div className="relative py-8">
+        <div className="relative py-8 bg-white">
           <HeroSection />
         </div>
 
@@ -63,14 +63,14 @@ const Index = () => {
         <MinimalSeparator color="#fff4" />
 
         {/* Social Proof Section */}
-        <div className="relative bg-white py-8">
+        <div className="relative bg-slate-50 py-8">
           <SocialProofSection />
         </div>
 
         <MinimalSeparator color="#fde68a" />
 
         {/* Final CTA Section */}
-        <div className="relative bg-gradient-to-br from-amber-50/50 to-orange-50/30 py-8">
+        <div className="relative bg-gradient-to-br from-amber-50/60 to-orange-50/30 py-8">
           <PilotCTASection />
         </div>
 
@@ -81,4 +81,3 @@ const Index = () => {
 };
 
 export default Index;
-
