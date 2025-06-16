@@ -1,9 +1,10 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import PilotModal from '../modals/PilotModal';
 
 const SocialProofSection = () => {
   const { language } = useLanguage();
+  const [pilotModal, setPilotModal] = useState(false);
 
   const testimonials = {
     fa: [
@@ -200,11 +201,16 @@ const SocialProofSection = () => {
                 : 'Start with our free pilot program'
               }
             </p>
-            <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+            <button
+              className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              onClick={() => setPilotModal(true)}
+            >
               {language === 'fa' ? 'شروع رایگان' : 'Start Free Trial'}
             </button>
           </div>
         </div>
+
+        <PilotModal isOpen={pilotModal} onClose={() => setPilotModal(false)} />
       </div>
     </section>
   );

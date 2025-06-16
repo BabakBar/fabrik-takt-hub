@@ -1,8 +1,8 @@
-
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { BrainCog, Sparkles, Mic } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
+import PilotModal from "../modals/PilotModal";
 
 const accent = "#F9A825";
 const slateGray = "#2F4F4F";
@@ -486,6 +486,9 @@ const HeroSection = () => {
           </style>
         </svg>
       </div>
+
+      {/* Place modal at the end of the section for accessibility */}
+      <PilotModal isOpen={pilotModal} onClose={() => setPilotModal(false)} />
     </section>
   );
 };
