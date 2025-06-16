@@ -28,15 +28,15 @@ npm install motion
 
 ## 📋 Progress Tracker
 
-- [x] Hero button sparkles animation (`HeroSection.tsx:123-134`)
-- [ ] Secondary button hover effects (`HeroSection.tsx`, `ui/button.tsx`)
+- [x] Hero button sparkles animation (`HeroSection.tsx:128-139`) ✅ **Enhanced with Motion for React**
+- [x] Secondary button hover effects (`HeroSection.tsx:143-167`) ✅ **Smooth color transitions**
 - [ ] Form validation feedback (`PilotModal.tsx`)
 - [ ] Accordion animations (`ui/accordion.tsx`)
-- [ ] Stats counter animations (`HeroSection.tsx:150-220`)
+- [x] Stats counter animations (`HeroSection.tsx:220-244`) ✅ **Scroll-triggered counters**
 - [ ] Section reveal animations (all `sections/` components)
 - [ ] Card hover effects (`ui/card.tsx`, `SectionCard.tsx`)
 - [ ] Chat demo enhancements (`HeroSection.tsx:224-426`)
-- [ ] Scroll indicator animation (`HeroSection.tsx:431-488`)
+- [x] Scroll indicator animation (`HeroSection.tsx:454-510`) ✅ **Enhanced with entrance animation**
 - [ ] Accessibility improvements (global)
 
 ## 🚀 Quick Wins (High Impact, Low Effort)

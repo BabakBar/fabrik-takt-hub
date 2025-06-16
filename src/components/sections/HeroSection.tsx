@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { motion, useMotionTemplate } from "motion/react";
 import { Button } from "../ui/button";
 import { BrainCog, Sparkles, Mic } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import PilotModal from "../modals/PilotModal";
+import { hoverVariants, useRevealOnScroll, useCountUp } from "../../hooks/useAnimations";
 
 const accent = "#F9A825";
 const slateGray = "#2F4F4F";
@@ -11,8 +13,43 @@ const industrial = "#E5E5E5";
 const HeroSection = () => {
   const { t } = useLanguage();
   const [pilotModal, setPilotModal] = useState(false);
-  // Sparkle animation state
-  const [sparkleAnim, setSparkleAnim] = useState(false);
+  
+  // Stats counter animations
+  const { ref: statsRef, isInView: statsVisible } = useRevealOnScroll(0.5);
+  const count95 = useCountUp(95, 2, statsVisible);
+  const count3 = useCountUp(3, 2, statsVisible); // For "2-3s" we'll animate to 3
+  const count1000 = useCountUp(1000, 2.5, statsVisible);
+
+  // Create animated counter component
+  const AnimatedCounter = ({ value, suffix = '', label, prefix = '' }) => {
+    const display = useMotionTemplate`${prefix}${value}${suffix}`;
+    
+    return (
+      <div className="flex flex-col items-center">
+        <motion.span
+          style={{
+            color: accent,
+            fontWeight: 700,
+            fontSize: "2rem",
+            letterSpacing: "0.02em",
+          }}
+        >
+          {display}
+        </motion.span>
+        <span
+          style={{
+            color: "#d4dbe2",
+            fontSize: "1rem",
+            marginTop: 2,
+            fontWeight: 400,
+            letterSpacing: "0.01em",
+          }}
+        >
+          {label}
+        </span>
+      </div>
+    );
+  };
 
   return (
     <section
@@ -102,54 +139,69 @@ const HeroSection = () => {
 
           {/* Call to action row */}
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
-            <Button
-              size="lg"
-              className="rounded-xl px-8 py-4 text-lg font-semibold shadow-none group"
+            <motion.div
+              variants={hoverVariants.button}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
               style={{
-                background: accent,
-                color: "#fff",
-                boxShadow: "0 8px 32px 0 rgba(249,168,37,0.12)",
-                minWidth: 200,
-                minHeight: 56,
-                transition: "transform .18s cubic-bezier(.33,1,.68,1), box-shadow .18s ease",
-                border: "none",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = "0 12px 40px 0 rgba(249,168,37,0.2)";
-                setSparkleAnim(true);
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(249,168,37,0.12)";
-              }}
-              onClick={() => setPilotModal(true)}
-            >
-              <Sparkles 
-                size={22} 
-                color="#fff" 
-                style={{ 
-                  marginRight: 8,
-                  transition: "transform .3s cubic-bezier(.34,1.56,.64,1)",
-                  transformOrigin: "center",
-                }} 
-                className={sparkleAnim ? "animate-sparkle" : ""}
-                onAnimationEnd={() => setSparkleAnim(false)}
-              />
-              Join Pilot Program
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-xl px-8 py-4 text-lg font-semibold"
-              style={{
-                background: "transparent",
-                color: "#d4dbe2",
-                border: `1.4px solid #576071`,
-                minWidth: 200,
-                minHeight: 56,
+                display: "inline-block",
               }}
             >
-              See How It Works
-            </Button>
+              <Button
+                size="lg"
+                className="rounded-xl px-8 py-4 text-lg font-semibold shadow-none"
+                style={{
+                  background: accent,
+                  color: "#fff",
+                  boxShadow: "0 8px 32px 0 rgba(249,168,37,0.12)",
+                  minWidth: 200,
+                  minHeight: 56,
+                  border: "none",
+                  width: "100%",
+                }}
+                onClick={() => setPilotModal(true)}
+              >
+                <motion.div
+                  variants={hoverVariants.sparkle}
+                  initial="rest"
+                  whileHover="hover"
+                  style={{ 
+                    marginRight: 8,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Sparkles size={22} color="#fff" />
+                </motion.div>
+                Join Pilot Program
+              </Button>
+            </motion.div>
+            <motion.div
+              variants={hoverVariants.secondaryButton}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
+              style={{
+                display: "inline-block",
+              }}
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-xl px-8 py-4 text-lg font-semibold"
+                style={{
+                  background: "transparent",
+                  color: "#d4dbe2",
+                  border: `1.4px solid #576071`,
+                  minWidth: 200,
+                  minHeight: 56,
+                  width: "100%",
+                }}
+              >
+                See How It Works
+              </Button>
+            </motion.div>
           </div>
 
           {/* Divider line */}
@@ -165,78 +217,31 @@ const HeroSection = () => {
             }}
           />
 
-          {/* Stats row */}
-          <div className="grid grid-cols-3 gap-4 max-w-lg">
-            <div className="flex flex-col items-center">
-              <span
-                style={{
-                  color: accent,
-                  fontWeight: 700,
-                  fontSize: "2rem",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                95%+
-              </span>
-              <span
-                style={{
-                  color: "#d4dbe2",
-                  fontSize: "1rem",
-                  marginTop: 2,
-                  fontWeight: 400,
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Recognition Accuracy
-              </span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span
-                style={{
-                  color: accent,
-                  fontWeight: 700,
-                  fontSize: "2rem",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                2-3s
-              </span>
-              <span
-                style={{
-                  color: "#d4dbe2",
-                  fontSize: "1rem",
-                  marginTop: 2,
-                  fontWeight: 400,
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Processing Speed
-              </span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span
-                style={{
-                  color: accent,
-                  fontWeight: 700,
-                  fontSize: "2rem",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                1000+
-              </span>
-              <span
-                style={{
-                  color: "#d4dbe2",
-                  fontSize: "1rem",
-                  marginTop: 2,
-                  fontWeight: 400,
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Knowledge Entries
-              </span>
-            </div>
-          </div>
+          {/* Stats row with animated counters */}
+          <motion.div 
+            ref={statsRef}
+            className="grid grid-cols-3 gap-4 max-w-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={statsVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <AnimatedCounter 
+              value={count95} 
+              suffix="%+" 
+              label="Recognition Accuracy" 
+            />
+            <AnimatedCounter 
+              value={count3} 
+              prefix="2-" 
+              suffix="s" 
+              label="Processing Speed" 
+            />
+            <AnimatedCounter 
+              value={count1000} 
+              suffix="+" 
+              label="Knowledge Entries" 
+            />
+          </motion.div>
         </div>
 
         {/* RIGHT: Chat demo */}
@@ -446,51 +451,50 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Explore More Scroll indicator */}
-      <div
+      {/* Enhanced scroll indicator with Motion */}
+      <motion.div
         className="absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
         aria-hidden="true"
       >
-        <span
+        <motion.span
           style={{
             color: "#d4dbe2",
             fontSize: "1.04rem",
             fontWeight: 400,
-            opacity: 0.74,
             marginBottom: 12,
             letterSpacing: "0.01em",
           }}
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
           Explore More
-        </span>
-        {/* Mouse icon */}
-        <svg width="34" height="48" viewBox="0 0 34 48" fill="none">
+        </motion.span>
+        
+        <motion.svg 
+          width="34" 
+          height="48" 
+          viewBox="0 0 34 48" 
+          fill="none"
+          animate={{ opacity: [0.8, 1, 0.8] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
           <rect
-            x="2"
-            y="2"
-            width="30"
-            height="44"
-            rx="15"
-            stroke="#E5E5E5"
-            strokeWidth="3.2"
-            fill="none"
+            x="2" y="2" width="30" height="44" rx="15"
+            stroke="#E5E5E5" strokeWidth="3.2" fill="none"
           />
-          <circle
-            cx="17"
-            cy="14"
-            r="3"
-            fill={accent}
-            style={{
-              animation: "moveDown 1.6s infinite cubic-bezier(.5,1,.5,1)",
-            }}
+          <motion.circle
+            cx="17" cy="14" r="3" fill={accent}
+            animate={{ y: [0, 14, 0], opacity: [1, 0.5, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
           />
-          <style>
-            {`
-          @keyframes moveDown {
-            0% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(14px); opacity: 0.55; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
+        </motion.svg>
+        
+        {/* Keep pulse-status keyframes for other elements */}
+        <style>
+          {`
           @keyframes pulse-status {
             0%, 100% {
               opacity: 1;
@@ -501,20 +505,9 @@ const HeroSection = () => {
               transform: scale(1.1);
             }
           }
-          @keyframes sparkle {
-            0% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-5deg) scale(1.1); }
-            50% { transform: rotate(5deg) scale(1.15); }
-            75% { transform: rotate(-3deg) scale(1.1); }
-            100% { transform: rotate(0deg) scale(1); }
-          }
-          .animate-sparkle {
-            animation: sparkle 0.6s cubic-bezier(.34,1.56,.64,1);
-          }
           `}
-          </style>
-        </svg>
-      </div>
+        </style>
+      </motion.div>
 
       {/* Place modal at the end of the section for accessibility */}
       <PilotModal isOpen={pilotModal} onClose={() => setPilotModal(false)} />
