@@ -11,6 +11,8 @@ const industrial = "#E5E5E5";
 const HeroSection = () => {
   const { t } = useLanguage();
   const [pilotModal, setPilotModal] = useState(false);
+  // Sparkle animation state
+  const [sparkleAnim, setSparkleAnim] = useState(false);
 
   return (
     <section
@@ -102,19 +104,36 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
             <Button
               size="lg"
-              className="rounded-xl px-8 py-4 text-lg font-semibold shadow-none"
+              className="rounded-xl px-8 py-4 text-lg font-semibold shadow-none group"
               style={{
                 background: accent,
                 color: "#fff",
                 boxShadow: "0 8px 32px 0 rgba(249,168,37,0.12)",
                 minWidth: 200,
                 minHeight: 56,
-                transition: "transform .18s cubic-bezier(.33,1,.68,1)",
+                transition: "transform .18s cubic-bezier(.33,1,.68,1), box-shadow .18s ease",
                 border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = "0 12px 40px 0 rgba(249,168,37,0.2)";
+                setSparkleAnim(true);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(249,168,37,0.12)";
               }}
               onClick={() => setPilotModal(true)}
             >
-              <Sparkles size={22} color="#fff" style={{ marginRight: 8 }} />
+              <Sparkles 
+                size={22} 
+                color="#fff" 
+                style={{ 
+                  marginRight: 8,
+                  transition: "transform .3s cubic-bezier(.34,1.56,.64,1)",
+                  transformOrigin: "center",
+                }} 
+                className={sparkleAnim ? "animate-sparkle" : ""}
+                onAnimationEnd={() => setSparkleAnim(false)}
+              />
               Join Pilot Program
             </Button>
             <Button
@@ -481,6 +500,16 @@ const HeroSection = () => {
               opacity: 0.7;
               transform: scale(1.1);
             }
+          }
+          @keyframes sparkle {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-5deg) scale(1.1); }
+            50% { transform: rotate(5deg) scale(1.15); }
+            75% { transform: rotate(-3deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
+          }
+          .animate-sparkle {
+            animation: sparkle 0.6s cubic-bezier(.34,1.56,.64,1);
           }
           `}
           </style>
