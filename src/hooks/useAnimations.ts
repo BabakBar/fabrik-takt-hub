@@ -3,11 +3,11 @@ import { useRef, useEffect } from 'react';
 
 /**
  * Reusable intersection observer hook for scroll-triggered animations
- * @param threshold - Intersection threshold (0-1)
- * @param margin - Root margin for intersection observer
+ * @param threshold - Intersection threshold (0-1), optimized for 0.15 default
+ * @param margin - Root margin for intersection observer  
  * @returns ref and isInView state
  */
-export const useRevealOnScroll = (threshold = 0.1, margin = '-10%') => {
+export const useRevealOnScroll = (threshold = 0.15, margin = '-5%') => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin });
   return { ref, isInView };
@@ -99,7 +99,7 @@ export const hoverVariants = {
       scale: [1, 1.1, 1.15, 1.1, 1],
       transition: { 
         duration: 0.6,
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 10
       }

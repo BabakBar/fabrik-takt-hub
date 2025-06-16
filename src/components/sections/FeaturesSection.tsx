@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { BrainCircuit, ListChecks, LineChart, Wrench, Sparkles, Brain } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import PilotModal from '../modals/PilotModal';
 import SectionCard from "../ui/SectionCard";
+import { useRevealOnScroll, staggerVariants } from '../../hooks/useAnimations';
 
 const FeaturesSection = () => {
   const { t, language } = useLanguage();
   const [isPilotModalOpen, setIsPilotModalOpen] = useState(false);
+  const { ref, isInView } = useRevealOnScroll();
 
   const openPilotModal = () => setIsPilotModalOpen(true);
   const closePilotModal = () => setIsPilotModalOpen(false);
@@ -40,7 +43,13 @@ const FeaturesSection = () => {
 
   return (
     <>
-      <section className="py-8 bg-slate-50 relative overflow-visible">
+      <motion.section 
+        ref={ref}
+        className="py-8 bg-slate-50 relative overflow-visible"
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         {/* SVG Pattern/Blob bridges with SolutionSection */}
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 z-0 pointer-events-none hidden md:block">
           <svg width="720" height="220" viewBox="0 0 720 220" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-20">
@@ -67,19 +76,26 @@ const FeaturesSection = () => {
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            <motion.div 
+              className="grid lg:grid-cols-2 gap-8 mb-16"
+              variants={staggerVariants.container}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               {features.map((feature, index) => (
-                <SectionCard key={index} floating={false} className="bg-white/95 shadow-md border border-slate-100 p-7">
-                  <div className="flex items-center gap-5 mb-4">
-                    <div className={`p-3 rounded-lg shadow-md ${feature.iconBg}`}>
-                      <feature.icon className="text-white w-7 h-7" />
+                <motion.div key={index} variants={staggerVariants.item}>
+                  <SectionCard floating={false} className="bg-white/95 shadow-md border border-slate-100 p-7">
+                    <div className="flex items-center gap-5 mb-4">
+                      <div className={`p-3 rounded-lg shadow-md ${feature.iconBg}`}>
+                        <feature.icon className="text-white w-7 h-7" />
+                      </div>
+                      <h3 className="text-lg font-bold text-slate-800 tracking-tight">{feature.title}</h3>
                     </div>
-                    <h3 className="text-lg font-bold text-slate-800 tracking-tight">{feature.title}</h3>
-                  </div>
-                  <p className="text-slate-600 leading-relaxed min-h-[76px] text-base">{feature.desc}</p>
-                </SectionCard>
+                    <p className="text-slate-600 leading-relaxed min-h-[76px] text-base">{feature.desc}</p>
+                  </SectionCard>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             <SectionCard floating={false} className="bg-slate-900 text-white p-8 rounded-2xl max-w-4xl mx-auto shadow-lg mt-8">
               <h3 className="text-2xl font-bold mb-2 tracking-tight">
@@ -101,7 +117,7 @@ const FeaturesSection = () => {
             </SectionCard>
           </SectionCard>
         </div>
-      </section>
+      </motion.section>
       <PilotModal isOpen={isPilotModalOpen} onClose={closePilotModal} />
     </>
   );

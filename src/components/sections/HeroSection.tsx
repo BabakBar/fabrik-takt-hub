@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, useMotionTemplate } from "motion/react";
 import { Button } from "../ui/button";
 import { BrainCog, Sparkles, Mic } from "lucide-react";
-import { useLanguage } from "../../contexts/LanguageContext";
 import PilotModal from "../modals/PilotModal";
 import { hoverVariants, useRevealOnScroll, useCountUp } from "../../hooks/useAnimations";
 
@@ -11,7 +10,6 @@ const slateGray = "#2F4F4F";
 const industrial = "#E5E5E5";
 
 const HeroSection = () => {
-  const { t } = useLanguage();
   const [pilotModal, setPilotModal] = useState(false);
   
   // Stats counter animations
@@ -355,9 +353,9 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Processing indicator */}
+            {/* Enhanced processing indicator */}
             <div className="px-5 mt-4">
-              <div
+              <motion.div
                 className="rounded-md py-2 px-4 inline-flex items-center gap-3"
                 style={{
                   background: "#374151",
@@ -366,54 +364,54 @@ const HeroSection = () => {
                   fontSize: "1rem",
                   minWidth: 180,
                 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
               >
                 <span className="flex gap-1">
-                  <span
-                    style={{
-                      background: accent,
-                      width: 10,
-                      height: 10,
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      marginRight: 2,
-                      animation: "pulse 1.2s infinite",
-                    }}
-                  />
-                  <span
-                    style={{
-                      background: accent,
-                      width: 10,
-                      height: 10,
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      marginRight: 2,
-                      animation: "pulse 1.2s infinite 0.1s",
-                    }}
-                  />
-                  <span
-                    style={{
-                      background: accent,
-                      width: 10,
-                      height: 10,
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      animation: "pulse 1.2s infinite 0.2s",
-                    }}
-                  />
+                  {[0, 1, 2].map((i) => (
+                    <motion.span
+                      key={i}
+                      style={{
+                        background: accent,
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        marginRight: 2,
+                      }}
+                      animate={{ 
+                        scale: [0.8, 1.2, 0.8],
+                        opacity: [0.3, 1, 0.3]
+                      }}
+                      transition={{ 
+                        duration: 1.4,
+                        repeat: Infinity,
+                        delay: i * 0.2
+                      }}
+                    />
+                  ))}
                 </span>
                 Processing...
-              </div>
+              </motion.div>
             </div>
 
-            {/* Solution found bubble */}
-            <div className="px-5 mt-5 flex">
-              <div
+            {/* Enhanced solution bubble with reveal animation */}
+            <motion.div 
+              className="px-5 mt-5 flex"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2, duration: 0.6 }}
+            >
+              <motion.div
                 className="rounded-xl bg-white py-4 px-5 flex flex-col gap-2"
                 style={{
                   minWidth: 300,
                   boxShadow: "0 2px 8px 0 rgba(47,79,79,0.08)",
                   border: "1.5px solid #E5E5E5",
                 }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Sparkles
@@ -445,8 +443,8 @@ const HeroSection = () => {
                     98% match
                   </span>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </div>

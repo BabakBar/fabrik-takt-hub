@@ -1,10 +1,13 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { Mic, Search, Brain, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import SectionCard from "../ui/SectionCard";
+import { useRevealOnScroll, staggerVariants } from '../../hooks/useAnimations';
 
 const SolutionSection = () => {
   const { t, language } = useLanguage();
+  const { ref, isInView } = useRevealOnScroll();
 
   const steps = [
     {
@@ -67,7 +70,13 @@ const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-8 bg-white relative">
+    <motion.section 
+      ref={ref}
+      className="py-8 bg-white relative"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       {/* SVG "bridge" shape for narrative connection, only on large screens */}
       <div className="absolute -top-36 left-1/2 -translate-x-1/2 z-0 pointer-events-none hidden md:block">
         <svg width="750" height="180" viewBox="0 0 750 150" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-15">
@@ -93,23 +102,30 @@ const SolutionSection = () => {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8 mb-16">
+          <motion.div 
+            className="grid lg:grid-cols-3 gap-8 mb-16"
+            variants={staggerVariants.container}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             {steps.map((step, index) => (
-              <SectionCard key={index} floating={false} className="bg-white/95 shadow-sm border border-slate-100 p-6">
-                <div className="relative inline-block mb-6">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto ${step.iconBg} shadow-md`}>
-                    <step.icon className="text-white w-7 h-7" />
+              <motion.div key={index} variants={staggerVariants.item}>
+                <SectionCard floating={false} className="bg-white/95 shadow-sm border border-slate-100 p-6">
+                  <div className="relative inline-block mb-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto ${step.iconBg} shadow-md`}>
+                      <step.icon className="text-white w-7 h-7" />
+                    </div>
+                    <div className="absolute -top-2 -right-2 bg-slate-800 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shadow-md border-2 border-white">
+                      {index + 1}
+                    </div>
                   </div>
-                  <div className="absolute -top-2 -right-2 bg-slate-800 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shadow-md border-2 border-white">
-                    {index + 1}
-                  </div>
-                </div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2 tracking-tight">{step.title}</h3>
-                <p className="text-slate-500 mb-5 leading-relaxed min-h-[96px] text-base">{step.desc}</p>
-                {step.demo}
-              </SectionCard>
+                  <h3 className="text-lg font-bold text-slate-800 mb-2 tracking-tight">{step.title}</h3>
+                  <p className="text-slate-500 mb-5 leading-relaxed min-h-[96px] text-base">{step.desc}</p>
+                  {step.demo}
+                </SectionCard>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <SectionCard floating={false} className="bg-amber-500 text-white p-8 rounded-2xl max-w-3xl mx-auto shadow-lg mt-6">
             <h3 className="text-2xl font-bold mb-3">
@@ -128,7 +144,7 @@ const SolutionSection = () => {
           </SectionCard>
         </SectionCard>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

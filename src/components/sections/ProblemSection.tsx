@@ -1,10 +1,13 @@
 
 import React from 'react';
+import { motion } from 'motion/react';
 import { AlertTriangle, TrendingDown, Clock, DollarSign, BrainCircuit, Users, EyeOff, GitFork, Target } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useRevealOnScroll, staggerVariants } from '../../hooks/useAnimations';
 
 const ProblemSection = () => {
   const { t, language } = useLanguage();
+  const { ref, isInView } = useRevealOnScroll();
 
   const painPoints = [
     { 
@@ -34,7 +37,13 @@ const ProblemSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+    <motion.section 
+      ref={ref}
+      className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="container mx-auto px-6 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
@@ -58,26 +67,33 @@ const ProblemSection = () => {
           </div>
 
           {/* Statistics Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24"
+            variants={staggerVariants.container}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             {[
               { icon: TrendingDown, stat: '40%', label: language === 'fa' ? 'کاهش بهره‌وری' : 'Productivity Loss', color: 'red' },
               { icon: Clock, stat: '2-3h', label: language === 'fa' ? 'زمان حل مشکل' : 'Problem Resolution', color: 'amber' },
               { icon: DollarSign, stat: '$2M+', label: language === 'fa' ? 'هزینه توقف تولید' : 'Downtime Costs', color: 'slate' },
               { icon: AlertTriangle, stat: '65%', label: language === 'fa' ? 'مشکلات تکراری' : 'Recurring Issues', color: 'red' }
             ].map((item, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-md border border-slate-100 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                <div className={`inline-flex items-center justify-center w-16 h-16 ${
-                  item.color === 'red' ? 'bg-red-500' :
-                  item.color === 'amber' ? 'bg-amber-500' :
-                  'bg-slate-700'
-                } rounded-2xl mb-6`}>
-                  <item.icon className="text-white w-8 h-8" />
+              <motion.div key={index} variants={staggerVariants.item}>
+                <div className="bg-white p-8 rounded-2xl shadow-md border border-slate-100 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 ${
+                    item.color === 'red' ? 'bg-red-500' :
+                    item.color === 'amber' ? 'bg-amber-500' :
+                    'bg-slate-700'
+                  } rounded-2xl mb-6`}>
+                    <item.icon className="text-white w-8 h-8" />
+                  </div>
+                  <div className="text-4xl font-bold text-slate-800 mb-2">{item.stat}</div>
+                  <div className="text-slate-500">{item.label}</div>
                 </div>
-                <div className="text-4xl font-bold text-slate-800 mb-2">{item.stat}</div>
-                <div className="text-slate-500">{item.label}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Problem Points */}
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -144,7 +160,7 @@ const ProblemSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

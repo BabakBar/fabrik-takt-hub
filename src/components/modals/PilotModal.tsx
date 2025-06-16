@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Rocket, CheckCircle, Clock, Users, Shield } from 'lucide-react';
+import { Rocket, CheckCircle, Clock, Users, Shield, Loader2, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface PilotModalProps {
@@ -26,48 +27,200 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
     email: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  // Validation function
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return language === 'fa' ? 'نام الزامی است' : 'Name is required';
+        if (value.trim().length < 2) return language === 'fa' ? 'نام باید حداقل 2 کاراکتر باشد' : 'Name must be at least 2 characters';
+        return '';
+      case 'company':
+        if (!value.trim()) return language === 'fa' ? 'نام شرکت الزامی است' : 'Company name is required';
+        return '';
+      case 'email':
+        if (!value.trim()) return language === 'fa' ? 'ایمیل الزامی است' : 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return language === 'fa' ? 'ایمیل نامعتبر است' : 'Invalid email address';
+        return '';
+      default:
+        return '';
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    Object.keys(formData).forEach(key => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) newErrors[key] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    // Real-time validation
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
+  };
+
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Pilot program application:', formData);
-    setIsSubmitted(true);
-    // Here you would typically send the data to your backend
+    
+    // Mark all fields as touched
+    setTouched({ name: true, company: true, email: true });
+    
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Pilot program application:', formData);
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetModal = () => {
     setIsSubmitted(false);
+    setIsSubmitting(false);
     setFormData({ name: '', company: '', email: '' });
+    setErrors({});
+    setTouched({});
     onClose();
+  };
+
+  // Animated Form Input Component
+  const FormInput = ({ label, name, type = 'text', placeholder, required = false }) => {
+    const hasError = errors[name] && touched[name];
+    
+    return (
+      <motion.div layout>
+        <Label htmlFor={name} className="text-sm font-semibold text-slate-700 mb-2 block">
+          {label}
+        </Label>
+        <motion.div
+          animate={hasError ? { x: [-2, 2, -2, 0] } : {}}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <Input
+            id={name}
+            name={name}
+            type={type}
+            value={formData[name]}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            placeholder={placeholder}
+            required={required}
+            className={`border-2 py-3 text-lg rounded-xl transition-all duration-200 focus:ring-2 focus:outline-none ${
+              hasError 
+                ? 'border-red-500 focus:border-red-500 focus:ring-red-200' 
+                : 'border-slate-200 focus:border-amber-500 focus:ring-amber-200'
+            }`}
+          />
+        </motion.div>
+        <AnimatePresence>
+          {hasError && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -10, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex items-center gap-2 mt-2"
+              role="alert"
+              aria-live="polite"
+            >
+              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" aria-hidden="true" />
+              <span className="text-sm text-red-500">{errors[name]}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
   };
 
   if (isSubmitted) {
     return (
       <Dialog open={isOpen} onOpenChange={resetModal}>
         <DialogContent className="max-w-md bg-white border-2 border-green-200 shadow-2xl rounded-xl">
-          <div className="text-center py-8">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-12 h-12 text-green-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-3">
+          <motion.div 
+            className="text-center py-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, type: "spring" }}
+          >
+            <motion.div 
+              className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 500 }}
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.4, type: "spring", stiffness: 300 }}
+              >
+                <CheckCircle className="w-12 h-12 text-green-600" />
+              </motion.div>
+            </motion.div>
+            
+            <motion.h3 
+              className="text-2xl font-bold text-slate-900 mb-3"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               {language === 'fa' ? 'درخواست شما ثبت شد!' : 'Application Received!'}
-            </h3>
-            <p className="text-slate-600 mb-8 text-lg">
+            </motion.h3>
+            
+            <motion.p 
+              className="text-slate-600 mb-8 text-lg"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
               {language === 'fa' 
                 ? 'تیم ما ظرف 24 ساعت با شما تماس خواهد گرفت'
                 : 'Our team will contact you within 24 hours to get started'
               }
-            </p>
-            <Button onClick={resetModal} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl">
-              {language === 'fa' ? 'بستن' : 'Close'}
-            </Button>
-          </div>
+            </motion.p>
+            
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Button onClick={resetModal} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl">
+                {language === 'fa' ? 'بستن' : 'Close'}
+              </Button>
+            </motion.div>
+          </motion.div>
         </DialogContent>
       </Dialog>
     );
@@ -117,72 +270,81 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <Label htmlFor="name" className="text-sm font-semibold text-slate-700 mb-2 block">
-              {language === 'fa' ? 'نام *' : 'Full Name *'}
-            </Label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder={language === 'fa' ? 'نام شما' : 'Your name'}
-              required
-              className="border-2 border-slate-200 focus:border-amber-500 py-3 text-lg rounded-xl"
-            />
-          </div>
+        <motion.form 
+          onSubmit={handleSubmit} 
+          className="space-y-5"
+          layout
+        >
+          <FormInput
+            label={language === 'fa' ? 'نام *' : 'Full Name *'}
+            name="name"
+            type="text"
+            placeholder={language === 'fa' ? 'نام شما' : 'Your name'}
+            required
+          />
 
-          <div>
-            <Label htmlFor="company" className="text-sm font-semibold text-slate-700 mb-2 block">
-              {language === 'fa' ? 'شرکت *' : 'Company *'}
-            </Label>
-            <Input
-              id="company"
-              name="company"
-              type="text"
-              value={formData.company}
-              onChange={handleInputChange}
-              placeholder={language === 'fa' ? 'نام شرکت' : 'Company name'}
-              required
-              className="border-2 border-slate-200 focus:border-amber-500 py-3 text-lg rounded-xl"
-            />
-          </div>
+          <FormInput
+            label={language === 'fa' ? 'شرکت *' : 'Company *'}
+            name="company"
+            type="text"
+            placeholder={language === 'fa' ? 'نام شرکت' : 'Company name'}
+            required
+          />
 
-          <div>
-            <Label htmlFor="email" className="text-sm font-semibold text-slate-700 mb-2 block">
-              {language === 'fa' ? 'ایمیل *' : 'Email *'}
-            </Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder={language === 'fa' ? 'ایمیل شما' : 'Your email'}
-              required
-              className="border-2 border-slate-200 focus:border-amber-500 py-3 text-lg rounded-xl"
-            />
-          </div>
+          <FormInput
+            label={language === 'fa' ? 'ایمیل *' : 'Email *'}
+            name="email"
+            type="email"
+            placeholder={language === 'fa' ? 'ایمیل شما' : 'Your email'}
+            required
+          />
 
-          <div className="flex gap-3 pt-4">
+          <motion.div 
+            className="flex gap-3 pt-4"
+            layout
+          >
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
+              disabled={isSubmitting}
               className="flex-1 py-3 text-lg border-2 rounded-xl"
             >
               {language === 'fa' ? 'لغو' : 'Cancel'}
             </Button>
-            <Button
-              type="submit"
-              className="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-3 text-lg font-semibold rounded-xl"
-            >
-              {language === 'fa' ? 'ارسال درخواست' : 'Apply Now'}
-            </Button>
-          </div>
-        </form>
+            <motion.div className="flex-1">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white py-3 text-lg font-semibold rounded-xl"
+              >
+                <AnimatePresence mode="wait">
+                  {isSubmitting ? (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center gap-2"
+                    >
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      {language === 'fa' ? 'در حال ارسال...' : 'Submitting...'}
+                    </motion.div>
+                  ) : (
+                    <motion.span
+                      key="submit"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      {language === 'fa' ? 'ارسال درخواست' : 'Apply Now'}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </motion.form>
       </DialogContent>
     </Dialog>
   );
