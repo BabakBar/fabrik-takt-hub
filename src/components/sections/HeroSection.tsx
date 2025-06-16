@@ -132,7 +132,7 @@ const HeroSection = () => {
             }}
             className="mb-2"
           >
-            FabrikTakt captures hidden knowledge and real-time data, providing actionable insights to empower your team, boost efficiency, and reduce downtime.
+            Capture, structure, and retrieve operational insights instantly.
           </p>
 
           {/* Call to action row */}
