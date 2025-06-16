@@ -9,7 +9,7 @@ import { useRef, useEffect } from 'react';
  */
 export const useRevealOnScroll = (threshold = 0.15, margin = '-5%') => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin });
+  const isInView = useInView(ref, { once: true, margin: margin as any });
   return { ref, isInView };
 };
 
@@ -92,16 +92,19 @@ export const hoverVariants = {
   sparkle: {
     rest: { 
       rotate: 0, 
-      scale: 1 
+      scale: 1,
+      opacity: 1
     },
     hover: { 
-      rotate: [0, -5, 5, -3, 0], 
-      scale: [1, 1.1, 1.15, 1.1, 1],
+      rotate: [0, -8, 12, -6, 8, -4, 0], 
+      scale: [1, 1.15, 1.25, 1.2, 1.15, 1.1, 1.05],
+      opacity: [1, 0.8, 1, 0.9, 1, 0.95, 1],
       transition: { 
-        duration: 0.6,
+        duration: 0.8,
         type: "spring" as const,
-        stiffness: 300,
-        damping: 10
+        stiffness: 250,
+        damping: 12,
+        times: [0, 0.15, 0.3, 0.45, 0.6, 0.8, 1]
       }
     }
   }

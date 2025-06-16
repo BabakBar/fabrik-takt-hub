@@ -163,6 +163,7 @@ const HeroSection = () => {
                 <motion.div
                   variants={hoverVariants.sparkle}
                   initial="rest"
+                  animate="rest"
                   whileHover="hover"
                   style={{ 
                     marginRight: 8,
