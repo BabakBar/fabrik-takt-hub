@@ -117,7 +117,7 @@ const HeroSection = () => {
             Your Factory&apos;s AI Brain.
             <br />
             <span style={{ color: accent, fontWeight: 900 }}>
-              Turn Chaos into Clarity.
+              Turn Chaos into Clarity
             </span>
           </h1>
 
