@@ -1,0 +1,11 @@
+# Tell Nixpacks what to install
+[phases.install]
+cmds = ["bun install"]
+
+# Tell Nixpacks how to build the app
+[phases.build]
+cmds = ["bun run build"]
+
+# Tell Nixpacks what to do to start the app
+[start]
+cmd = "serve -s dist -p 3000"
