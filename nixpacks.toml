@@ -6,6 +6,10 @@ cmds = ["bun install"]
 [phases.build]
 cmds = ["bun run build"]
 
+[providers.node]
+installCmd = "bun install"
+buildCmd = "bun run build"
+
 # Tell Nixpacks what to do to start the app
 [start]
 cmd = "serve -s dist -p 3000"
