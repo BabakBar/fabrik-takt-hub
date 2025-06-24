@@ -15,10 +15,15 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
+          {/* Brand */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-amber-500/25 transition-shadow">
-              <span className="text-white font-bold text-lg">FT</span>
-            </div>
+            {/* Logo */}
+            <img
+              src="/favicon-original.png"
+              alt="FabrikTakt logo"
+              className="w-10 h-10 drop-shadow-lg group-hover:drop-shadow-amber-500/25 transition-shadow rounded-lg"
+            />
+            {/* Brand Name */}
             <span className="text-xl font-bold text-white">FabrikTakt</span>
           </Link>
 
