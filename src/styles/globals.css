@@ -1,31 +1,49 @@
 
-/* Enhanced Global Color System - Dark Mode Ready */
+/* Enhanced Global Color System - Minimal & Futuristic */
 :root {
-  /* Light theme (default) */
+  /* Primary Colors - Refined palette */
+  --slate-primary: #1a1f2e;    /* Deep slate for backgrounds */
+  --slate-secondary: #2d3748;  /* Medium slate for cards */
+  --slate-tertiary: #4a5568;   /* Light slate for borders */
+  
+  /* Accent Colors */
+  --accent-primary: #F9A825;   /* Saffron gold - use sparingly */
+  --accent-hover: #FFB84D;     /* Lighter gold for hover states */
+  --accent-glow: rgba(249, 168, 37, 0.15); /* Subtle glow effect */
+  
+  /* Text Colors */
+  --text-primary: #ffffff;     /* Pure white for headlines */
+  --text-secondary: #e2e8f0;   /* Off-white for body text */
+  --text-muted: #94a3b8;       /* Muted gray for secondary info */
+  
+  /* UI Elements */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --surface-glass: rgba(45, 55, 72, 0.6);
+  --shadow-xl: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+  
+  /* Legacy mappings for compatibility */
   --primary-text: #2F4F4F;
   --accent: #F9A825;
   --background: #E5E5E5;
   --surface: #FFFFFF;
-  --text-muted: #6B7280;
-  
-  /* Semantic colors derived from core palette */
-  --border: rgba(47, 79, 79, 0.1);
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
   --border-hover: #F9A825;
-  --shadow: rgba(47, 79, 79, 0.1);
+  --shadow: rgba(0, 0, 0, 0.1);
   --overlay: rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark theme ready */
-    --primary-text: #E5E5E5;
+    /* Dark theme optimized */
+    --primary-text: #ffffff;
     --accent: #F9A825;
-    --background: #1F2937;
-    --surface: #2F4F4F;
-    --text-muted: #9CA3AF;
+    --background: #1a1f2e;
+    --surface: #2d3748;
+    --text-muted: #94a3b8;
     
     /* Dark mode semantic colors */
-    --border: rgba(229, 229, 229, 0.2);
+    --border: rgba(255, 255, 255, 0.08);
     --border-hover: #F9A825;
     --shadow: rgba(0, 0, 0, 0.3);
     --overlay: rgba(0, 0, 0, 0.7);

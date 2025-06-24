@@ -196,27 +196,66 @@ html {
   z-index: 10;
 }
 
-/* Standardize headings and typography micro-detail */
-h2, .section-headline {
-  font-size: 2.25rem; /* 36px */
+/* Refined Typography System */
+h1 { 
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.12;
-  margin-bottom: 1.0em;
-  color: var(--primary-text);
+  color: var(--text-primary);
 }
 
-@media (max-width: 640px) {
-  h2, .section-headline {
-    font-size: 1.45rem;
-  }
+h2, .section-headline {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+  margin-bottom: 1.0em;
+  color: var(--text-primary);
 }
 
 h3, .section-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: var(--primary-text);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: 0.75em;
+}
+
+h4 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text-secondary);
+}
+
+p, .body-text {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.caption {
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* 8px Spacing Grid System */
+.spacing-xs { padding: 8px; }
+.spacing-sm { padding: 16px; }
+.spacing-md { padding: 24px; }
+.spacing-lg { padding: 32px; }
+.spacing-xl { padding: 48px; }
+.spacing-2xl { padding: 64px; }
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  h1 { font-size: 2.5rem; }
+  h2, .section-headline { font-size: 1.875rem; }
+  h3, .section-title { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  p, .body-text { font-size: 1rem; }
 }
 
 @layer base {

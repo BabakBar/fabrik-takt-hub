@@ -95,8 +95,8 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-slate-400 text-sm">
               {language === 'fa' 
-                ? '© ۱۴۰۳ فبریک‌تکت. تمامی حقوق محفوظ است.'
-                : '© 2024 FabrikTakt. All rights reserved.'
+                ? '© ۱۴۰۴ فبریک‌تکت. تمامی حقوق محفوظ است.'
+                : '© 2025 FabrikTakt. All rights reserved.'
               }
             </div>
             

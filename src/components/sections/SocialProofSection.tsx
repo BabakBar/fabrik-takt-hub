@@ -98,8 +98,8 @@ const SocialProofSection = () => {
               <div className="text-4xl mb-3">🏆</div>
               <h4 className="font-bold mb-2">
                 {language === 'fa' 
-                  ? 'برنده جایزه نوآوری تولید ایران ۲۰۲۴'
-                  : 'Winner: Manufacturing Innovation Award 2024'
+                  ? 'برنده جایزه نوآوری تولید ایران ۲۰۲۶'
+                  : 'Winner: Manufacturing Innovation Award 2026'
                 }
               </h4>
               <p className="text-slate-300 text-sm">
