@@ -94,10 +94,18 @@ const Footer = () => {
         <div className="border-t border-slate-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-slate-400 text-sm">
-              {language === 'fa' 
-                ? '© ۱۴۰۴ فبریک‌تکت. تمامی حقوق محفوظ است.'
-                : '© 2025 FabrikTakt. All rights reserved.'
-              }
+              <div>
+                {language === 'fa' 
+                  ? '© ۱۴۰۴ فبریک‌تکت. تمامی حقوق محفوظ است.'
+                  : '© 2025 FabrikTakt. All rights reserved.'
+                }
+              </div>
+              <div className="mt-1">
+                {language === 'fa' 
+                  ? 'با ❤️ توسط سیا ساخته شده'
+                  : 'Made with ❤️ by Sia'
+                }
+              </div>
             </div>
             
             <div className="flex items-center gap-6 text-sm">
