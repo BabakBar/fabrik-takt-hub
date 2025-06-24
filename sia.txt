@@ -1,0 +1,1 @@
+Core Business Purpose: FabrikTakt serves as an AI-powered "Factory Brain" designed to democratize operational intelligence for Small and Medium-sized Manufacturing Enterprises (SMEs). The system captures tribal knowledge from manufacturing shop floors through intuitive interfaces, processes it using AI, and provides searchable, actionable insights.
