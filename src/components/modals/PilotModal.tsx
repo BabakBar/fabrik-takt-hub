@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -30,6 +29,7 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   // Validation function
   const validateField = (name: string, value: string) => {
@@ -94,14 +94,26 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setSubmissionError(null);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Pilot program application:', formData);
-      setIsSubmitted(true);
+      const response = await fetch('/api/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        const errorData = await response.json();
+        setSubmissionError(errorData.message || (language === 'fa' ? 'خطا در ارسال درخواست' : 'Failed to submit application'));
+      }
     } catch (error) {
       console.error('Submission error:', error);
+      setSubmissionError(language === 'fa' ? 'خطای شبکه. لطفا دوباره تلاش کنید.' : 'Network error. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -298,6 +310,18 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
             placeholder={language === 'fa' ? 'ایمیل شما' : 'Your email'}
             required
           />
+
+          {submissionError && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-sm text-red-500"
+              role="alert"
+            >
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span>{submissionError}</span>
+            </motion.div>
+          )}
 
           <motion.div 
             className="flex gap-3 pt-4"

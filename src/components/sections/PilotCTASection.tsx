@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Rocket, Shield, Clock, Users, Sparkles, ArrowRight } from 'lucide-react';
+import { Rocket, Shield, Clock, Users, Sparkles, ArrowRight, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const PilotCTASection = () => {
@@ -14,17 +14,112 @@ const PilotCTASection = () => {
     companySize: '',
     challenge: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  // Validation function
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return language === 'fa' ? 'نام الزامی است' : 'Name is required';
+        if (value.trim().length < 2) return language === 'fa' ? 'نام باید حداقل 2 کاراکتر باشد' : 'Name must be at least 2 characters';
+        return '';
+      case 'company':
+        if (!value.trim()) return language === 'fa' ? 'نام شرکت الزامی است' : 'Company name is required';
+        return '';
+      case 'email':
+        if (!value.trim()) return language === 'fa' ? 'ایمیل الزامی است' : 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return language === 'fa' ? 'ایمیل نامعتبر است' : 'Invalid email address';
+        return '';
+      case 'challenge':
+        if (!value.trim()) return language === 'fa' ? 'توضیح چالش الزامی است' : 'Challenge description is required';
+        if (value.trim().length < 10) return language === 'fa' ? 'توضیح باید حداقل 10 کاراکتر باشد' : 'Description must be at least 10 characters';
+        return '';
+      default:
+        return '';
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    const requiredFields = ['name', 'company', 'email', 'challenge'];
+    requiredFields.forEach(key => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) newErrors[key] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    // Real-time validation
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
+  };
+
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    
+    // Mark all required fields as touched
+    setTouched({ name: true, company: true, email: true, challenge: true, phone: true });
+    
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setSubmissionError(null);
+    
+    try {
+      const response = await fetch('/api/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        const errorData = await response.json();
+        setSubmissionError(errorData.message || (language === 'fa' ? 'خطا در ارسال درخواست' : 'Failed to submit application'));
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmissionError(language === 'fa' ? 'خطای شبکه. لطفا دوباره تلاش کنید.' : 'Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetForm = () => {
+    setIsSubmitted(false);
+    setIsSubmitting(false);
+    setFormData({ name: '', company: '', email: '', phone: '', industry: '', companySize: '', challenge: '' });
+    setErrors({});
+    setTouched({});
+    setSubmissionError(null);
   };
 
   return (
@@ -54,6 +149,29 @@ const PilotCTASection = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Clean Form */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+              {isSubmitted ? (
+                <div className="text-center py-8">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle className="w-12 h-12 text-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">
+                    {language === 'fa' ? 'درخواست شما ثبت شد!' : 'Application Received!'}
+                  </h3>
+                  <p className="text-slate-300 mb-8 text-lg">
+                    {language === 'fa' 
+                      ? 'تیم ما ظرف 24 ساعت با شما تماس خواهد گرفت'
+                      : 'Our team will contact you within 24 hours to get started'
+                    }
+                  </p>
+                  <button 
+                    onClick={resetForm} 
+                    className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold"
+                  >
+                    {language === 'fa' ? 'ارسال درخواست دیگر' : 'Submit Another Application'}
+                  </button>
+                </div>
+              ) : (
+              <>
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold mb-4">
                   {language === 'fa' ? 'فرم درخواست عضویت' : 'Pilot Application'}
@@ -77,10 +195,21 @@ const PilotCTASection = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400"
+                      onBlur={handleInputBlur}
+                      className={`w-full p-3 bg-white/10 border rounded-lg text-white placeholder-slate-400 ${
+                        errors.name && touched.name 
+                          ? 'border-red-500 focus:border-red-500' 
+                          : 'border-white/20 focus:border-amber-500'
+                      }`}
                       placeholder={language === 'fa' ? 'نام شما' : 'Your Name'}
                       required
                     />
+                    {errors.name && touched.name && (
+                      <div className="flex items-center gap-2 text-red-400 text-sm mt-1">
+                        <AlertCircle className="w-4 h-4" />
+                        <span>{errors.name}</span>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -91,10 +220,21 @@ const PilotCTASection = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400"
+                      onBlur={handleInputBlur}
+                      className={`w-full p-3 bg-white/10 border rounded-lg text-white placeholder-slate-400 ${
+                        errors.company && touched.company 
+                          ? 'border-red-500 focus:border-red-500' 
+                          : 'border-white/20 focus:border-amber-500'
+                      }`}
                       placeholder={language === 'fa' ? 'نام شرکت' : 'Company Name'}
                       required
                     />
+                    {errors.company && touched.company && (
+                      <div className="flex items-center gap-2 text-red-400 text-sm mt-1">
+                        <AlertCircle className="w-4 h-4" />
+                        <span>{errors.company}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -108,10 +248,21 @@ const PilotCTASection = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400"
+                      onBlur={handleInputBlur}
+                      className={`w-full p-3 bg-white/10 border rounded-lg text-white placeholder-slate-400 ${
+                        errors.email && touched.email 
+                          ? 'border-red-500 focus:border-red-500' 
+                          : 'border-white/20 focus:border-amber-500'
+                      }`}
                       placeholder="your@company.com"
                       required
                     />
+                    {errors.email && touched.email && (
+                      <div className="flex items-center gap-2 text-red-400 text-sm mt-1">
+                        <AlertCircle className="w-4 h-4" />
+                        <span>{errors.email}</span>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -136,23 +287,51 @@ const PilotCTASection = () => {
                     name="challenge"
                     value={formData.challenge}
                     onChange={handleInputChange}
+                    onBlur={handleInputBlur}
                     rows={4}
-                    className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 resize-none"
+                    className={`w-full p-3 bg-white/10 border rounded-lg text-white placeholder-slate-400 resize-none ${
+                      errors.challenge && touched.challenge 
+                        ? 'border-red-500 focus:border-red-500' 
+                        : 'border-white/20 focus:border-amber-500'
+                    }`}
                     placeholder={language === 'fa' 
                       ? 'لطفاً در چند جمله توضیح دهید که بزرگترین چالش شما در حفظ و انتقال دانش کارگران چیست...'
                       : 'Describe your biggest challenge in capturing and sharing worker knowledge...'
                     }
                     required
                   />
+                  {errors.challenge && touched.challenge && (
+                    <div className="flex items-center gap-2 text-red-400 text-sm mt-1">
+                      <AlertCircle className="w-4 h-4" />
+                      <span>{errors.challenge}</span>
+                    </div>
+                  )}
                 </div>
+
+                {submissionError && (
+                  <div className="flex items-center gap-2 text-red-400 text-sm">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>{submissionError}</span>
+                  </div>
+                )}
 
                 <button
                   type="submit"
-                  className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
-                  <Rocket className="w-5 h-5" />
-                  {language === 'fa' ? 'درخواست عضویت در پایلوت' : 'Apply for Pilot Program'}
-                  <ArrowRight className="w-4 h-4" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      {language === 'fa' ? 'در حال ارسال...' : 'Submitting...'}
+                    </>
+                  ) : (
+                    <>
+                      <Rocket className="w-5 h-5" />
+                      {language === 'fa' ? 'درخواست عضویت در پایلوت' : 'Apply for Pilot Program'}
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
 
                 <p className="text-sm text-slate-400 text-center flex items-center justify-center gap-2">
@@ -163,6 +342,8 @@ const PilotCTASection = () => {
                   }
                 </p>
               </form>
+              </>
+              )}
             </div>
 
             {/* Benefits */}
