@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import LanguageToggle from '../ui/LanguageToggle';
 import { Button } from '../ui/button';
@@ -37,6 +37,9 @@ const Header = () => {
             </Link>
             <Link to="/case-studies" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
               Case Studies
+            </Link>
+            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
+              Contact
             </Link>
             <a href="#pricing" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
               {t('nav.pricing')}
@@ -86,6 +89,13 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Case Studies
+              </Link>
+              <Link 
+                to="/contact" 
+                className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
               </Link>
               <Button className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold">
                 Get Started →

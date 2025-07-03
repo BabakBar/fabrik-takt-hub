@@ -8,10 +8,10 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Rocket, CheckCircle, Clock, Users, Shield, Loader2, AlertCircle } from 'lucide-react';
+import { FormInput } from "@/components/ui/FormInput";
+import { Rocket, CheckCircle, Clock, Shield, Loader2, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import emailService, { type FormSubmissionData } from '../../services/emailService';
 
 interface PilotModalProps {
   isOpen: boolean;
@@ -30,6 +30,8 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState('');
+  const [formStartTime] = useState(Date.now());
 
   // Validation function
   const validateField = (name: string, value: string) => {
@@ -41,11 +43,12 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
       case 'company':
         if (!value.trim()) return language === 'fa' ? 'نام شرکت الزامی است' : 'Company name is required';
         return '';
-      case 'email':
+      case 'email': {
         if (!value.trim()) return language === 'fa' ? 'ایمیل الزامی است' : 'Email is required';
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) return language === 'fa' ? 'ایمیل نامعتبر است' : 'Invalid email address';
         return '';
+      }
       default:
         return '';
     }
@@ -97,23 +100,25 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
     setSubmissionError(null);
     
     try {
-      const response = await fetch('/api/apply', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const submissionData: FormSubmissionData = {
+        ...formData,
+        formType: 'pilot-modal',
+        honeypot,
+        timestamp: formStartTime,
+        userAgent: navigator.userAgent
+      };
 
-      if (response.ok) {
+      const result = await emailService.submitForm(submissionData);
+      
+      if (result.success) {
         setIsSubmitted(true);
       } else {
-        const errorData = await response.json();
-        setSubmissionError(errorData.message || (language === 'fa' ? 'خطا در ارسال درخواست' : 'Failed to submit application'));
+        setSubmissionError(result.message || (language === 'fa' ? 'خطا در ارسال درخواست' : 'Failed to submit application'));
       }
     } catch (error) {
       console.error('Submission error:', error);
-      setSubmissionError(language === 'fa' ? 'خطای شبکه. لطفا دوباره تلاش کنید.' : 'Network error. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      setSubmissionError(language === 'fa' ? 'خطای شبکه. لطفا دوباره تلاش کنید.' : `Network error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -126,55 +131,6 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
     setErrors({});
     setTouched({});
     onClose();
-  };
-
-  // Animated Form Input Component
-  const FormInput = ({ label, name, type = 'text', placeholder, required = false }) => {
-    const hasError = errors[name] && touched[name];
-    
-    return (
-      <motion.div layout>
-        <Label htmlFor={name} className="text-sm font-semibold text-slate-700 mb-2 block">
-          {label}
-        </Label>
-        <motion.div
-          animate={hasError ? { x: [-2, 2, -2, 0] } : {}}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          <Input
-            id={name}
-            name={name}
-            type={type}
-            value={formData[name]}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
-            placeholder={placeholder}
-            required={required}
-            className={`border-2 py-3 text-lg rounded-xl transition-all duration-200 focus:ring-2 focus:outline-none ${
-              hasError 
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-200' 
-                : 'border-slate-200 focus:border-amber-500 focus:ring-amber-200'
-            }`}
-          />
-        </motion.div>
-        <AnimatePresence>
-          {hasError && (
-            <motion.div
-              initial={{ opacity: 0, y: -10, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: 'auto' }}
-              exit={{ opacity: 0, y: -10, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center gap-2 mt-2"
-              role="alert"
-              aria-live="polite"
-            >
-              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" aria-hidden="true" />
-              <span className="text-sm text-red-500">{errors[name]}</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    );
   };
 
   if (isSubmitted) {
@@ -287,28 +243,55 @@ const PilotModal: React.FC<PilotModalProps> = ({ isOpen, onClose }) => {
           className="space-y-5"
           layout
         >
+          {/* Honeypot field for spam prevention */}
+          <input
+            type="text"
+            name="website"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            style={{ display: 'none' }}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
+
           <FormInput
             label={language === 'fa' ? 'نام *' : 'Full Name *'}
             name="name"
             type="text"
+            value={formData.name}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
             placeholder={language === 'fa' ? 'نام شما' : 'Your name'}
             required
+            error={errors.name}
+            touched={touched.name}
           />
 
           <FormInput
             label={language === 'fa' ? 'شرکت *' : 'Company *'}
             name="company"
             type="text"
+            value={formData.company}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
             placeholder={language === 'fa' ? 'نام شرکت' : 'Company name'}
             required
+            error={errors.company}
+            touched={touched.company}
           />
 
           <FormInput
             label={language === 'fa' ? 'ایمیل *' : 'Email *'}
             name="email"
             type="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
             placeholder={language === 'fa' ? 'ایمیل شما' : 'Your email'}
             required
+            error={errors.email}
+            touched={touched.email}
           />
 
           {submissionError && (

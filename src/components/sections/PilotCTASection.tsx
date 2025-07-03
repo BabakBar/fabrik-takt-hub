@@ -1,10 +1,11 @@
-
-import React, { useState } from 'react';
+import { useState, useId } from 'react';
 import { Rocket, Shield, Clock, Users, Sparkles, ArrowRight, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import emailService, { type FormSubmissionData } from '../../services/emailService';
 
 const PilotCTASection = () => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const formId = useId();
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -19,6 +20,8 @@ const PilotCTASection = () => {
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [honeypot] = useState('');
+  const [formStartTime] = useState(Date.now());
 
   // Validation function
   const validateField = (name: string, value: string) => {
@@ -30,11 +33,12 @@ const PilotCTASection = () => {
       case 'company':
         if (!value.trim()) return language === 'fa' ? 'نام شرکت الزامی است' : 'Company name is required';
         return '';
-      case 'email':
+      case 'email': {
         if (!value.trim()) return language === 'fa' ? 'ایمیل الزامی است' : 'Email is required';
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) return language === 'fa' ? 'ایمیل نامعتبر است' : 'Invalid email address';
         return '';
+      }
       case 'challenge':
         if (!value.trim()) return language === 'fa' ? 'توضیح چالش الزامی است' : 'Challenge description is required';
         if (value.trim().length < 10) return language === 'fa' ? 'توضیح باید حداقل 10 کاراکتر باشد' : 'Description must be at least 10 characters';
@@ -91,23 +95,25 @@ const PilotCTASection = () => {
     setSubmissionError(null);
     
     try {
-      const response = await fetch('/api/apply', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const submissionData: FormSubmissionData = {
+        ...formData,
+        formType: 'pilot-cta',
+        honeypot,
+        timestamp: formStartTime,
+        userAgent: navigator.userAgent
+      };
 
-      if (response.ok) {
+      const result = await emailService.submitForm(submissionData);
+      
+      if (result.success) {
         setIsSubmitted(true);
       } else {
-        const errorData = await response.json();
-        setSubmissionError(errorData.message || (language === 'fa' ? 'خطا در ارسال درخواست' : 'Failed to submit application'));
+        setSubmissionError(result.message || (language === 'fa' ? 'خطا در ارسال درخواست' : 'Failed to submit application'));
       }
     } catch (error) {
       console.error('Submission error:', error);
-      setSubmissionError(language === 'fa' ? 'خطای شبکه. لطفا دوباره تلاش کنید.' : 'Network error. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      setSubmissionError(language === 'fa' ? 'خطای شبکه. لطفا دوباره تلاش کنید.' : `Network error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -164,6 +170,7 @@ const PilotCTASection = () => {
                     }
                   </p>
                   <button 
+                    type="button"
                     onClick={resetForm} 
                     className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold"
                   >
@@ -187,10 +194,11 @@ const PilotCTASection = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label htmlFor={`${formId}-name`} className="block text-sm font-medium text-slate-300 mb-2">
                       {language === 'fa' ? 'نام *' : 'Name *'}
                     </label>
                     <input
+                      id={`${formId}-name`}
                       type="text"
                       name="name"
                       value={formData.name}
@@ -212,10 +220,11 @@ const PilotCTASection = () => {
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label htmlFor={`${formId}-company`} className="block text-sm font-medium text-slate-300 mb-2">
                       {language === 'fa' ? 'شرکت *' : 'Company *'}
                     </label>
                     <input
+                      id={`${formId}-company`}
                       type="text"
                       name="company"
                       value={formData.company}
@@ -240,10 +249,11 @@ const PilotCTASection = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label htmlFor={`${formId}-email`} className="block text-sm font-medium text-slate-300 mb-2">
                       {language === 'fa' ? 'ایمیل *' : 'Email *'}
                     </label>
                     <input
+                      id={`${formId}-email`}
                       type="email"
                       name="email"
                       value={formData.email}
@@ -265,10 +275,11 @@ const PilotCTASection = () => {
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label htmlFor={`${formId}-phone`} className="block text-sm font-medium text-slate-300 mb-2">
                       {language === 'fa' ? 'تلفن' : 'Phone'}
                     </label>
                     <input
+                      id={`${formId}-phone`}
                       type="tel"
                       name="phone"
                       value={formData.phone}
@@ -280,10 +291,11 @@ const PilotCTASection = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label htmlFor={`${formId}-challenge`} className="block text-sm font-medium text-slate-300 mb-2">
                     {language === 'fa' ? 'چالش اصلی کارخانه شما *' : 'Your Main Challenge *'}
                   </label>
                   <textarea
+                    id={`${formId}-challenge`}
                     name="challenge"
                     value={formData.challenge}
                     onChange={handleInputChange}
@@ -374,8 +386,8 @@ const PilotCTASection = () => {
                     title: language === 'fa' ? 'راه‌اندازی در کمتر از ۱ هفته' : 'Setup in Under 1 Week',
                     desc: language === 'fa' ? 'شروع سریع بدون توقف تولید' : 'Quick start without production downtime'
                   }
-                ].map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-4 p-6 bg-white/5 rounded-xl border border-white/10">
+                ].map((benefit) => (
+                  <div key={benefit.title} className="flex items-start gap-4 p-6 bg-white/5 rounded-xl border border-white/10">
                     <div className="bg-amber-500 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <benefit.icon className="text-white w-5 h-5" />
                     </div>
