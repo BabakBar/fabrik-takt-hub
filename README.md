@@ -35,6 +35,47 @@ My goal is to help every manufacturing team capture their hard-earned knowledge,
 
 - The product is in **early access** - I'm actively building and iterating based on feedback in 3 factories.
 
+## Development Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/fabrik-takt-hub.git
+   cd fabrik-takt-hub
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   bun install
+   ```
+
+3. **Configure environment variables**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` and add your configuration:
+   - EmailJS credentials for contact forms
+   - Umami analytics (optional - leave empty to disable)
+
+4. **Start development server**
+
+   ```bash
+   bun run dev
+   ```
+
+## Analytics & Privacy
+
+This project optionally uses Umami Analytics for website usage tracking. Analytics are:
+
+- **Completely optional** - controlled by environment variables
+- **Privacy-focused** - no personal data collection
+- **Configurable** - easy to disable or replace with your own tracking
+
+To disable analytics, simply remove or leave empty the `VITE_UMAMI_*` variables in your `.env` file.
+
 ---
 
 *Made with ❤️ by Sia, for the people who make the world's products*
