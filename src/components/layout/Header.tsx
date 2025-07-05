@@ -38,9 +38,6 @@ const Header = () => {
             <Link to="/case-studies" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
               Case Studies
             </Link>
-            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              Contact
-            </Link>
             <a href="#pricing" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
               {t('nav.pricing')}
             </a>
