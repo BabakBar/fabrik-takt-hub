@@ -23,7 +23,7 @@ const SocialProofSection = () => {
     ],
     en: [
       {
-        name: 'Ahmad Rezaei',
+        name: 'Kian Bohmer',
         title: 'Production Manager, Tehran Steel Works',
         content: 'FabrikTakt helped us preserve 15 years of our senior technician\'s knowledge before his retirement. Now the entire team can access his solutions instantly.',
         initial: 'A'
