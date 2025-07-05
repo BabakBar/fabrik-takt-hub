@@ -115,8 +115,9 @@ class EmailService {
 
       // Prepare email data (all variables needed by user template)
       const emailData = {
+        to_email: data.email,        // Recipient email (where to send the auto-reply)
         user_name: data.name,
-        user_email: data.email,
+        user_email: data.email,      // Keep for backward compatibility
         company: data.company,
         message: data.message || data.challenge || '',
         form_type: this.getFormTypeDisplay(data.formType)
