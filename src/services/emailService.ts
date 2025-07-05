@@ -22,16 +22,17 @@ interface RateLimitData {
 class EmailService {
   private readonly publicKey: string;
   private readonly serviceId: string = 'service_mo6z6fw';
-  private readonly adminTemplate: string;
   private readonly userTemplate: string;
 
   constructor() {
     this.publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-    this.adminTemplate = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE;
     this.userTemplate = import.meta.env.VITE_EMAILJS_USER_TEMPLATE;
 
     if (!this.publicKey) {
       throw new Error('EmailJS Public Key missing in environment variables');
+    }
+    if (!this.userTemplate) {
+      throw new Error('EmailJS User Template ID missing in environment variables');
     }
   }
 
@@ -112,34 +113,11 @@ class EmailService {
         throw new Error('Submission too fast');
       }
 
-      // Prepare email data
+      // Prepare email data (only variables needed by user template)
       const emailData = {
-        user_name: data.name,
-        user_email: data.email,
-        company: data.company,
-        phone: data.phone || 'Not provided',
-        message: data.message || data.challenge || 'No message provided',
-        form_type: this.getFormTypeDisplay(data.formType),
-        submission_time: new Date().toLocaleString('en-US', {
-          timeZone: 'Europe/Berlin',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        }),
-        user_agent: data.userAgent,
-        to_email: 'info@fabriktakt.com'
+        user_name: data.name
+        // Add more fields here if you add them to your user template
       };
-
-      // Send admin notification
-      console.log('📤 Sending admin notification...');
-      await emailjs.send(
-        this.serviceId,
-        this.adminTemplate,
-        emailData,
-        { publicKey: this.publicKey }
-      );
 
       // Send user confirmation (auto-reply)
       console.log('📤 Sending user confirmation...');
@@ -182,7 +160,7 @@ class EmailService {
   async healthCheck(): Promise<boolean> {
     try {
       // Simple test to verify EmailJS configuration
-      return !!(this.publicKey && this.serviceId && this.adminTemplate && this.userTemplate);
+      return !!(this.publicKey && this.serviceId && this.userTemplate);
     } catch {
       return false;
     }
