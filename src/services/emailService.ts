@@ -6,7 +6,7 @@
 export interface EmailEndpoint {
   to: string;
   subject: string;
-  type: 'support' | 'info' | 'pilot';
+  type: 'pilot';
 }
 
 export interface FormSubmissionData {
@@ -18,7 +18,7 @@ export interface FormSubmissionData {
   challenge?: string;
   
   // Form metadata
-  formType: 'pilot-modal' | 'pilot-cta' | 'contact-general' | 'contact-support';
+  formType: 'pilot-modal' | 'pilot-cta';
   
   // Security fields
   honeypot?: string;
@@ -64,20 +64,6 @@ class EmailService {
         to: 'info@fabriktakt.com', 
         subject: 'New Pilot Program Application (Detailed)',
         type: 'pilot'
-      }],
-      
-      // General contact forms go to info@fabriktakt.com
-      ['contact-general', {
-        to: 'info@fabriktakt.com',
-        subject: 'General Inquiry from Website',
-        type: 'info'
-      }],
-      
-      // Support requests go to support@fabriktakt.com
-      ['contact-support', {
-        to: 'support@fabriktakt.com',
-        subject: 'Technical Support Request',
-        type: 'support'
       }]
     ]);
   }
@@ -142,7 +128,7 @@ class EmailService {
     }
 
     // Form-specific validations
-    if (['pilot-cta', 'contact-support'].includes(data.formType)) {
+    if (['pilot-cta'].includes(data.formType)) {
       if (!data.challenge?.trim()) {
         throw new Error('Challenge description is required');
       }
@@ -237,10 +223,6 @@ class EmailService {
       case 'pilot-modal':
       case 'pilot-cta':
         return '24 hours';
-      case 'contact-support':
-        return '4-8 hours';
-      case 'contact-general':
-        return '1-2 business days';
       default:
         return '24-48 hours';
     }
