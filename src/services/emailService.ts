@@ -113,10 +113,13 @@ class EmailService {
         throw new Error('Submission too fast');
       }
 
-      // Prepare email data (only variables needed by user template)
+      // Prepare email data (all variables needed by user template)
       const emailData = {
-        user_name: data.name
-        // Add more fields here if you add them to your user template
+        user_name: data.name,
+        user_email: data.email,
+        company: data.company,
+        message: data.message || data.challenge || '',
+        form_type: this.getFormTypeDisplay(data.formType)
       };
 
       // Send user confirmation (auto-reply)
