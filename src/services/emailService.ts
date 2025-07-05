@@ -1,295 +1,194 @@
-/**
- * Email Service - Centralized email handling for FabrikTakt forms
- * Routes form submissions to appropriate email addresses with proper validation
- */
-
-export interface EmailEndpoint {
-  to: string;
-  subject: string;
-  type: 'pilot';
-}
+// @ts-ignore: No types for emailjs-browser
+import emailjs from '@emailjs/browser';
 
 export interface FormSubmissionData {
-  // Core fields
   name: string;
   company: string;
   email: string;
   phone?: string;
+  message?: string;
   challenge?: string;
-  
-  // Form metadata
-  formType: 'pilot-modal' | 'pilot-cta';
-  
-  // Security fields
+  formType: 'pilot-modal' | 'pilot-cta' | 'contact-general' | 'contact-support';
   honeypot?: string;
   timestamp: number;
   userAgent: string;
-  
-  // Additional context
-  source?: string;
-  referrer?: string;
 }
 
-export interface EmailServiceConfig {
-  baseURL: string;
-  timeout?: number;
-  retryAttempts?: number;
-  retryDelay?: number;
+interface RateLimitData {
+  count: number;
+  firstSubmission: number;
 }
 
 class EmailService {
-  private config: EmailServiceConfig;
-  private emailRoutes: Map<string, EmailEndpoint>;
+  private readonly publicKey: string;
+  private readonly serviceId: string = 'service_mo6z6fw';
+  private readonly adminTemplate: string;
+  private readonly userTemplate: string;
 
-  constructor(config: EmailServiceConfig) {
-    this.config = {
-      timeout: 30000,
-      retryAttempts: 3,
-      retryDelay: 1000,
-      ...config
+  constructor() {
+    this.publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    this.adminTemplate = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE;
+    this.userTemplate = import.meta.env.VITE_EMAILJS_USER_TEMPLATE;
+
+    if (!this.publicKey) {
+      throw new Error('EmailJS Public Key missing in environment variables');
+    }
+  }
+
+  // Rate limiting: 3 submissions per 5 minutes
+  private checkRateLimit(): boolean {
+    const RATE_LIMIT_KEY = 'fabriktakt_form_rate_limit';
+    const WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+    const MAX_SUBMISSIONS = 3;
+
+    const now = Date.now();
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    const data: RateLimitData = stored ? JSON.parse(stored) : { count: 0, firstSubmission: now };
+
+    // Reset if window expired
+    if (now - data.firstSubmission > WINDOW_MS) {
+      data.count = 0;
+      data.firstSubmission = now;
+    }
+
+    // Check limit
+    if (data.count >= MAX_SUBMISSIONS) {
+      const timeLeft = Math.ceil((WINDOW_MS - (now - data.firstSubmission)) / 1000 / 60);
+      throw new Error(`Rate limit exceeded. Please wait ${timeLeft} minutes before submitting again.`);
+    }
+
+    // Update count
+    data.count++;
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
+    return true;
+  }
+
+  // Analytics tracking
+  private trackSubmission(formType: string, success: boolean): void {
+    // Google Analytics 4 (if available)
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('event', 'form_submission', {
+        event_category: 'contact',
+        event_label: formType,
+        success: success,
+        custom_parameter_method: 'emailjs'
+      });
+    }
+
+    // Console logging for development
+    console.log(`📧 Form submission: ${formType}, Success: ${success}, Method: EmailJS`);
+  }
+
+  // Format form type for display
+  private getFormTypeDisplay(formType: string): string {
+    const typeMap = {
+      'pilot-modal': 'Pilot Program (Quick Signup)',
+      'pilot-cta': 'Pilot Program (Detailed Application)',
+      'contact-general': 'General Inquiry',
+      'contact-support': 'Technical Support Request'
     };
-    
-    this.setupEmailRoutes();
+    return typeMap[formType] || formType;
   }
 
-  private setupEmailRoutes() {
-    this.emailRoutes = new Map([
-      // Pilot applications go to info@fabriktakt.com
-      ['pilot-modal', {
-        to: 'info@fabriktakt.com',
-        subject: 'New Pilot Program Application (Quick Signup)',
-        type: 'pilot'
-      }],
-      ['pilot-cta', {
-        to: 'info@fabriktakt.com', 
-        subject: 'New Pilot Program Application (Detailed)',
-        type: 'pilot'
-      }]
-    ]);
-  }
-
-  /**
-   * Submit form data with automatic email routing
-   */
+  // Main submission method
   async submitForm(data: FormSubmissionData): Promise<{
     success: boolean;
     submissionId?: string;
     message: string;
     estimatedResponse?: string;
   }> {
-    // Add security and metadata fields
-    const enrichedData = this.enrichFormData(data);
-    
-    // Validate data before submission
-    this.validateFormData(enrichedData);
-    
-    // Get routing information
-    const route = this.emailRoutes.get(data.formType);
-    if (!route) {
-      throw new Error(`Unknown form type: ${data.formType}`);
-    }
-
-    // Submit with retry logic
-    return this.submitWithRetry(enrichedData, route);
-  }
-
-  private enrichFormData(data: FormSubmissionData): FormSubmissionData {
-    return {
-      ...data,
-      timestamp: data.timestamp || Date.now(),
-      userAgent: data.userAgent || navigator.userAgent,
-      source: data.source || window.location.href,
-      referrer: data.referrer || document.referrer,
-      honeypot: data.honeypot || '' // Should always be empty
-    };
-  }
-
-  private validateFormData(data: FormSubmissionData): void {
-    // Required fields validation
-    if (!data.name?.trim()) throw new Error('Name is required');
-    if (!data.company?.trim()) throw new Error('Company is required');
-    if (!data.email?.trim()) throw new Error('Email is required');
-    
-    // Email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      throw new Error('Invalid email format');
-    }
-
-    // Honeypot validation (anti-spam)
-    if (data.honeypot && data.honeypot.trim() !== '') {
-      throw new Error('Spam detected');
-    }
-
-    // Timing validation (prevent bot submissions)
-    const submissionTime = Date.now() - data.timestamp;
-    if (submissionTime < 5000) { // Less than 5 seconds
-      throw new Error('Submission too fast');
-    }
-
-    // Form-specific validations
-    if (['pilot-cta'].includes(data.formType)) {
-      if (!data.challenge?.trim()) {
-        throw new Error('Challenge description is required');
-      }
-      if (data.challenge.trim().length < 10) {
-        throw new Error('Challenge description too short');
-      }
-    }
-  }
-
-  private async submitWithRetry(
-    data: FormSubmissionData, 
-    route: EmailEndpoint,
-    attempt: number = 1
-  ): Promise<{
-    success: boolean;
-    submissionId?: string;
-    message: string;
-    estimatedResponse?: string;
-  }> {
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
+      // Security checks
+      this.checkRateLimit();
 
-      const response = await fetch(`${this.config.baseURL}/api/apply`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Email-Route': route.to,
-          'X-Form-Type': data.formType
-        },
-        body: JSON.stringify({
-          ...data,
-          emailRoute: route
-        }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+      // Honeypot validation
+      if (data.honeypot && data.honeypot.trim() !== '') {
+        throw new Error('Spam detected');
       }
 
-      const result = await response.json();
-      
-      // Log successful submission
-      this.logSubmission('success', data, route, result);
-      
+      // Timing validation (prevent bot submissions)
+      const submissionTime = Date.now() - data.timestamp;
+      if (submissionTime < 3000) { // Less than 3 seconds
+        throw new Error('Submission too fast');
+      }
+
+      // Prepare email data
+      const emailData = {
+        user_name: data.name,
+        user_email: data.email,
+        company: data.company,
+        phone: data.phone || 'Not provided',
+        message: data.message || data.challenge || 'No message provided',
+        form_type: this.getFormTypeDisplay(data.formType),
+        submission_time: new Date().toLocaleString('en-US', {
+          timeZone: 'Europe/Berlin',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        user_agent: data.userAgent,
+        to_email: 'info@fabriktakt.com'
+      };
+
+      // Send admin notification
+      console.log('📤 Sending admin notification...');
+      await emailjs.send(
+        this.serviceId,
+        this.adminTemplate,
+        emailData,
+        { publicKey: this.publicKey }
+      );
+
+      // Send user confirmation (auto-reply)
+      console.log('📤 Sending user confirmation...');
+      await emailjs.send(
+        this.serviceId,
+        this.userTemplate,
+        emailData,
+        { publicKey: this.publicKey }
+      );
+
+      // Track success
+      this.trackSubmission(data.formType, true);
+
+      // Generate submission ID
+      const submissionId = `emailjs_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
       return {
         success: true,
-        submissionId: result.submissionId,
-        message: result.message || 'Application received successfully',
-        estimatedResponse: this.getEstimatedResponse(data.formType)
+        submissionId,
+        message: 'Thank you for your submission! We will respond within 24 hours.',
+        estimatedResponse: '24 hours'
       };
 
     } catch (error) {
-      this.logSubmission('error', data, route, { error: error.message, attempt });
+      // Track failure
+      this.trackSubmission(data.formType, false);
 
-      // Retry logic
-      if (attempt < (this.config.retryAttempts || 3) && this.isRetryableError(error)) {
-        await this.delay((this.config.retryDelay || 1000) * attempt);
-        return this.submitWithRetry(data, route, attempt + 1);
-      }
-
-      // Final failure
-      throw new Error(
-        attempt > 1 
-          ? `Failed after ${attempt} attempts: ${error.message}`
-          : error.message
-      );
+      console.error('❌ EmailJS submission failed:', error);
+      
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send message. Please try again.';
+      
+      return {
+        success: false,
+        message: errorMessage
+      };
     }
   }
 
-  private isRetryableError(error: Error | unknown): boolean {
-    // Retry on network errors, timeouts, and 5xx server errors
-    if (error instanceof Error) {
-      return (
-        error.name === 'AbortError' ||
-        error.message.includes('fetch') ||
-        error.message.includes('500') ||
-        error.message.includes('502') ||
-        error.message.includes('503') ||
-        error.message.includes('504')
-      );
+  // Health check method
+  async healthCheck(): Promise<boolean> {
+    try {
+      // Simple test to verify EmailJS configuration
+      return !!(this.publicKey && this.serviceId && this.adminTemplate && this.userTemplate);
+    } catch {
+      return false;
     }
-    return false;
-  }
-
-  private getEstimatedResponse(formType: string): string {
-    switch (formType) {
-      case 'pilot-modal':
-      case 'pilot-cta':
-        return '24 hours';
-      default:
-        return '24-48 hours';
-    }
-  }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  private logSubmission(
-    type: 'success' | 'error', 
-    data: FormSubmissionData, 
-    route: EmailEndpoint, 
-    details: Record<string, unknown>
-  ): void {
-    const logData = {
-      timestamp: new Date().toISOString(),
-      type,
-      formType: data.formType,
-      emailRoute: route.to,
-      company: data.company,
-      userAgent: data.userAgent,
-      details
-    };
-
-    if (type === 'error') {
-      console.error('Email submission failed:', logData);
-    } else {
-      console.info('Email submitted successfully:', logData);
-    }
-
-    // In production, this could send to analytics service
-    if (typeof window !== 'undefined') {
-      const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
-      if (gtag) {
-        gtag('event', 'form_submission', {
-          event_category: 'email',
-          event_label: data.formType,
-          custom_parameter_status: type
-        });
-      }
-    }
-  }
-
-  /**
-   * Get email route information for a form type
-   */
-  getEmailRoute(formType: string): EmailEndpoint | undefined {
-    return this.emailRoutes.get(formType);
-  }
-
-  /**
-   * Get all available email routes
-   */
-  getAllRoutes(): Map<string, EmailEndpoint> {
-    return new Map(this.emailRoutes);
   }
 }
 
-// Create singleton instance
-const emailService = new EmailService({
-  baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://api.fabriktakt.com' 
-    : 'http://localhost:8000',
-  timeout: 30000,
-  retryAttempts: 3,
-  retryDelay: 1000
-});
-
+// Export singleton instance
+const emailService = new EmailService();
 export default emailService;
