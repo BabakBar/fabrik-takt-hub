@@ -23,16 +23,21 @@ class EmailService {
   private readonly publicKey: string;
   private readonly serviceId: string = 'service_mo6z6fw';
   private readonly userTemplate: string;
+  private readonly adminTemplate: string;
 
   constructor() {
     this.publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
     this.userTemplate = import.meta.env.VITE_EMAILJS_USER_TEMPLATE;
+    this.adminTemplate = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE;
 
     if (!this.publicKey) {
       throw new Error('EmailJS Public Key missing in environment variables');
     }
     if (!this.userTemplate) {
       throw new Error('EmailJS User Template ID missing in environment variables');
+    }
+    if (!this.adminTemplate) {
+      throw new Error('EmailJS Admin Template ID missing in environment variables');
     }
   }
 
@@ -113,22 +118,41 @@ class EmailService {
         throw new Error('Submission too fast');
       }
 
-      // Prepare email data (all variables needed by user template)
-      const emailData = {
-        to_email: data.email,        // Recipient email (where to send the auto-reply)
-        user_name: data.name,
-        user_email: data.email,      // Keep for backward compatibility
-        company: data.company,
-        message: data.message || data.challenge || '',
+      // Prepare email data with safe fallbacks
+      const userEmailData = {
+        to_email: data.email,
+        user_name: data.name || 'User',
+        company: data.company || 'Not specified',
+        message: data.message || data.challenge || 'No message provided',
         form_type: this.getFormTypeDisplay(data.formType)
       };
+
+      const adminEmailData = {
+        to_email: 'babak.barghi@gmail.com', // Your admin email
+        user_name: data.name || 'User',
+        user_email: data.email,
+        company: data.company || 'Not specified',
+        phone: data.phone || 'Not provided',
+        message: data.message || data.challenge || 'No message provided',
+        form_type: this.getFormTypeDisplay(data.formType),
+        timestamp: new Date().toLocaleString()
+      };
+
+      // Send admin notification first
+      console.log('📤 Sending admin notification...');
+      await emailjs.send(
+        this.serviceId,
+        this.adminTemplate,
+        adminEmailData,
+        { publicKey: this.publicKey }
+      );
 
       // Send user confirmation (auto-reply)
       console.log('📤 Sending user confirmation...');
       await emailjs.send(
         this.serviceId,
         this.userTemplate,
-        emailData,
+        userEmailData,
         { publicKey: this.publicKey }
       );
 
@@ -164,7 +188,7 @@ class EmailService {
   async healthCheck(): Promise<boolean> {
     try {
       // Simple test to verify EmailJS configuration
-      return !!(this.publicKey && this.serviceId && this.userTemplate);
+      return !!(this.publicKey && this.serviceId && this.userTemplate && this.adminTemplate);
     } catch {
       return false;
     }
