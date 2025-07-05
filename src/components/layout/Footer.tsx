@@ -74,17 +74,21 @@ const Footer = () => {
             <div className="space-y-3 text-slate-300">
               <div className="flex items-center gap-3">
                 <span>📧</span>
-                <span>support@fabriktakt.com</span>
+                <a 
+                  href="mailto:support@fabriktakt.com"
+                  className="hover:text-amber-400 transition-colors"
+                >
+                  support@fabriktakt.com
+                </a>
               </div>
               <div className="flex items-center gap-3">
-                <span>📱</span>
-                <span>
-                  {language === 'fa' ? 'تلگرام: @FabrikTaktSupport' : 'Support: @FabrikTaktSupport'}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span>🌐</span>
-                <span>www.fabriktakt.com</span>
+                <span>�</span>
+                <a 
+                  href="mailto:info@fabriktakt.com"
+                  className="hover:text-amber-400 transition-colors"
+                >
+                  info@fabriktakt.com
+                </a>
               </div>
             </div>
           </div>
