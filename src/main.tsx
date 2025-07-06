@@ -15,17 +15,6 @@ const initializeUmami = () => {
     script.src = umamiUrl;
     script.setAttribute('data-website-id', umamiWebsiteId);
     
-    // Add load event listeners for verification
-    script.onload = () => {
-      console.log('✅ Umami analytics script loaded successfully');
-      console.log('📊 Website ID:', umamiWebsiteId);
-      console.log('🔗 Script URL:', umamiUrl);
-    };
-    
-    script.onerror = () => {
-      console.error('❌ Failed to load Umami analytics script');
-    };
-    
     document.head.appendChild(script);
     console.log('🔍 Umami analytics initialized');
   } else {
