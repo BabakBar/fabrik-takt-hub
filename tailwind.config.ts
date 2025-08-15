@@ -19,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'orbitron': ['Orbitron', 'sans-serif'],
+			},
 			colors: {
 				// Core three-color system
 				primary: 'var(--primary-text)',
