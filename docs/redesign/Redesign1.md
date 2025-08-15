@@ -1,5 +1,3 @@
-Locked and good to ship. I trimmed lingering v2 items (Products/Solutions/MultiProductNav/i18n/Playwright/structured data) and prepared a v1-only starter set you can drop in now.
-
 Out-of-scope removed for v1
 - Products pages, Solutions pages, MultiProductNav
 - i18n library, structured data, Playwright/e2e

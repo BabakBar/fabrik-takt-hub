@@ -29,18 +29,12 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10">
-            <Link to="/features" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              {t('nav.features')}
+            <Link to="/capabilities" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
+              Capabilities
             </Link>
-            <Link to="/technology" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              Technology
+            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
+              Contact
             </Link>
-            <Link to="/case-studies" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              Case Studies
-            </Link>
-            <a href="#pricing" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              {t('nav.pricing')}
-            </a>
           </nav>
 
           {/* Actions */}
@@ -67,25 +61,11 @@ const Header = () => {
           <div className="md:hidden border-t border-white/10 bg-slate-800/95 backdrop-blur-md p-4 mt-4">
             <nav className="flex flex-col space-y-4">
               <Link 
-                to="/features" 
+                to="/capabilities" 
                 className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {t('nav.features')}
-              </Link>
-              <Link 
-                to="/technology" 
-                className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Technology
-              </Link>
-              <Link 
-                to="/case-studies" 
-                className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Case Studies
+                Capabilities
               </Link>
               <Link 
                 to="/contact" 
