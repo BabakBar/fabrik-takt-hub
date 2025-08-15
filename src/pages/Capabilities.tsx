@@ -3,64 +3,7 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import SEO from '../components/SEO';
 import CapabilityCard from '../components/CapabilityCard';
-import { Brain, Camera, Database, Cloud, Workflow, Code } from 'lucide-react';
-
-const capabilities = [
-  { 
-    title: "AI/ML", 
-    bullets: [
-      "Model design & evaluation", 
-      "LLM orchestration for ops", 
-      "MLOps pipelines"
-    ], 
-    icon: <Brain /> 
-  },
-  { 
-    title: "Computer Vision", 
-    bullets: [
-      "Visual inspection & detection", 
-      "OCR / doc intelligence", 
-      "Edge and on‑prem deployment"
-    ], 
-    icon: <Camera /> 
-  },
-  { 
-    title: "Data & Analytics", 
-    bullets: [
-      "Pipelines & warehousing", 
-      "BI dashboards & metrics", 
-      "Governance & data quality"
-    ], 
-    icon: <Database /> 
-  },
-  { 
-    title: "Cloud & DevOps", 
-    bullets: [
-      "Cloud architecture", 
-      "Containers, CI/CD", 
-      "Reliability & cost optimization"
-    ], 
-    icon: <Cloud /> 
-  },
-  { 
-    title: "ERP & Integration", 
-    bullets: [
-      "Implementation & migration", 
-      "Workflow automation", 
-      "API & data synchronization"
-    ], 
-    icon: <Workflow /> 
-  },
-  { 
-    title: "Custom Applications", 
-    bullets: [
-      "Web/mobile applications", 
-      "Integrations & tooling", 
-      "Secure, scalable design"
-    ], 
-    icon: <Code /> 
-  }
-];
+import { capabilities } from '../data/capabilities';
 
 export default function Capabilities() {
   return (
@@ -72,16 +15,16 @@ export default function Capabilities() {
       />
       <Header />
       <main className="pt-20 pb-16">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-white mb-4">Capabilities</h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              High‑tech services that turn chaos into clarity. From AI/ML and Computer Vision 
-              to Data, Cloud, and ERP integration—built fast, built right.
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-8">
+            <div className="text-sm font-medium text-primary/80 mb-2">Our Core Services</div>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Capabilities</h1>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              AI applications for operations—built fast, built right.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {capabilities.map((capability) => (
               <CapabilityCard 
                 key={capability.title} 

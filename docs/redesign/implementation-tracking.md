@@ -76,9 +76,30 @@
   - Compact, minimal design with dramatic typography impact
   - Neo-brutalist aesthetic similar to "Severance" opening credits
 
+### 2025-08-15 - Capabilities Page Design Refinement
+
+- ✅ **Icon-Text Alignment Fix**: Fixed baseline alignment between icons and titles in CapabilityCard component
+  - Applied 2025 best practices: `flex items-baseline` with `self-baseline` for icons
+  - Used modern Tailwind CSS pattern: `[&>svg]:h-5 [&>svg]:w-5 [&>svg]:shrink-0`
+  - Fine-tuned positioning with `translate-y-1.5` for perfect visual alignment
+  - Researched and implemented latest flexbox alignment techniques
+- ✅ **Minimal Design Improvements**:
+  - Removed borders and shadows for cleaner appearance
+  - Added subtle hover effects (background tint + left accent bar)
+  - Icons desaturated by default, highlighted on hover
+  - Improved spacing and typography consistency
+- ✅ **Content Simplification**: Reduced from 3 bullets to 2 bullets per capability for better readability
+- ✅ **Code Organization**: Created separate `/src/data/capabilities.tsx` file for better maintainability
+- ✅ **Layout Optimization**:
+  - Tighter max width (max-w-5xl instead of max-w-6xl)
+  - Adaptive grid with better responsive breakpoints
+  - Compact hero section with eyebrow text
+  - Improved spacing throughout
+
 ## ✅ V1 REDESIGN COMPLETE - SUMMARY
 
 **What Was Achieved:**
+
 - **Navigation Simplified**: From 4 pages (Features, Technology, Case Studies, Pricing) to 3 clean pages (Home, Capabilities, Contact)
 - **Content Consolidated**: All feature/tech/case study content merged into one comprehensive Capabilities page
 - **Design Preserved**: Maintained the beautiful existing dark theme with amber accents
@@ -88,6 +109,7 @@
 - **Mobile Optimized**: All pages responsive and mobile-friendly
 
 **Technical Stack:**
+
 - React 18 + TypeScript + Vite 5
 - react-helmet-async for SEO
 - Orbitron Google Font for futuristic typography
