@@ -1,11 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import SEO from '../components/SEO';
+import emailService, { type FormSubmissionData } from '../services/emailService';
 
 const ContactPage = () => {
   const [emailCopied, setEmailCopied] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [formStartTime] = useState(Date.now());
+  
+  // Form data
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  
+  // Email validation
+  const [emailValid, setEmailValid] = useState<boolean | null>(null);
+  const [emailTouched, setEmailTouched] = useState(false);
 
   const handleCopyEmail = async () => {
     try {
@@ -17,16 +32,64 @@ const ContactPage = () => {
     }
   };
 
+  // Real-time email validation
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setFormData(prev => ({ ...prev, email }));
+    setEmailTouched(true);
+    
+    if (email.length > 0) {
+      setEmailValid(validateEmail(email));
+    } else {
+      setEmailValid(null);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('sending');
     
-    // Simulate form submission (replace with actual submission logic)
-    setTimeout(() => {
-      setFormStatus('success');
-      // Reset form after 3 seconds
+    try {
+      const submissionData: FormSubmissionData = {
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        formType: 'contact-general',
+        timestamp: formStartTime,
+        userAgent: navigator.userAgent
+      };
+
+      const result = await emailService.submitForm(submissionData);
+      
+      if (result.success) {
+        setFormStatus('success');
+        // Reset form after 4 seconds
+        setTimeout(() => {
+          setFormStatus('idle');
+          setFormData({ name: '', company: '', email: '', phone: '', message: '' });
+          setEmailValid(null);
+          setEmailTouched(false);
+        }, 4000);
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormStatus('error');
       setTimeout(() => setFormStatus('idle'), 3000);
-    }, 1500);
+    }
   };
   return (
     <div className="min-h-screen bg-background">
@@ -123,37 +186,70 @@ const ContactPage = () => {
                     <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
                     <input 
                       id="name"
+                      name="name"
                       type="text" 
+                      value={formData.name}
+                      onChange={handleInputChange}
                       placeholder="Your name"
                       className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                      required
                     />
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">Company *</label>
                     <input 
                       id="company"
+                      name="company"
                       type="text" 
+                      value={formData.company}
+                      onChange={handleInputChange}
                       placeholder="Company name"
                       className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                      required
                     />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
+                  <div className="relative">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email *</label>
                     <input 
                       id="email"
+                      name="email"
                       type="email" 
+                      value={formData.email}
+                      onChange={handleEmailChange}
                       placeholder="your@company.com"
-                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                      className={`w-full px-4 py-3 bg-slate-900/50 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all ${
+                        emailTouched 
+                          ? emailValid 
+                            ? 'border-green-500/50 focus:ring-green-500/50 focus:border-green-500/50' 
+                            : 'border-red-500/50 focus:ring-red-500/50 focus:border-red-500/50'
+                          : 'border-white/10 focus:ring-amber-500/50 focus:border-amber-500/50'
+                      }`}
+                      required
                     />
+                    {emailTouched && (
+                      <div className="absolute right-3 top-10 text-sm">
+                        {emailValid ? (
+                          <span className="text-green-400" title="Valid email">✓</span>
+                        ) : (
+                          <span className="text-red-400" title="Invalid email format">✗</span>
+                        )}
+                      </div>
+                    )}
+                    {emailTouched && !emailValid && formData.email.length > 0 && (
+                      <p className="text-red-400 text-xs mt-1">Please enter a valid email address</p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
                     <input 
                       id="phone"
+                      name="phone"
                       type="tel" 
+                      value={formData.phone}
+                      onChange={handleInputChange}
                       placeholder="+1 (555) 123-4567"
                       className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
                     />
@@ -164,9 +260,13 @@ const ContactPage = () => {
                   <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">Your Message *</label>
                   <textarea 
                     id="message"
+                    name="message"
                     rows={5}
+                    value={formData.message}
+                    onChange={handleInputChange}
                     placeholder="Tell us about your challenge, industry, and what you're looking to achieve..."
                     className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all resize-none"
+                    required
                   ></textarea>
                 </div>
                 
