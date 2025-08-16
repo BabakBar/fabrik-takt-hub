@@ -197,8 +197,8 @@ launch_claude() {
         echo -e "${CYAN}Claude Code flags:${NC} ${claude_args[*]}"
     fi
     
-    # Launch Claude Code
-    claude "${claude_args[@]}"
+    # Launch Claude Code with proper model
+    claude --model sonnet "${claude_args[@]}"
 }
 
 # Function to show help

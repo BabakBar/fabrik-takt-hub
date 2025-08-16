@@ -310,8 +310,14 @@ transform: 'translateY(20px)' // Better than top/left
 # Use the optimized launcher script
 ./scripts/claude-launcher.sh
 
+# With auto-approve for faster workflow
+./scripts/claude-launcher.sh -y
+
 # Resume previous session
 ./scripts/claude-launcher.sh -r
+
+# Manual launch (alternative)
+claude --model sonnet
 ```
 
 ### Subagent Usage Patterns

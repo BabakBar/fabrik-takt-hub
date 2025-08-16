@@ -34,7 +34,6 @@ claude
 
 ```json
 {
-  "model": "claude-sonnet-4-20250514",
   "includeCoAuthoredBy": false,
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
