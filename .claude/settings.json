@@ -1,0 +1,174 @@
+{
+  "model": "claude-sonnet-4-20250514",
+  "includeCoAuthoredBy": false,
+  
+  "env": {
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_ENABLE_UNIFIED_READ_TOOL": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "ENABLE_BACKGROUND_TASKS": "1",
+    "FORCE_AUTO_BACKGROUND_TASKS": "1",
+    "DISABLE_PROMPT_CACHING": "0",
+    "MAX_THINKING_TOKENS": "50000",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1"
+  },
+
+  "permissions": {
+    "allow": [
+      "Bash(bun:*)",
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(yarn:*)",
+      "Bash(git:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(fd:*)",
+      "Bash(rg:*)",
+      "Bash(jq:*)",
+      "Bash(node:*)",
+      "Bash(npx:*)",
+      "Bash(bunx:*)",
+      "Bash(tsc:*)",
+      "Bash(vite:*)",
+      "Bash(vitest:*)",
+      "Bash(eslint:*)",
+      "Bash(prettier:*)",
+      "Bash(playwright:*)",
+      "Bash(cypress:*)",
+      "Bash(docker:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(ps:*)",
+      "Bash(kill:*)",
+      "Bash(pkill:*)",
+      "Bash(lsof:*)",
+      "Bash(netstat:*)",
+      "Bash(ping:*)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(diff:*)",
+      "Bash(patch:*)",
+      "Bash(tar:*)",
+      "Bash(zip:*)",
+      "Bash(unzip:*)",
+      "Bash(du:*)",
+      "Bash(df:*)",
+      "Bash(chmod:*)",
+      "Bash(chown:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(ln:*)",
+      "Bash(touch:*)",
+      "Bash(echo:*)",
+      "Bash(printf:*)",
+      "Read(src/**)",
+      "Read(public/**)",
+      "Read(docs/**)",
+      "Read(.claude/**)",
+      "Read(*.json)",
+      "Read(*.js)",
+      "Read(*.ts)",
+      "Read(*.tsx)",
+      "Read(*.jsx)",
+      "Read(*.css)",
+      "Read(*.scss)",
+      "Read(*.md)",
+      "Read(*.mdx)",
+      "Read(*.yml)",
+      "Read(*.yaml)",
+      "Read(*.toml)",
+      "Read(*.env*)",
+      "Read(.git*)",
+      "Read(README*)",
+      "Read(LICENSE*)",
+      "Read(CHANGELOG*)",
+      "Read(vite.config.*)",
+      "Read(tailwind.config.*)",
+      "Read(tsconfig.*)",
+      "Read(eslint.config.*)",
+      "Read(postcss.config.*)",
+      "Read(playwright.config.*)",
+      "Read(vitest.config.*)",
+      "Read(components.json)",
+      "Read(bun.lockb)",
+      "Read(package-lock.json)",
+      "Read(yarn.lock)",
+      "Read(pnpm-lock.yaml)"
+    ]
+  },
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '\"[\" + (now | strftime(\"%Y-%m-%d %H:%M:%S\")) + \"] \" + .tool_input.command + \" - \" + (.tool_input.description // \"No description\")' >> ~/.claude/fabriktakt-commands.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json, sys, os; data=json.load(sys.stdin); path=data.get('tool_input',{}).get('file_path',''); sensitive=['.env', 'bun.lockb', 'package-lock.json', '.git/', 'node_modules/']; [sys.exit(2) if any(p in path for p in sensitive) else None]; print(f'✓ Editing: {os.path.basename(path)}')\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/format_on_save.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] User prompt submitted\" >> ~/.claude/fabriktakt-session.log"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] Claude response completed\" >> ~/.claude/fabriktakt-session.log"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"🔔 Claude Code notification at $(date)\" | tee -a ~/.claude/fabriktakt-notifications.log"
+          }
+        ]
+      }
+    ]
+  }
+}
