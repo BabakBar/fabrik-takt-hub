@@ -40,9 +40,6 @@ const Header = () => {
           {/* Actions */}
           <div className="flex items-center space-x-4">
             <LanguageToggle />
-            <Button className="hidden md:inline-flex bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold px-6 py-2.5 rounded-lg shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all">
-              Get Started →
-            </Button>
 
             {/* Mobile Menu Button */}
             <Button
