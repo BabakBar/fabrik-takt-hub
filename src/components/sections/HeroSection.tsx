@@ -1,15 +1,14 @@
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
-import PilotModal from "../modals/PilotModal";
 import { Link } from "react-router-dom";
+import IndustryBackground from "../IndustryBackground";
 
 const HeroSection = () => {
-  const [pilotModal, setPilotModal] = useState(false);
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <IndustryBackground />
+      <div className="container mx-auto px-4 max-w-5xl relative z-10">
         <div className="text-left max-w-4xl">
           {/* Eyebrow text following capabilities page pattern */}
           <div className="text-xs font-mono uppercase tracking-widest text-amber-400/60 mb-3">
@@ -17,7 +16,7 @@ const HeroSection = () => {
           </div>
           
           {/* Large typography matching capabilities page */}
-          <h1 className="text-3xl md:text-7xl lg:text-8xl font-black leading-none mb-6 font-orbitron" style={{
+          <h1 className="text-3xl md:text-7xl lg:text-8xl font-black leading-none mb-6" style={{
             background: 'linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -60,21 +59,11 @@ const HeroSection = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            
-            <Button
-              variant="outline"
-              size="lg"
-              className="ml-4 inline-flex items-center rounded-md border-gray-600 text-gray-300 hover:text-white hover:border-gray-500 px-8 py-3 text-lg transition-colors"
-              onClick={() => setPilotModal(true)}
-            >
-              Join Pilot Program
-            </Button>
           </div>
         </div>
       </div>
       
-      {/* Modal */}
-      <PilotModal isOpen={pilotModal} onClose={() => setPilotModal(false)} />
+  {/* IndustryBackground renders the conceptual Industry 4.0 ecosystem */}
     </section>
   );
 };
