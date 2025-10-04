@@ -41,13 +41,13 @@ const SocialProofSection = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-700 mb-6">
-            {language === 'fa' 
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
+            {language === 'fa'
               ? 'اعتماد کارخانه‌های پیشرو'
               : 'Trusted by Leading Manufacturers'
             }
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-700 max-w-3xl mx-auto">
             {language === 'fa' 
               ? 'مدیران تولید در سراسر ایران به فبریک‌تکت اعتماد کرده‌اند'
               : 'Production managers worldwide trust FabrikTakt for their knowledge management needs'
@@ -63,13 +63,13 @@ const SocialProofSection = () => {
                 <div className={`${index === 0 ? 'bg-amber-500' : 'bg-blue-500'} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0`}>
                   <span className="text-white font-bold text-lg">{testimonial.initial}</span>
                 </div>
-                <div>
-                  <h4 className="font-bold text-slate-700">{testimonial.name}</h4>
-                  <p className="text-slate-500 text-sm">{testimonial.title}</p>
-                </div>
-              </div>
-              
-              <blockquote className="text-slate-600 text-lg leading-relaxed mb-6">
+                 <div>
+                   <h4 className="font-bold text-slate-800">{testimonial.name}</h4>
+                   <p className="text-slate-600 text-sm">{testimonial.title}</p>
+                 </div>
+               </div>
+
+               <blockquote className="text-slate-700 text-lg leading-relaxed mb-6">
                 "{testimonial.content}"
               </blockquote>
               
@@ -90,24 +90,24 @@ const SocialProofSection = () => {
              <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                <span className="text-green-600 text-2xl font-bold">80%</span>
              </div>
-             <h4 className="font-bold text-slate-700 mb-2">
-               {language === 'fa' ? 'کاهش زمان حل مشکل' : 'Problem Resolution Time Reduction'}
-             </h4>
-             <p className="text-slate-500 text-sm">
-               {language === 'fa' ? 'متوسط در تمام کارخانه‌ها' : 'Average Across All Factories'}
-             </p>
+              <h4 className="font-bold text-slate-800 mb-2">
+                {language === 'fa' ? 'کاهش زمان حل مشکل' : 'Problem Resolution Time Reduction'}
+              </h4>
+              <p className="text-slate-600 text-sm">
+                {language === 'fa' ? 'متوسط در تمام کارخانه‌ها' : 'Average Across All Factories'}
+              </p>
            </div>
 
            <div className="text-center">
              <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                <span className="text-blue-600 text-2xl font-bold">1K+</span>
              </div>
-             <h4 className="font-bold text-slate-700 mb-2">
-               {language === 'fa' ? 'مورد دانش ثبت شده' : 'Knowledge Entries'}
-             </h4>
-             <p className="text-slate-500 text-sm">
-               {language === 'fa' ? 'و در حال رشد' : 'And Growing'}
-             </p>
+              <h4 className="font-bold text-slate-800 mb-2">
+                {language === 'fa' ? 'مورد دانش ثبت شده' : 'Knowledge Entries'}
+              </h4>
+              <p className="text-slate-600 text-sm">
+                {language === 'fa' ? 'و در حال رشد' : 'And Growing'}
+              </p>
            </div>
          </div>
 

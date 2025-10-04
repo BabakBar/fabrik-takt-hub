@@ -33,15 +33,15 @@ const SolutionSection = () => {
       title: t('solution.step2Title'),
       desc: language === 'fa' ? 'هوش مصنوعی فوراً اطلاعات را درک، ساختاربندی و به ماشین و فرآیند صحیح مرتبط کرده و حافظه کارخانه شما را می‌سازد.' : 'Our AI instantly understands, structures, and links the information to the right machine and process, building your factory\'s memory.',
       demo: (
-        <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg text-left">
-          <div className="flex items-center gap-2 text-slate-700 font-medium mb-3">
+        <div className="bg-white border border-slate-200 p-4 rounded-lg text-left shadow-sm">
+          <div className="flex items-center gap-2 text-slate-800 font-medium mb-3">
             <Brain className="w-4 h-4" />
             {t('solution.analysisResult')}
           </div>
           <div className="space-y-2 text-sm text-slate-700">
-            <div className="bg-white p-2 rounded-md border border-slate-200">{t('solution.equipment')}</div>
-            <div className="bg-white p-2 rounded-md border border-slate-200">{t('solution.type')}</div>
-            <div className="bg-white p-2 rounded-md border border-slate-200">{t('solution.errorCode')}</div>
+            <div className="bg-slate-50 p-2 rounded-md border border-slate-200">{t('solution.equipment')}</div>
+            <div className="bg-slate-50 p-2 rounded-md border border-slate-200">{t('solution.type')}</div>
+            <div className="bg-slate-50 p-2 rounded-md border border-slate-200">{t('solution.errorCode')}</div>
           </div>
         </div>
       )
@@ -52,17 +52,17 @@ const SolutionSection = () => {
       title: t('solution.step3Title'),
       desc: language === 'fa' ? 'هر کسی می‌تواند با زبان طبیعی از سیستم سؤال کند تا پاسخ‌های فوری و راهنمایی‌های عملی برای حل سریع‌تر مشکلات دریافت کند.' : 'Anyone can query the system in natural language to get immediate answers and actionable guidance for faster problem-solving.',
       demo: (
-        <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg text-left">
-          <div className="flex items-center gap-2 text-green-600 font-medium mb-3">
+        <div className="bg-white border border-slate-200 p-4 rounded-lg text-left shadow-sm">
+          <div className="flex items-center gap-2 text-green-700 font-medium mb-3">
             <Sparkles className="w-4 h-4" />
             {t('solution.searchQuery')}
           </div>
-          <div className="bg-white p-3 rounded-md border-l-4 border-green-400 text-sm text-slate-700">
+          <div className="bg-slate-50 p-3 rounded-md border-l-4 border-green-400 text-sm text-slate-700">
             {t('solution.searchResult')}
           </div>
           <div className="flex items-center justify-between mt-2 text-xs font-medium">
-            <div className="text-green-600">{t('solution.solveTime')}</div>
-            <div className="text-slate-500">98% Match</div>
+            <div className="text-green-700">{t('solution.solveTime')}</div>
+            <div className="text-slate-600">98% Match</div>
           </div>
         </div>
       )
