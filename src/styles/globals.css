@@ -25,7 +25,7 @@
   --primary-text: #2F4F4F;
   --accent: #F9A825;
   --background: #E5E5E5;
-  --surface: #FFFFFF;
+  --surface: #F3F4F6;
   --text-muted: #94a3b8;
   --border: rgba(255, 255, 255, 0.08);
   --border-hover: #F9A825;
@@ -39,7 +39,7 @@
     --primary-text: #ffffff;
     --accent: #F9A825;
     --background: #1a1f2e;
-    --surface: #2d3748;
+    --surface: #374151;
     --text-muted: #94a3b8;
     
     /* Dark mode semantic colors */
