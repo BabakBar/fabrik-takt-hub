@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Mic, Search, Brain, Sparkles, ArrowRight } from 'lucide-react';
+import { Mic, Search, Brain, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import SectionCard from "../ui/SectionCard";
 import { useRevealOnScroll, staggerVariants } from '../../hooks/useAnimations';
@@ -127,21 +127,7 @@ const SolutionSection = () => {
             ))}
           </motion.div>
 
-          <SectionCard floating={false} className="bg-amber-500 text-white p-8 rounded-2xl max-w-3xl mx-auto shadow-lg mt-6">
-            <h3 className="text-2xl font-bold mb-3">
-              {language === "fa" ? "آماده تجربه آینده؟" : "Ready to Experience the Future?"}
-            </h3>
-            <p className="text-amber-100 mb-4 text-base">
-              {language === "fa"
-                ? "ببینید چگونه این فناوری کارخانه شما را متحول می‌کند"
-                : "See how this technology transforms your manufacturing operations"
-              }
-            </p>
-            <button className="bg-white text-amber-600 px-7 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-colors flex items-center gap-2 mx-auto shadow-md">
-              {language === "fa" ? "مشاهده نمونه‌ها" : "See Live Examples"}
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </SectionCard>
+
         </SectionCard>
       </div>
     </motion.section>

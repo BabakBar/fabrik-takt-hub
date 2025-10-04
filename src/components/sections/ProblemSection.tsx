@@ -10,29 +10,23 @@ const ProblemSection = () => {
   const { ref, isInView } = useRevealOnScroll();
 
   const painPoints = [
-    { 
+    {
       title: language === 'fa' ? 'دانش پراکنده' : 'Fragmented Knowledge',
       desc: language === 'fa' ? 'راه‌حل‌های حیاتی در دفترچه‌ها و حافظه‌ها گم شده و تیم شما را مجبور به حل مکرر مشکلات می‌کند.' : 'Critical fixes get lost in notebooks and memory, forcing your team to solve the same problems repeatedly.',
       icon: BrainCircuit,
-      iconColor: 'text-red-500' 
+      iconColor: 'text-red-500'
     },
-    { 
+    {
       title: language === 'fa' ? 'نقاط کور عملیاتی' : 'Operational Blind Spots',
       desc: language === 'fa' ? 'عدم دید آنی منجر به توقف‌های غیرمنتظره، زمان‌بندی ناکارآمد و مشکلات کیفیتی ردیابی‌ناپذیر می‌شود.' : 'Lack of real-time visibility leads to surprise downtime, inefficient scheduling, and quality issues that are hard to trace.',
       icon: EyeOff,
       iconColor: 'text-amber-500'
     },
-    { 
+    {
       title: language === 'fa' ? 'موانع آموزشی' : 'Training Bottlenecks',
       desc: language === 'fa' ? 'آموزش اپراتورهای جدید کند و ناهماهنگ است زیرا دانش عملی و تجربی به راحتی در دسترس نیست.' : 'Onboarding new operators is slow and inconsistent when practical, experience-based knowledge isn\'t easily accessible.',
       icon: Users,
       iconColor: 'text-blue-500'
-    },
-    { 
-      title: language === 'fa' ? 'تیم‌های جدا از هم' : 'Disconnected Teams',
-      desc: language === 'fa' ? 'تیم‌های نگهداری، تولید و کیفیت در سیلوهای جداگانه کار می‌کنند و بازخورد لازم برای بهبود چابک را از دست می‌دهند.' : 'Maintenance, production, and quality teams operate in silos, missing the feedback loops needed for agile improvement.',
-      icon: GitFork,
-      iconColor: 'text-slate-500'
     }
   ];
 
@@ -67,8 +61,8 @@ const ProblemSection = () => {
           </div>
 
           {/* Statistics Grid */}
-          <motion.div 
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24"
+          <motion.div
+            className="grid md:grid-cols-3 gap-8 mb-24"
             variants={staggerVariants.container}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -76,8 +70,7 @@ const ProblemSection = () => {
             {[
               { icon: TrendingDown, stat: '40%', label: language === 'fa' ? 'کاهش بهره‌وری' : 'Productivity Loss', color: 'red' },
               { icon: Clock, stat: '2-3h', label: language === 'fa' ? 'زمان حل مشکل' : 'Problem Resolution', color: 'amber' },
-              { icon: DollarSign, stat: '$2M+', label: language === 'fa' ? 'هزینه توقف تولید' : 'Downtime Costs', color: 'slate' },
-              { icon: AlertTriangle, stat: '65%', label: language === 'fa' ? 'مشکلات تکراری' : 'Recurring Issues', color: 'red' }
+              { icon: DollarSign, stat: '$2M+', label: language === 'fa' ? 'هزینه توقف تولید' : 'Downtime Costs', color: 'slate' }
             ].map((item, index) => (
               <motion.div key={index} variants={staggerVariants.item}>
                 <div className="bg-white p-8 rounded-2xl shadow-md border border-slate-100 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
