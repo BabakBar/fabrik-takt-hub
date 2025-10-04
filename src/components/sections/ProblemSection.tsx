@@ -33,7 +33,7 @@ const ProblemSection = () => {
   return (
     <motion.section 
       ref={ref}
-      className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden"
+      className="py-16 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, ease: "easeOut" }}

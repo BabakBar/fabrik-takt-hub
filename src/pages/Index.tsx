@@ -20,18 +20,12 @@ const Index = () => {
         <HeroSection />
 
         {/* Core Problem/Solution Flow */}
-        <div className="py-16">
-          <ProblemSection />
-        </div>
+        <ProblemSection />
 
-        <div className="py-16">
-          <SolutionSection />
-        </div>
+        <SolutionSection />
 
         {/* Quick Social Proof */}
-        <div className="py-16">
-          <SocialProofSection />
-        </div>
+        <SocialProofSection />
 
 
 

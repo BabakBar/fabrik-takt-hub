@@ -72,7 +72,7 @@ const SolutionSection = () => {
   return (
     <motion.section 
       ref={ref}
-      className="py-8 bg-white relative"
+      className="py-16 bg-surface relative"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
