@@ -113,8 +113,8 @@ const ContactPage = () => {
             
             <div className="bg-slate-800/20 backdrop-blur-md rounded-2xl p-8 border border-white/5">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-3 font-orbitron">Traditional Contact Form</h3>
-                <p className="text-gray-300">Prefer forms? Fill this out and we'll get back to you.</p>
+                <h3 className="text-2xl font-bold text-white mb-3 font-orbitron">Contact Form</h3>
+                <p className="text-gray-300">Fill this out and we'll get back to you.</p>
               </div>
               
               <form onSubmit={handleFormSubmit} className="space-y-6 max-w-2xl mx-auto">
