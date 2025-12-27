@@ -33,12 +33,25 @@ const LanguageToggle = () => {
         <div className="absolute right-0 mt-2 w-32 rounded-lg bg-slate-800 border border-white/10 shadow-xl">
           <button
             onClick={() => {
-              setLanguage('en');
+              setLanguage('de');
               setIsOpen(false);
             }}
             className={`w-full px-4 py-2 text-left text-sm transition-colors rounded-t-lg ${
+              language === 'de'
+                ? 'bg-[--pulse-primary]/20 text-[--pulse-primary]'
+                : 'text-gray-300 hover:bg-white/10 hover:text-white'
+            }`}
+          >
+            Deutsch
+          </button>
+          <button
+            onClick={() => {
+              setLanguage('en');
+              setIsOpen(false);
+            }}
+            className={`w-full px-4 py-2 text-left text-sm transition-colors ${
               language === 'en'
-                ? 'bg-amber-500/20 text-amber-500'
+                ? 'bg-[--pulse-primary]/20 text-[--pulse-primary]'
                 : 'text-gray-300 hover:bg-white/10 hover:text-white'
             }`}
           >
@@ -51,7 +64,7 @@ const LanguageToggle = () => {
             }}
             className={`w-full px-4 py-2 text-left text-sm transition-colors rounded-b-lg ${
               language === 'fa'
-                ? 'bg-amber-500/20 text-amber-500'
+                ? 'bg-[--pulse-primary]/20 text-[--pulse-primary]'
                 : 'text-gray-300 hover:bg-white/10 hover:text-white'
             }`}
           >

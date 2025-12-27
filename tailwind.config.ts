@@ -21,15 +21,35 @@ export default {
 		extend: {
 			fontFamily: {
 				'orbitron': ['Orbitron', 'sans-serif'],
+				'persian': ['Vazirmatn', 'system-ui', 'sans-serif'],
 			},
 			colors: {
-				// Core three-color system
+				// Industrial Pulse color system
+				'bg-primary': '#0a0f1a',
+				'bg-secondary': '#111827',
+				'bg-tertiary': '#1f2937',
+				'pulse': {
+					DEFAULT: '#00d4ff',
+					secondary: '#0ea5e9',
+					glow: 'rgba(0, 212, 255, 0.15)',
+				},
+				'glass': {
+					bg: 'rgba(17, 24, 39, 0.7)',
+					border: 'rgba(255, 255, 255, 0.08)',
+					'border-hover': 'rgba(0, 212, 255, 0.3)',
+				},
+				'text': {
+					primary: '#ffffff',
+					secondary: '#e2e8f0',
+					muted: '#94a3b8',
+					accent: '#00d4ff',
+				},
+				// Legacy mappings for compatibility
 				primary: 'var(--primary-text)',
 				accent: 'var(--accent)',
 				surface: 'var(--surface)',
 				background: 'var(--background)',
-				'text-muted': 'var(--text-muted)',
-				
+
 				// Keep existing shadcn colors for compatibility
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -106,5 +126,6 @@ export default {
 			}
 		}
 	},
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;

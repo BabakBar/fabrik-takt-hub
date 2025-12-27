@@ -29,12 +29,11 @@ This repo contains the **frontend interface** for FabrikTakt - the part you see 
 - **Build Tool**: Vite 5
 - **Runtime**: Bun (for fast development)
 - **UI Components**: shadcn/ui (Radix UI primitives)
-- **Styling**: Tailwind CSS with custom design system
+- **Styling**: Tailwind CSS with "Industrial Pulse" design system
 - **Routing**: React Router v6
 - **Forms**: React Hook Form + Zod validation
 - **Animations**: Motion (Framer Motion successor)
-- **3D Graphics**: Three.js for background effects
-- **i18n**: Custom language context (English/Persian support)
+- **i18n**: Custom language context (German/English/Persian with RTL support)
 - **Email**: EmailJS for contact form submissions
 
 ## The Story Behind FabrikTakt
@@ -49,16 +48,22 @@ My goal is to help every manufacturing team capture their hard-earned knowledge,
 
 🚀 The product is in **early access** - actively building and iterating based on feedback from 3 factories.
 
+**Latest**: December 2025 - "Industrial Pulse" redesign complete
+- Lighthouse Performance: 100/100
+- Bundle size: ~157KB gzipped (optimized)
+- All automated quality checks passing
+
 ### Key Features
 
-- ✅ **Bilingual Interface** - Full Persian and English language support
-- ✅ **Modern UI** - Built with shadcn/ui component library
+- ✅ **Trilingual Interface** - German (primary), English, and Persian with full RTL support
+- ✅ **Industrial Pulse Design** - Glassmorphism with cyan accent system
+- ✅ **Highly Optimized** - Lighthouse 100 performance score
 - ✅ **Responsive Design** - Mobile-first approach, works on all devices
+- ✅ **Modern UI** - Built with shadcn/ui component library
 - ✅ **Contact Forms** - Integrated with EmailJS for submissions
 - ✅ **Analytics Ready** - Optional Umami analytics integration
-- ✅ **Accessibility** - ARIA-compliant components
-- ✅ **3D Backgrounds** - WebGL circuit animations using Three.js
-- ✅ **SEO Optimized** - Meta tags and structured data
+- ✅ **Accessibility** - ARIA-compliant components (Lighthouse 95)
+- ✅ **SEO Optimized** - Meta tags and structured data (Lighthouse 100)
 
 ### Project Structure
 
@@ -153,6 +158,31 @@ The project is configured for deployment on platforms that support Vite applicat
 
 Build command: `bun run build`  
 Output directory: `dist`
+
+## Design System
+
+### Industrial Pulse
+
+The "Industrial Pulse" design system visualizes FabrikTakt's promise: bringing digital intelligence to traditional manufacturing.
+
+**Color Palette:**
+- Primary Accent: `#00d4ff` (Cyan "Pulse")
+- Backgrounds: `#0a0f1a`, `#111827`, `#1f2937`
+- Full specifications: `docs/REDESIGN_SPEC.md`
+
+**Key Elements:**
+- Glassmorphism cards with backdrop blur
+- Pulse animations representing factory data flow
+- Factory photography with WebP optimization
+- Orbitron font for headlines, system fonts for body
+
+**Performance:**
+- Lazy-loaded sections below the fold
+- Code splitting for route-level chunks
+- WebP images with PNG fallbacks
+- ~157KB gzipped bundle size
+
+See `docs/IMPLEMENTATION_PLAN.md` for complete redesign documentation.
 
 ## Contributing
 
