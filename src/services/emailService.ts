@@ -1,5 +1,10 @@
-// @ts-ignore: No types for emailjs-browser
+// @ts-expect-error: No types for emailjs-browser
 import emailjs from '@emailjs/browser';
+
+// Type augmentation for Google Analytics gtag
+interface WindowWithGtag extends Window {
+  gtag?: (command: string, action: string, params: Record<string, unknown>) => void;
+}
 
 export interface FormSubmissionData {
   name: string;
@@ -72,8 +77,9 @@ class EmailService {
   // Analytics tracking
   private trackSubmission(formType: string, success: boolean): void {
     // Google Analytics 4 (if available)
-    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-      (window as any).gtag('event', 'form_submission', {
+    const windowWithGtag = window as WindowWithGtag;
+    if (typeof window !== 'undefined' && typeof windowWithGtag.gtag === 'function') {
+      windowWithGtag.gtag('event', 'form_submission', {
         event_category: 'contact',
         event_label: formType,
         success: success,

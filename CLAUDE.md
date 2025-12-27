@@ -1,6 +1,6 @@
 # FabrikTakt - Project Context
 
-AI-powered manufacturing intelligence platform. Marketing site with bilingual support (English/Persian with RTL).
+AI-powered manufacturing intelligence platform. Marketing site with trilingual support (German/English/Persian with RTL).
 
 ## Stack
 
@@ -24,10 +24,10 @@ src/
 ## Key Patterns
 
 - **Components**: Radix UI + CVA for variants, TypeScript interfaces
-- **i18n**: Always use `t('key')` - test both EN/FA with RTL
+- **i18n**: Always use `t('key')` - test all DE/EN/FA with RTL
 - **Forms**: React Hook Form + `useFormValidation` hook
 - **Animations**: Motion via `useAnimations.ts` hooks
-- **Styling**: Tailwind utilities + CSS custom properties
+- **Styling**: Tailwind utilities + Industrial Pulse design tokens
 
 ## Commands
 
@@ -38,21 +38,24 @@ bun run lint             # ESLint
 bunx tsc --noEmit        # TypeScript check
 ```
 
-## Design System
+## Design System - "Industrial Pulse"
 
-**Colors**: `--accent: #F9A825`, `--primary-text`, `--text-muted`, `--surface`, `--background`  
-**Typography**: Orbitron (headlines), system fonts (body)  
+**Colors**: `--pulse-primary: #00d4ff` (cyan), `--bg-primary: #0a0f1a`, `--text-primary: #ffffff`
+**Typography**: Orbitron (headlines), system fonts (body)
 **Spacing**: 8px grid (Tailwind utilities)
+**Effects**: Glassmorphism (`backdrop-blur-xl`), pulse animations
+**Docs**: See `docs/REDESIGN_SPEC.md` for complete specifications
 
 ## Guidelines
 
 ### Do
 
-- ✅ Support EN/FA with LanguageContext
+- ✅ Support DE/EN/FA with LanguageContext (German primary)
+- ✅ Use Industrial Pulse colors (cyan `#00d4ff`, not amber)
 - ✅ Use TypeScript interfaces (avoid `any`)
 - ✅ Implement ARIA labels & keyboard nav
 - ✅ Test responsive (mobile-first)
-- ✅ Keep bundle optimized
+- ✅ Keep bundle optimized (target: <200KB gzipped)
 
 ### Don't
 

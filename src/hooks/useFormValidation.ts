@@ -18,7 +18,7 @@ interface FormValidationState {
   touched: Record<string, boolean>;
   isValid: boolean;
   validateField: (name: string, value: string) => string;
-  validateForm: (formData: Record<string, any>) => boolean;
+  validateForm: (formData: Record<string, unknown>) => boolean;
   handleInputBlur: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -30,13 +30,13 @@ interface FormValidationState {
 
 export const useFormValidation = (
   validationRules: ValidationRules,
-  formData: Record<string, any>
+  formData: Record<string, unknown>
 ): FormValidationState => {
   const { language } = useLanguage();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const getErrorMessage = (fieldName: string, rule: string, value?: any): string => {
+  const getErrorMessage = useCallback((fieldName: string, rule: string, value?: number): string => {
     const messages = {
       fa: {
         required: {
@@ -77,9 +77,9 @@ export const useFormValidation = (
     };
 
     const lang = language as 'fa' | 'en';
-    const ruleMessages = messages[lang][rule as keyof typeof messages.fa];
-    return (ruleMessages as any)[fieldName] || (ruleMessages as any).default;
-  };
+    const ruleMessages = messages[lang][rule as keyof typeof messages.fa] as Record<string, string>;
+    return ruleMessages[fieldName] || ruleMessages.default;
+  }, [language]);
 
   const validateField = useCallback((name: string, value: string): string => {
     const rule = validationRules[name];
@@ -115,9 +115,9 @@ export const useFormValidation = (
     }
 
     return '';
-  }, [validationRules, language]);
+  }, [validationRules, getErrorMessage]);
 
-  const validateForm = useCallback((data: Record<string, any>): boolean => {
+  const validateForm = useCallback((data: Record<string, unknown>): boolean => {
     const newErrors: Record<string, string> = {};
     
     Object.keys(validationRules).forEach(key => {

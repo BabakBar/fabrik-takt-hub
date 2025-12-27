@@ -1,44 +1,63 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import LanguageToggle from '../ui/LanguageToggle';
 import { Button } from '../ui/button';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-white/10">
+    <header className={cn(
+      "fixed top-0 inset-x-0 z-50",
+      "bg-[--glass-bg] backdrop-blur-xl",
+      "border-b border-[--glass-border]",
+      "transition-all duration-300",
+      isScrolled && "bg-[--bg-primary]/95 shadow-md"
+    )}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          {/* Brand */}
           <Link to="/" className="flex items-center gap-3 group">
-            {/* Logo */}
             <img
               src="/favicon-original.png"
               alt="FabrikTakt logo"
-              className="w-10 h-10 drop-shadow-lg group-hover:drop-shadow-amber-500/25 transition-shadow rounded-lg"
+              className="w-10 h-10 drop-shadow-lg transition-shadow rounded-lg"
             />
-            {/* Brand Name */}
-            <span className="text-xl font-bold text-white">FabrikTakt</span>
+            <span className="text-xl md:text-2xl font-bold font-orbitron">
+              <span className="text-white">Fabrik</span>
+              <span className="text-[--pulse-primary]">Takt</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-10">
-            <Link to="/capabilities" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              Capabilities
-            </Link>
-            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors text-sm font-medium tracking-wide">
-              Contact
-            </Link>
+          <nav className="hidden md:flex items-center gap-6">
+            <a
+              href="#services"
+              className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors px-3 py-2 rounded-md hover:bg-[--pulse-glow]"
+            >
+              {t('nav.services')}
+            </a>
+            <a
+              href="#contact"
+              className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors px-3 py-2 rounded-md hover:bg-[--pulse-glow]"
+            >
+              {t('nav.contact')}
+            </a>
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
             <LanguageToggle />
 
             {/* Mobile Menu Button */}
@@ -47,6 +66,7 @@ const Header = () => {
               size="sm"
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -55,25 +75,22 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-white/10 bg-slate-800/95 backdrop-blur-md p-4 mt-4">
-            <nav className="flex flex-col space-y-4">
-              <Link 
-                to="/capabilities" 
-                className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors"
+          <div className="md:hidden border-t border-[--glass-border] bg-[--glass-bg] backdrop-blur-md p-4 mt-4 rounded-b-lg">
+            <nav className="flex flex-col gap-4">
+              <a
+                href="#services"
+                className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors py-2 px-3 rounded-md hover:bg-[--pulse-glow]"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Capabilities
-              </Link>
-              <Link 
-                to="/contact" 
-                className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors"
+                {t('nav.services')}
+              </a>
+              <a
+                href="#contact"
+                className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors py-2 px-3 rounded-md hover:bg-[--pulse-glow]"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Contact
-              </Link>
-              <Button className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold">
-                Get Started →
-              </Button>
+                {t('nav.contact')}
+              </a>
             </nav>
           </div>
         )}

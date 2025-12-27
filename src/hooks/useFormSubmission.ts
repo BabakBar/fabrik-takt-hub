@@ -11,19 +11,19 @@ interface FormSubmissionState {
   isSubmitting: boolean;
   isSubmitted: boolean;
   submissionError: string | null;
-  submitForm: (data: Record<string, any>) => Promise<void>;
+  submitForm: (data: Record<string, unknown>) => Promise<void>;
   resetSubmission: () => void;
 }
 
 export const useFormSubmission = (options: FormSubmissionOptions = {}): FormSubmissionState => {
   const { language } = useLanguage();
   const { endpoint = '/api/apply', onSuccess, onError } = options;
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  const submitForm = async (data: Record<string, any>) => {
+  const submitForm = async (data: Record<string, unknown>) => {
     setIsSubmitting(true);
     setSubmissionError(null);
     

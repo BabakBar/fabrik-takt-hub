@@ -9,7 +9,7 @@ import { useRef, useEffect } from 'react';
  */
 export const useRevealOnScroll = (threshold = 0.15, margin = '-5%') => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: margin as any });
+  const isInView = useInView(ref, { once: true, margin });
   return { ref, isInView };
 };
 
@@ -57,18 +57,18 @@ export const hoverVariants = {
   },
   
   secondaryButton: {
-    rest: { 
+    rest: {
       scale: 1,
       borderColor: '#576071',
       color: '#d4dbe2'
     },
-    hover: { 
+    hover: {
       scale: 1.02,
-      borderColor: '#F9A825',
-      color: '#F9A825',
+      borderColor: '#00d4ff',
+      color: '#00d4ff',
       transition: { duration: 0.18 }
     },
-    tap: { 
+    tap: {
       scale: 0.98,
       transition: { duration: 0.1 }
     }
@@ -115,11 +115,11 @@ export const hoverVariants = {
  */
 export const focusVariants = {
   button: {
-    rest: { 
-      boxShadow: '0 0 0 0px rgba(249, 168, 37, 0)' 
+    rest: {
+      boxShadow: '0 0 0 0px rgba(0, 212, 255, 0)'
     },
-    focus: { 
-      boxShadow: '0 0 0 4px rgba(249, 168, 37, 0.2)',
+    focus: {
+      boxShadow: '0 0 0 4px rgba(0, 212, 255, 0.2)',
       transition: { duration: 0.2 }
     }
   }
