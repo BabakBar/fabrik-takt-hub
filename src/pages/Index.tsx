@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'rea
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/sections/HeroSection';
+import SEO from '../components/SEO';
 
 const ServicesSection = lazy(() => import('../components/sections/ServicesSection'));
 const ContactSection = lazy(() => import('../components/sections/ContactSection'));
@@ -62,6 +63,11 @@ const LazySection = ({ children, minHeight = '320px', rootMargin = '320px' }: La
 const Index = () => {
   return (
     <div className="min-h-screen bg-bg-primary">
+      <SEO
+        title="FabrikTakt - AI & Technology Agency"
+        description="AI & technology agency for industry and manufacturing. We build AI applications, data platforms, cloud infrastructure, and web products."
+        canonical="https://fabriktakt.com/"
+      />
       <Header />
       <main>
         {/* Hero */}
