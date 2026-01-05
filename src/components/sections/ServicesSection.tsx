@@ -35,13 +35,13 @@ const ServicesSection = () => {
     <motion.section
       id="services"
       ref={ref}
-      className="py-24 bg-bg-primary"
+      className="pt-14 pb-12 md:pt-16 md:pb-14 bg-bg-primary"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-10">
           <h2 className="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
             {t('services.heading')}
           </h2>

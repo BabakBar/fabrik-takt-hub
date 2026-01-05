@@ -1,77 +1,130 @@
 
-import React, { useState, useRef, useEffect } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import React, { useEffect, useRef, useState } from 'react';
 import { Globe } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { cn } from '@/lib/utils';
+
+const LANGUAGE_OPTIONS = [
+  { value: 'de', shortLabel: 'DE', labelKey: 'language.de' },
+  { value: 'en', shortLabel: 'EN', labelKey: 'language.en' },
+  { value: 'fa', shortLabel: 'FA', labelKey: 'language.fa' },
+] as const;
+
+const highlightPosition = {
+  de: 'translate-x-0',
+  en: 'translate-x-full',
+  fa: 'translate-x-[200%]',
+} as const;
 
 const LanguageToggle = () => {
-  const { language, setLanguage } = useLanguage();
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { language, setLanguage, t } = useLanguage();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [canHover, setCanHover] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+    const media = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const update = () => setCanHover(media.matches);
+    update();
+    if (media.addEventListener) {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    if (canHover || !isExpanded) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setIsExpanded(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [canHover, isExpanded]);
+
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setIsExpanded(false);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      setIsExpanded(false);
+      triggerRef.current?.focus();
+    }
+  };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div
+      ref={containerRef}
+      className="inline-flex items-center gap-2 rounded-full border border-[--glass-border] bg-[--glass-bg] p-1 shadow-[0_12px_30px_-20px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-colors hover:border-[--glass-border-hover]"
+      dir="ltr"
+      onMouseEnter={() => {
+        if (canHover) setIsExpanded(true);
+      }}
+      onMouseLeave={() => {
+        if (canHover) setIsExpanded(false);
+      }}
+      onFocusCapture={() => setIsExpanded(true)}
+      onBlurCapture={handleBlur}
+      onKeyDown={handleKeyDown}
+    >
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-300 hover:text-white"
-        aria-label="Change language"
+        ref={triggerRef}
+        type="button"
+        aria-label={t('language.label')}
+        aria-expanded={isExpanded}
+        onClick={() => setIsExpanded((prev) => (canHover ? true : !prev))}
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 text-[--pulse-primary] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--pulse-primary]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[--bg-primary]"
       >
-        <Globe className="h-5 w-5" />
+        <Globe className="h-4 w-4" />
       </button>
-      
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-32 rounded-lg bg-slate-800 border border-white/10 shadow-xl">
+      <div
+        role="group"
+        aria-label={t('language.label')}
+        aria-hidden={!isExpanded}
+        className={cn(
+          "relative grid grid-cols-3 items-center overflow-hidden rounded-full bg-white/5 p-1 transition-[max-width,opacity,transform] duration-300 ease-out",
+          isExpanded
+            ? "max-w-[220px] opacity-100 scale-100"
+            : "max-w-0 opacity-0 scale-95 pointer-events-none"
+        )}
+      >
+        <span
+          className={cn(
+            "pointer-events-none absolute inset-y-1 left-1 w-[calc((100%-0.5rem)/3)] rounded-full bg-[--pulse-primary]/20 shadow-[0_0_18px_rgba(0,212,255,0.25)] transition-transform duration-300 ease-out",
+            highlightPosition[language]
+          )}
+        />
+        {LANGUAGE_OPTIONS.map((option) => (
           <button
+            key={option.value}
+            type="button"
             onClick={() => {
-              setLanguage('de');
-              setIsOpen(false);
+              setLanguage(option.value);
+              if (!canHover) setIsExpanded(false);
             }}
-            className={`w-full px-4 py-2 text-left text-sm transition-colors rounded-t-lg ${
-              language === 'de'
-                ? 'bg-[--pulse-primary]/20 text-[--pulse-primary]'
-                : 'text-gray-300 hover:bg-white/10 hover:text-white'
-            }`}
+            aria-pressed={language === option.value}
+            aria-label={t(option.labelKey)}
+            title={t(option.labelKey)}
+            className={cn(
+              "relative z-10 inline-flex items-center justify-center rounded-full px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[--text-muted] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--pulse-primary]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[--bg-primary]",
+              "hover:text-[--text-primary]",
+              language === option.value && "text-[--pulse-primary]"
+            )}
+            tabIndex={isExpanded ? 0 : -1}
           >
-            Deutsch
+            <span aria-hidden="true">{option.shortLabel}</span>
           </button>
-          <button
-            onClick={() => {
-              setLanguage('en');
-              setIsOpen(false);
-            }}
-            className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-              language === 'en'
-                ? 'bg-[--pulse-primary]/20 text-[--pulse-primary]'
-                : 'text-gray-300 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={() => {
-              setLanguage('fa');
-              setIsOpen(false);
-            }}
-            className={`w-full px-4 py-2 text-left text-sm transition-colors rounded-b-lg ${
-              language === 'fa'
-                ? 'bg-[--pulse-primary]/20 text-[--pulse-primary]'
-                : 'text-gray-300 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            فارسی
-          </button>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 };

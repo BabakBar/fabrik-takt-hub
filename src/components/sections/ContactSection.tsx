@@ -73,14 +73,14 @@ const ContactSection = () => {
     <motion.section
       id="contact"
       ref={ref}
-      className="py-24 bg-bg-secondary"
+      className="pt-12 pb-14 md:pt-14 md:pb-16 bg-bg-secondary"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       <div className="container mx-auto px-6">
         <div className="max-w-xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 md:mb-10">
             <h2 className="text-4xl lg:text-5xl font-bold text-text-primary mb-4">
               {t('contact.heading')}
             </h2>
