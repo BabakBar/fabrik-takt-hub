@@ -13,6 +13,12 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const translations = {
   fa: {
+    // Language
+    'language.label': 'زبان',
+    'language.de': 'Deutsch',
+    'language.en': 'English',
+    'language.fa': 'فارسی',
+
     // Navigation
     'nav.services': 'خدمات',
     'nav.contact': 'تماس',
@@ -24,7 +30,7 @@ const translations = {
     'hero.title.line2': 'صنعت نیاز دارد.',
     'hero.subtitle': 'اپلیکیشن‌های هوش مصنوعی، خطوط داده، زیرساخت ابری و پلتفرم‌های وب. دقت آلمانی، تحویل جهانی.',
     'hero.cta': 'خدمات ما',
-    'hero.ctaSecondary': 'رزرو مشاوره',
+    'hero.ctaSecondary': 'شروع پروژه',
 
     // Services Section
     'services.heading': 'خدمات ما',
@@ -58,6 +64,12 @@ const translations = {
     'footer.rights': 'تمام حقوق محفوظ است',
   },
   en: {
+    // Language
+    'language.label': 'Language',
+    'language.de': 'Deutsch',
+    'language.en': 'English',
+    'language.fa': 'فارسی',
+
     // Navigation
     'nav.services': 'Services',
     'nav.contact': 'Contact',
@@ -69,7 +81,7 @@ const translations = {
     'hero.title.line2': 'industries need.',
     'hero.subtitle': 'AI applications, data pipelines, cloud infrastructure, and web platforms. German precision, delivered.',
     'hero.cta': 'Our Services',
-    'hero.ctaSecondary': 'Book a Call',
+    'hero.ctaSecondary': 'Start Your Project',
 
     // Services Section
     'services.heading': 'What We Build',
@@ -103,6 +115,12 @@ const translations = {
     'footer.rights': 'All rights reserved',
   },
   de: {
+    // Language
+    'language.label': 'Sprache',
+    'language.de': 'Deutsch',
+    'language.en': 'English',
+    'language.fa': 'فارسی',
+
     // Navigation
     'nav.services': 'Leistungen',
     'nav.contact': 'Kontakt',
@@ -114,7 +132,7 @@ const translations = {
     'hero.title.line2': 'Industrie braucht.',
     'hero.subtitle': 'KI-Anwendungen, Datenpipelines, Cloud-Infrastruktur und Webplattformen. Deutsche Präzision, geliefert.',
     'hero.cta': 'Unsere Leistungen',
-    'hero.ctaSecondary': 'Gespräch buchen',
+    'hero.ctaSecondary': 'Projekt starten',
 
     // Services Section
     'services.heading': 'Was wir bauen',
