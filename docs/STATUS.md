@@ -2,11 +2,13 @@
 
 Updated: 2026-07-26
 
-Branch: `feat/site-recovery-v2`
+Branch: `main`
 
 ## Current state
 
 The website has been rebuilt around a focused manufacturing AI systems position. English remains the canonical default at `/`, with shareable German under `/de/` and Persian under `/fa/`.
+
+Production is live from merge commit `def7c384909884c7d36c60c5a32f30c5d8b265ad`.
 
 Implemented:
 
@@ -35,12 +37,17 @@ Run on 2026-07-26:
 - `bun run test:e2e`: 10 passed
 - `bunx knip --reporter compact`: no findings
 - `bun audit`: no vulnerabilities
-- Lighthouse: Performance 97, Accessibility 100, Best Practices 100, SEO 100
-- Lighthouse transfer: 265 KiB
-- Lighthouse LCP: 2.6 s under mobile throttling
+- local production-image Lighthouse: Performance 97, Accessibility 100, Best Practices 100, SEO 100
+- live production Lighthouse: Performance 95, Accessibility 100, Best Practices 100, SEO 100
+- live Lighthouse transfer: 267 KiB
+- live Lighthouse LCP: 2.8 s under mobile throttling
 - browser checks: no horizontal overflow or console errors in DE, EN, or FA
+- live HTTP checks: English, German, and Persian routes return 200; unknown routes return 404
+- Coolify: Dockerfile build, port 80, `/healthz`, healthy, zero restarts
+- Cloudflare: Full (strict), minimum TLS 1.2, HTTPS redirect, and six-month HSTS
+- canonical host: `www.fabriktakt.com` redirects to `https://fabriktakt.com` with path and query preserved
 
-## Release blockers
+## Open follow-up
 
 ### Legal operator details
 
@@ -51,25 +58,22 @@ The legal notice cannot be considered complete until Sia supplies:
 - any applicable register, registration, or VAT information
 - responsible person wording if different from the operator
 
-The page intentionally marks this limitation rather than publishing invented information. A qualified legal review is recommended.
+The deployed page intentionally marks this limitation rather than publishing invented information. A qualified legal review is recommended.
 
-### Production infrastructure
+## Production rollout record
 
-The code is ready for review, but these live changes require a separate, explicit infrastructure approval:
+Completed on 2026-07-26:
 
-- redirect `www.fabriktakt.com` to the apex hostname
-- move Cloudflare SSL from Full to Full (strict)
-- raise minimum TLS to 1.2
-- add HSTS only after confirming every relevant subdomain
-- switch the Coolify application from Nixpacks to the repository Dockerfile
-- enable and verify the `/healthz` Coolify application health check
-- verify the Nginx security headers and immutable hashed-asset caching
-- verify that unknown routes use the built `404.html` with a real HTTP 404 response
+- pull request #6 merged to `main`
+- webhook deployment `l48ocswos4scggsos8o4w8wo` built the merged Dockerfile
+- Coolify initially retained six generated ingress labels pointing to the old port 3000, causing a 502 while the new nginx container was healthy on port 80
+- the six stale Traefik and Caddy upstream-port references were changed to port 80
+- corrective deployment `lcksw8goksk8gok0ck4g0w08` completed from the same merge commit
+- Coolify read-back confirmed `running:healthy`, port 80, `/healthz`, and zero restarts
+- Cloudflare read-back confirmed Full (strict), minimum TLS 1.2, Always Use HTTPS, and HSTS for six months without subdomains or preload
+- Cloudflare ruleset `cbf788a6b0884bbc8dce77355938c203` performs the permanent `www` to apex redirect
+- live response checks confirmed CSP, frame protection, referrer and permissions policies, font caching, localized static metadata, legacy `/en/...` redirects, and real 404 responses
 
-## Release sequence
+## Next action
 
-1. Supply and review the missing legal operator details.
-2. Mark draft pull request #6 ready for review.
-3. Confirm the Coolify automatic-deploy state before merging.
-4. Merge and verify the production deployment.
-5. Apply the infrastructure hardening changes one by one with read-back verification.
+Replace the legal-notice warning with the verified operator details and obtain a legal review.
