@@ -2,8 +2,8 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 const localeCases = [
-  { path: '/', language: 'de', direction: 'ltr', heading: 'Aus Daten' },
-  { path: '/en/', language: 'en', direction: 'ltr', heading: 'factory data' },
+  { path: '/', language: 'en', direction: 'ltr', heading: 'factory data' },
+  { path: '/de/', language: 'de', direction: 'ltr', heading: 'Aus Daten' },
   { path: '/fa/', language: 'fa', direction: 'rtl', heading: 'داده‌های کارخانه' },
 ] as const;
 
@@ -25,14 +25,21 @@ for (const localeCase of localeCases) {
 }
 
 test('primary navigation works from a secondary route', async ({ page }) => {
-  await page.goto('/en/capabilities/');
+  await page.goto('/capabilities/');
   await page.getByRole('banner').getByRole('link', { name: 'Approach' }).click();
-  await expect(page).toHaveURL(/\/en\/approach\/?$/);
+  await expect(page).toHaveURL(/\/approach\/?$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('From question to');
 });
 
+test('legacy prefixed English routes resolve to the canonical unprefixed URL', async ({ page }) => {
+  await page.goto('/en/capabilities/?source=legacy');
+
+  await expect(page).toHaveURL('/capabilities/?source=legacy');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+});
+
 test('an empty contact form cannot report success', async ({ page }) => {
-  await page.goto('/en/contact/');
+  await page.goto('/contact/');
   await page.getByRole('button', { name: 'Send project brief' }).click();
 
   await expect(page.getByText('Message received')).toHaveCount(0);
@@ -48,12 +55,20 @@ test('pages expose canonical and localized alternates', async ({ page }) => {
   );
   await expect(page.locator('link[rel="alternate"][hreflang="de"]')).toHaveAttribute(
     'href',
+    'https://fabriktakt.com/de/capabilities/',
+  );
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
+    'href',
+    'https://fabriktakt.com/capabilities/',
+  );
+  await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute(
+    'href',
     'https://fabriktakt.com/capabilities/',
   );
 });
 
 test('localized typography uses the intended self-hosted font families', async ({ page }) => {
-  await page.goto('/en/');
+  await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
 
   const latinTypography = await page.evaluate(() => {
@@ -85,7 +100,7 @@ test('localized typography uses the intended self-hosted font families', async (
 });
 
 test('critical public routes have no serious accessibility violations', async ({ page }) => {
-  for (const path of ['/', '/en/capabilities/', '/fa/contact/', '/privacy/']) {
+  for (const path of ['/', '/de/capabilities/', '/fa/contact/', '/privacy/']) {
     await page.goto(path);
     const results = await new AxeBuilder({ page }).analyze();
 
@@ -96,7 +111,7 @@ test('critical public routes have no serious accessibility violations', async ({
 });
 
 test('unknown routes render a localized noindex page', async ({ page }) => {
-  await page.goto('/en/does-not-exist/');
+  await page.goto('/does-not-exist/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found');
   await expect(page.getByText('404', { exact: true })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');

@@ -12,7 +12,7 @@ import NotFound from '@/pages/NotFound';
 import { useLocation } from '@/router';
 
 const routeWithoutLocale = (pathname: string) => {
-  const route = pathname.replace(/^\/(en|fa)(?=\/|$)/, '').replace(/\/+$/, '');
+  const route = pathname.replace(/^\/(de|en|fa)(?=\/|$)/, '').replace(/\/+$/, '');
   return route || '/';
 };
 

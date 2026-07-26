@@ -6,7 +6,7 @@ Branch: `feat/site-recovery-v2`
 
 ## Current state
 
-The website has been rebuilt around a focused manufacturing AI systems position. German is the canonical language, with shareable English and Persian route trees.
+The website has been rebuilt around a focused manufacturing AI systems position. English remains the canonical default at `/`, with shareable German under `/de/` and Persian under `/fa/`.
 
 Implemented:
 
@@ -17,6 +17,7 @@ Implemented:
 - self-hosted Instrument Sans for German and English, plus Estedad with Persian-specific display rhythm
 - one real EmailJS-backed contact flow with validation, consent, spam friction, and direct-email fallback
 - static route HTML with localized metadata, canonical URLs, hreflang, Open Graph, Twitter cards, and organization structured data
+- permanent production redirects from legacy `/en/...` URLs to canonical unprefixed English routes
 - responsive behavior from 320 px through desktop
 - skip navigation, keyboard focus treatment, 44 px targets, reduced-motion support, and axe coverage
 - CI for install, browser setup, lint, TypeScript, build, and Playwright
@@ -31,12 +32,12 @@ Run on 2026-07-26:
 - `bun run lint`: pass, zero warnings
 - `bun run typecheck`: pass
 - `bun run build`: pass
-- `bun run test:e2e`: 9 passed
+- `bun run test:e2e`: 10 passed
 - `bunx knip --reporter compact`: no findings
 - `bun audit`: no vulnerabilities
-- Lighthouse: Performance 99, Accessibility 100, Best Practices 100, SEO 100
-- Lighthouse transfer: 216 KiB
-- Lighthouse LCP: 2.1 s under mobile throttling
+- Lighthouse: Performance 97, Accessibility 100, Best Practices 100, SEO 100
+- Lighthouse transfer: 265 KiB
+- Lighthouse LCP: 2.6 s under mobile throttling
 - browser checks: no horizontal overflow or console errors in DE, EN, or FA
 
 ## Release blockers

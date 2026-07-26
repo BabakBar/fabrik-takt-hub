@@ -1074,18 +1074,18 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-const localePrefixPattern = /^\/(en|fa)(?=\/|$)/;
+const localePrefixPattern = /^\/(de|en|fa)(?=\/|$)/;
 
 const languageFromPath = (pathname: string): Language => {
   const locale = pathname.match(localePrefixPattern)?.[1];
-  return locale === 'en' || locale === 'fa' ? locale : 'de';
+  return locale === 'de' || locale === 'fa' ? locale : 'en';
 };
 
 export const localizedPath = (pathname: string, language: Language): string => {
   const strippedPath = pathname.replace(localePrefixPattern, '') || '/';
   const normalizedPath = strippedPath === '/' ? '/' : `${strippedPath.replace(/\/+$/, '')}/`;
 
-  if (language === 'de') {
+  if (language === 'en') {
     return normalizedPath;
   }
 
@@ -1101,6 +1101,19 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'fa' ? 'rtl' : 'ltr';
   }, [language]);
+
+  useEffect(() => {
+    if (!/^\/en(?=\/|$)/.test(location.pathname)) return;
+
+    navigate(
+      {
+        pathname: localizedPath(location.pathname, 'en'),
+        search: location.search,
+        hash: location.hash,
+      },
+      { replace: true },
+    );
+  }, [location.hash, location.pathname, location.search, navigate]);
 
   const setLanguage = (nextLanguage: Language) => {
     navigate({

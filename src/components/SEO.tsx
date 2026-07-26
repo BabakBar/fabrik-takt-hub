@@ -42,7 +42,7 @@ export default function SEO({ title, description, path, noIndex = false }: SEOPr
       <link rel="alternate" hrefLang="de" href={`${SITE_URL}${localizedPath(path, 'de')}`} />
       <link rel="alternate" hrefLang="en" href={`${SITE_URL}${localizedPath(path, 'en')}`} />
       <link rel="alternate" hrefLang="fa" href={`${SITE_URL}${localizedPath(path, 'fa')}`} />
-      <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${localizedPath(path, 'de')}`} />
+      <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${localizedPath(path, 'en')}`} />
 
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />

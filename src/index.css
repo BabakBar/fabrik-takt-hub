@@ -1561,7 +1561,8 @@ svg {
 }
 
 [lang="fa"] body {
-  font-family: Estedad, Tahoma, "Segoe UI", sans-serif;
+  font-family:
+    Estedad, "Instrument Sans", Tahoma, "Segoe UI", sans-serif;
   line-height: 1.75;
 }
 

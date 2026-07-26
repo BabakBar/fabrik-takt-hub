@@ -3,6 +3,7 @@ type Locale = 'de' | 'en' | 'fa';
 type RouteMetadata = {
   route: string;
   locale: Locale;
+  page: (typeof pages)[number];
   title: string;
   description: string;
 };
@@ -38,7 +39,7 @@ const locales: Locale[] = ['de', 'en', 'fa'];
 const pages = ['home', 'capabilities', 'approach', 'contact', 'imprint', 'privacy'] as const;
 
 const routeFor = (locale: Locale, page: (typeof pages)[number]) => {
-  const prefix = locale === 'de' ? '' : `/${locale}`;
+  const prefix = locale === 'en' ? '' : `/${locale}`;
   return page === 'home' ? `${prefix}/` : `${prefix}/${page}/`;
 };
 
@@ -46,6 +47,7 @@ const routes: RouteMetadata[] = locales.flatMap((locale) =>
   pages.map((page) => ({
     route: routeFor(locale, page),
     locale,
+    page,
     title: metadata[locale][page][0],
     description: metadata[locale][page][1],
   })),
@@ -58,12 +60,17 @@ const replaceMeta = (html: string, route: RouteMetadata) => {
   const canonical = `${siteUrl}${route.route}`;
   const direction = route.locale === 'fa' ? 'rtl' : 'ltr';
   const locale = route.locale === 'de' ? 'de_DE' : route.locale === 'fa' ? 'fa_IR' : 'en_US';
+  const alternateUrl = (language: Locale) => `${siteUrl}${routeFor(language, route.page)}`;
 
   return html
     .replace(/<html lang="[^"]+" dir="[^"]+">/, `<html lang="${route.locale}" dir="${direction}">`)
     .replace(/<title data-rh="true">.*?<\/title>/, `<title data-rh="true">${route.title}</title>`)
     .replace(/<meta data-rh="true" name="description" content="[^"]*"\s*\/>/, `<meta data-rh="true" name="description" content="${route.description}" />`)
     .replace(/<link data-rh="true" rel="canonical" href="[^"]*"\s*\/>/, `<link data-rh="true" rel="canonical" href="${canonical}" />`)
+    .replace(/<link data-rh="true" rel="alternate" hreflang="de" href="[^"]*"\s*\/>/, `<link data-rh="true" rel="alternate" hreflang="de" href="${alternateUrl('de')}" />`)
+    .replace(/<link data-rh="true" rel="alternate" hreflang="en" href="[^"]*"\s*\/>/, `<link data-rh="true" rel="alternate" hreflang="en" href="${alternateUrl('en')}" />`)
+    .replace(/<link data-rh="true" rel="alternate" hreflang="fa" href="[^"]*"\s*\/>/, `<link data-rh="true" rel="alternate" hreflang="fa" href="${alternateUrl('fa')}" />`)
+    .replace(/<link data-rh="true" rel="alternate" hreflang="x-default" href="[^"]*"\s*\/>/, `<link data-rh="true" rel="alternate" hreflang="x-default" href="${alternateUrl('en')}" />`)
     .replace(/<meta data-rh="true" property="og:title" content="[^"]*"\s*\/>/, `<meta data-rh="true" property="og:title" content="${route.title}" />`)
     .replace(/<meta data-rh="true" property="og:description" content="[^"]*"\s*\/>/, `<meta data-rh="true" property="og:description" content="${route.description}" />`)
     .replace(/<meta data-rh="true" property="og:locale" content="[^"]*"\s*\/>/, `<meta data-rh="true" property="og:locale" content="${locale}" />`)

@@ -7,7 +7,7 @@ import {
   useLanguage,
 } from '@/contexts/LanguageContext';
 
-const languages: Language[] = ['de', 'en', 'fa'];
+const languages: Language[] = ['en', 'de', 'fa'];
 
 const Brand = () => (
   <span className="brand-lockup" aria-label="FabrikTakt">

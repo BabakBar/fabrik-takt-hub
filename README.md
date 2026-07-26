@@ -15,8 +15,8 @@ The website is available in German, English, and Persian:
 
 | Language | Home | Example route |
 | --- | --- | --- |
-| German | `/` | `/capabilities/` |
-| English | `/en/` | `/en/capabilities/` |
+| English (default) | `/` | `/capabilities/` |
+| German | `/de/` | `/de/capabilities/` |
 | Persian | `/fa/` | `/fa/capabilities/` |
 
 All public pages are localized, including Capabilities, Approach, Contact, Legal Notice, Privacy, and Not Found. Persian uses an RTL layout and is covered by the browser test suite.
