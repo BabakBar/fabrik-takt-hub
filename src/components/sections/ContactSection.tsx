@@ -1,207 +1,166 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { GlassCard } from '../ui/GlassCard';
-import { useRevealOnScroll } from '../../hooks/useAnimations';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
-import emailService from '../../services/emailService';
+import { useState, type FormEvent } from 'react';
+import { AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Link } from '@/router';
+import { localizedPath, useLanguage } from '@/contexts/LanguageContext';
+import submitContact, { type SubmissionErrorCode } from '@/services/emailService';
 
-const ContactSection = () => {
-  const { t } = useLanguage();
-  const { ref, isInView } = useRevealOnScroll();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [formTimestamp, setFormTimestamp] = useState(Date.now());
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    honeypot: '', // Spam protection
-  });
+type FormStatus =
+  | { state: 'idle' }
+  | { state: 'submitting' }
+  | { state: 'success' }
+  | { state: 'error'; code: SubmissionErrorCode };
 
-  // Reset timestamp when form is shown
-  useEffect(() => {
-    if (!isSubmitted) {
-      setFormTimestamp(Date.now());
+export default function ContactSection() {
+  const { language, copy } = useLanguage();
+  const formCopy = copy.contact.form;
+  const [status, setStatus] = useState<FormStatus>({ state: 'idle' });
+  const [startedAt, setStartedAt] = useState(() => Date.now());
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    if (!form.reportValidity()) return;
+
+    const formData = new FormData(form);
+    setStatus({ state: 'submitting' });
+
+    const result = await submitContact({
+      name: String(formData.get('name') ?? '').trim(),
+      email: String(formData.get('email') ?? '').trim(),
+      company: String(formData.get('company') ?? '').trim(),
+      message: String(formData.get('message') ?? '').trim(),
+      website: String(formData.get('website') ?? ''),
+      startedAt,
+      locale: language,
+    });
+
+    if (result.success) {
+      form.reset();
+      setStartedAt(Date.now());
+      setStatus({ state: 'success' });
+      return;
     }
-  }, [isSubmitted]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-
-    try {
-      const result = await emailService.submitForm({
-        name: formData.name,
-        email: formData.email,
-        company: 'Website Contact', // Default for general contact
-        message: formData.message,
-        formType: 'contact-general',
-        honeypot: formData.honeypot,
-        timestamp: formTimestamp,
-        userAgent: navigator.userAgent,
-      });
-
-      if (result.success) {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', message: '', honeypot: '' });
-      } else {
-        setError(result.message);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send message');
-    } finally {
-      setIsSubmitting(false);
-    }
+    setStatus({ state: 'error', code: result.code });
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const errorMessage =
+    status.state === 'error'
+      ? status.code === 'rate-limit'
+        ? formCopy.rateLimit
+        : status.code === 'configuration'
+          ? formCopy.configuration
+          : status.code === 'spam'
+            ? formCopy.spam
+            : formCopy.retry
+      : null;
 
   return (
-    <motion.section
-      id="contact"
-      ref={ref}
-      className="pt-12 pb-14 md:pt-14 md:pb-16 bg-bg-secondary"
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-    >
-      <div className="container mx-auto px-6">
-        <div className="max-w-xl mx-auto">
-          <div className="text-center mb-8 md:mb-10">
-            <h2 className="text-4xl lg:text-5xl font-bold text-text-primary mb-4">
-              {t('contact.heading')}
-            </h2>
-            <p className="text-xl text-text-secondary">
-              {t('contact.description')}
-            </p>
+    <div className="contact-form-panel">
+      {status.state === 'success' ? (
+        <div className="form-success" role="status">
+          <CheckCircle2 aria-hidden="true" />
+          <h2>{formCopy.successTitle}</h2>
+          <p>{formCopy.successBody}</p>
+          <button type="button" className="text-link" onClick={() => setStatus({ state: 'idle' })}>
+            {copy.contact.title}
+            <ArrowRight aria-hidden="true" />
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="honeypot" aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input
+              id="website"
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+            />
           </div>
 
-          <GlassCard className="p-8">
-            {isSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-8"
-              >
-                <CheckCircle className="w-16 h-16 text-[--pulse-primary] mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-text-primary mb-2">
-                  {t('contact.successHeading')}
-                </h3>
-                <p className="text-text-secondary">
-                  {t('contact.successMessage')}
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Honeypot field - hidden from users */}
-                <input
-                  type="text"
-                  name="honeypot"
-                  value={formData.honeypot}
-                  onChange={handleChange}
-                  className="absolute -left-[9999px] opacity-0"
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
+          {errorMessage && (
+            <div className="form-error" role="alert">
+              <AlertCircle aria-hidden="true" />
+              <p>{errorMessage}</p>
+            </div>
+          )}
 
-                {error && (
-                  <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                    {error}
-                  </div>
-                )}
+          <div className="form-grid">
+            <div className="field">
+              <label htmlFor="name">{formCopy.name}</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                minLength={2}
+                maxLength={120}
+                required
+                placeholder={formCopy.namePlaceholder}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="email">{formCopy.email}</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                maxLength={180}
+                required
+                placeholder={formCopy.emailPlaceholder}
+              />
+            </div>
+          </div>
 
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-text-primary mb-2"
-                  >
-                    {t('contact.nameLabel')}
-                  </label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder={t('contact.namePlaceholder')}
-                    className="bg-bg-primary/50 border-white/10 focus:border-[--pulse-primary]"
-                  />
-                </div>
+          <div className="field">
+            <label htmlFor="company">{formCopy.company}</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              autoComplete="organization"
+              maxLength={180}
+              placeholder={formCopy.companyPlaceholder}
+            />
+          </div>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-text-primary mb-2"
-                  >
-                    {t('contact.emailLabel')}
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="you@company.com"
-                    className="bg-bg-primary/50 border-white/10 focus:border-[--pulse-primary]"
-                  />
-                </div>
+          <div className="field">
+            <label htmlFor="message">{formCopy.message}</label>
+            <textarea
+              id="message"
+              name="message"
+              rows={7}
+              minLength={20}
+              maxLength={3_000}
+              required
+              placeholder={formCopy.messagePlaceholder}
+            />
+          </div>
 
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-text-primary mb-2"
-                  >
-                    {t('contact.messageLabel')}
-                  </label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder={t('contact.messagePlaceholder')}
-                    className="bg-bg-primary/50 border-white/10 focus:border-[--pulse-primary] resize-none"
-                  />
-                </div>
+          <label className="consent-field">
+            <input name="consent" type="checkbox" required />
+            <span>
+              {formCopy.consentLead}{' '}
+              <Link to={localizedPath('/privacy', language)}>{formCopy.consentLink}</Link>{' '}
+              {formCopy.consentTail}
+            </span>
+          </label>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[--pulse-primary] hover:bg-[--pulse-secondary] text-[--bg-primary] font-semibold py-3 transition-all hover:shadow-[0_0_30px_var(--pulse-glow)]"
-                >
-                  {isSubmitting ? (
-                    t('contact.submittingButton')
-                  ) : (
-                    <>
-                      {t('contact.submitButton')}
-                      <Send className="ms-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
-          </GlassCard>
-        </div>
-      </div>
-    </motion.section>
+          <button
+            className="button button-primary form-submit"
+            type="submit"
+            disabled={status.state === 'submitting'}
+          >
+            {status.state === 'submitting' ? formCopy.submitting : formCopy.submit}
+            <ArrowRight aria-hidden="true" />
+          </button>
+        </form>
+      )}
+    </div>
   );
-};
-
-export default ContactSection;
+}

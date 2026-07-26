@@ -1,38 +1,34 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from '@/App';
+import '@/index.css';
+import { RouterProvider } from '@/router';
 
-// Initialize Umami Analytics if configured
 const initializeUmami = () => {
-  const umamiUrl = import.meta.env.VITE_UMAMI_URL;
-  const umamiWebsiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID;
-  
-  if (umamiUrl && umamiWebsiteId) {
-    const script = document.createElement('script');
-    script.defer = true;
-    script.src = umamiUrl;
-    script.setAttribute('data-website-id', umamiWebsiteId);
-    
-    document.head.appendChild(script);
-    console.log('🔍 Umami analytics initialized');
-  } else {
-    console.log('📊 Umami analytics not configured (missing environment variables)');
-    console.log('- VITE_UMAMI_URL:', umamiUrl ? '✅ Set' : '❌ Missing');
-    console.log('- VITE_UMAMI_WEBSITE_ID:', umamiWebsiteId ? '✅ Set' : '❌ Missing');
-  }
+  const source = import.meta.env.VITE_UMAMI_URL;
+  const websiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID;
+
+  if (!source || !websiteId) return;
+
+  const script = document.createElement('script');
+  script.defer = true;
+  script.src = source;
+  script.dataset.websiteId = websiteId;
+  document.head.appendChild(script);
 };
 
-// Initialize analytics
 initializeUmami();
 
-console.log('Application starting...');
+const root = document.getElementById('root');
 
-createRoot(document.getElementById('root')!).render(
+if (!root) {
+  throw new Error('Application root element was not found');
+}
+
+createRoot(root).render(
   <StrictMode>
-    <BrowserRouter>
+    <RouterProvider>
       <App />
-    </BrowserRouter>
+    </RouterProvider>
   </StrictMode>,
-)
+);

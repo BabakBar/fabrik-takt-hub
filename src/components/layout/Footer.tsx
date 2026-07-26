@@ -1,54 +1,48 @@
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ArrowUpRight } from 'lucide-react';
+import { Link } from '@/router';
+import { localizedPath, useLanguage } from '@/contexts/LanguageContext';
 
-const Footer = () => {
-  const { t } = useLanguage();
+export default function Footer() {
+  const { language, copy } = useLanguage();
 
   return (
-    <footer className="relative bg-[#0a0f1a] overflow-hidden">
-      {/* Giant Watermark Logo */}
-      <div className="relative py-16 md:py-24">
-        <h2
-          className="text-[15vw] md:text-[12vw] font-black tracking-tight leading-none text-center select-none"
-          style={{ fontFamily: 'Orbitron, sans-serif' }}
-          aria-hidden="true"
-        >
-          <span className="text-[#2a3a4d]">Fabrik</span>
-          <span className="text-[#5a4a2a]">Takt</span>
-        </h2>
-
-        {/* Centered Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-end pb-8 md:pb-12">
-          <p className="text-white font-medium text-lg md:text-xl mb-2 tracking-wide">
-            {t('footer.tagline')}
-          </p>
-          <a
-            href="mailto:info@fabriktakt.com"
-            className="text-[#e8a530] hover:text-[--pulse-primary] transition-colors font-medium"
-          >
+    <footer className="site-footer">
+      <div className="site-shell footer-grid">
+        <div className="footer-intro">
+          <Link className="brand-link" to={localizedPath('/', language)}>
+            <span className="brand-lockup">
+              <img src="/brand-mark.svg" alt="" width="36" height="36" />
+              <span className="brand-wordmark">
+                Fabrik<span>Takt</span>
+              </span>
+            </span>
+          </Link>
+          <p>{copy.footer.statement}</p>
+          <a className="footer-email" href="mailto:info@fabriktakt.com">
             info@fabriktakt.com
+            <ArrowUpRight aria-hidden="true" />
           </a>
+        </div>
+
+        <div className="footer-links">
+          <div>
+            <h2>{copy.footer.navigate}</h2>
+            <Link to={localizedPath('/capabilities', language)}>{copy.nav.capabilities}</Link>
+            <Link to={localizedPath('/approach', language)}>{copy.nav.approach}</Link>
+            <Link to={localizedPath('/contact', language)}>{copy.nav.contact}</Link>
+          </div>
+          <div>
+            <h2>{copy.footer.legal}</h2>
+            <Link to={localizedPath('/imprint', language)}>{copy.footer.imprint}</Link>
+            <Link to={localizedPath('/privacy', language)}>{copy.footer.privacy}</Link>
+          </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/10">
-        <div className="container mx-auto px-6 py-4 flex justify-center items-center">
-          <p className="text-text-muted text-sm">
-            © {new Date().getFullYear()} FabrikTakt. Made with{' '}
-            <span className="text-red-500">❤️</span> by{' '}
-            <a
-              href="https://github.com/BabakBar"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[--pulse-primary] hover:text-white transition-colors"
-            >
-              Sia
-            </a>
-          </p>
-        </div>
+      <div className="site-shell footer-bottom">
+        <p>© {new Date().getFullYear()} FabrikTakt. {copy.footer.rights}</p>
+        <p>Germany · Europe</p>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

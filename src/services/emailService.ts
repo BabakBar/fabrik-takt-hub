@@ -1,206 +1,132 @@
-// @ts-expect-error: No types for emailjs-browser
 import emailjs from '@emailjs/browser';
 
-// Type augmentation for Google Analytics gtag
-interface WindowWithGtag extends Window {
-  gtag?: (command: string, action: string, params: Record<string, unknown>) => void;
-}
-
-export interface FormSubmissionData {
+type ContactSubmission = {
   name: string;
-  company: string;
   email: string;
-  phone?: string;
-  message?: string;
-  challenge?: string;
-  formType: 'pilot-modal' | 'pilot-cta' | 'contact-general' | 'contact-support';
-  honeypot?: string;
-  timestamp: number;
-  userAgent: string;
-}
+  company: string;
+  message: string;
+  website: string;
+  startedAt: number;
+  locale: 'de' | 'en' | 'fa';
+};
 
-interface RateLimitData {
-  count: number;
-  firstSubmission: number;
-}
+export type SubmissionErrorCode = 'configuration' | 'rate-limit' | 'spam' | 'delivery';
 
-class EmailService {
-  private readonly publicKey: string;
-  private readonly serviceId: string = 'service_mo6z6fw';
-  private readonly userTemplate: string;
-  private readonly adminTemplate: string;
+type SubmissionResult =
+  | { success: true; submissionId: string }
+  | { success: false; code: SubmissionErrorCode };
 
-  constructor() {
-    this.publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-    this.userTemplate = import.meta.env.VITE_EMAILJS_USER_TEMPLATE;
-    this.adminTemplate = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE;
+type RateLimitRecord = {
+  successfulSubmissions: number;
+  windowStartedAt: number;
+};
 
-    if (!this.publicKey) {
-      throw new Error('EmailJS Public Key missing in environment variables');
-    }
-    if (!this.userTemplate) {
-      throw new Error('EmailJS User Template ID missing in environment variables');
-    }
-    if (!this.adminTemplate) {
-      throw new Error('EmailJS Admin Template ID missing in environment variables');
-    }
-  }
+const RATE_LIMIT_KEY = 'fabriktakt_contact_rate_limit';
+const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000;
+const RATE_LIMIT_MAX = 3;
+const MIN_COMPLETION_MS = 2_000;
 
-  // Rate limiting: 3 submissions per 5 minutes
-  private checkRateLimit(): boolean {
-    const RATE_LIMIT_KEY = 'fabriktakt_form_rate_limit';
-    const WINDOW_MS = 5 * 60 * 1000; // 5 minutes
-    const MAX_SUBMISSIONS = 3;
+const readRateLimit = (): RateLimitRecord => {
+  const fallback = { successfulSubmissions: 0, windowStartedAt: Date.now() };
 
-    const now = Date.now();
+  try {
     const stored = localStorage.getItem(RATE_LIMIT_KEY);
-    const data: RateLimitData = stored ? JSON.parse(stored) : { count: 0, firstSubmission: now };
+    if (!stored) return fallback;
 
-    // Reset if window expired
-    if (now - data.firstSubmission > WINDOW_MS) {
-      data.count = 0;
-      data.firstSubmission = now;
+    const parsed = JSON.parse(stored) as Partial<RateLimitRecord>;
+    if (
+      typeof parsed.successfulSubmissions !== 'number' ||
+      typeof parsed.windowStartedAt !== 'number'
+    ) {
+      return fallback;
     }
 
-    // Check limit
-    if (data.count >= MAX_SUBMISSIONS) {
-      const timeLeft = Math.ceil((WINDOW_MS - (now - data.firstSubmission)) / 1000 / 60);
-      throw new Error(`Rate limit exceeded. Please wait ${timeLeft} minutes before submitting again.`);
+    if (Date.now() - parsed.windowStartedAt >= RATE_LIMIT_WINDOW_MS) {
+      return fallback;
     }
 
-    // Update count
-    data.count++;
-    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
-    return true;
-  }
-
-  // Analytics tracking
-  private trackSubmission(formType: string, success: boolean): void {
-    // Google Analytics 4 (if available)
-    const windowWithGtag = window as WindowWithGtag;
-    if (typeof window !== 'undefined' && typeof windowWithGtag.gtag === 'function') {
-      windowWithGtag.gtag('event', 'form_submission', {
-        event_category: 'contact',
-        event_label: formType,
-        success: success,
-        custom_parameter_method: 'emailjs'
-      });
-    }
-
-    // Console logging for development
-    console.log(`📧 Form submission: ${formType}, Success: ${success}, Method: EmailJS`);
-  }
-
-  // Format form type for display
-  private getFormTypeDisplay(formType: string): string {
-    const typeMap = {
-      'pilot-modal': 'Pilot Program (Quick Signup)',
-      'pilot-cta': 'Pilot Program (Detailed Application)',
-      'contact-general': 'General Inquiry',
-      'contact-support': 'Technical Support Request'
+    return {
+      successfulSubmissions: parsed.successfulSubmissions,
+      windowStartedAt: parsed.windowStartedAt,
     };
-    return typeMap[formType] || formType;
+  } catch {
+    return fallback;
+  }
+};
+
+const recordSuccessfulSubmission = () => {
+  const current = readRateLimit();
+  localStorage.setItem(
+    RATE_LIMIT_KEY,
+    JSON.stringify({
+      successfulSubmissions: current.successfulSubmissions + 1,
+      windowStartedAt: current.windowStartedAt,
+    }),
+  );
+};
+
+const submitContact = async (data: ContactSubmission): Promise<SubmissionResult> => {
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID ?? 'service_mo6z6fw';
+  const adminTemplate = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE;
+  const userTemplate = import.meta.env.VITE_EMAILJS_USER_TEMPLATE;
+
+  if (!publicKey || !serviceId || !adminTemplate) {
+    return { success: false, code: 'configuration' };
   }
 
-  // Main submission method
-  async submitForm(data: FormSubmissionData): Promise<{
-    success: boolean;
-    submissionId?: string;
-    message: string;
-    estimatedResponse?: string;
-  }> {
-    try {
-      // Security checks
-      this.checkRateLimit();
+  if (data.website.trim() || Date.now() - data.startedAt < MIN_COMPLETION_MS) {
+    return { success: false, code: 'spam' };
+  }
 
-      // Honeypot validation
-      if (data.honeypot && data.honeypot.trim() !== '') {
-        throw new Error('Spam detected');
-      }
+  if (readRateLimit().successfulSubmissions >= RATE_LIMIT_MAX) {
+    return { success: false, code: 'rate-limit' };
+  }
 
-      // Timing validation (prevent bot submissions)
-      const submissionTime = Date.now() - data.timestamp;
-      if (submissionTime < 3000) { // Less than 3 seconds
-        throw new Error('Submission too fast');
-      }
+  const templateData = {
+    to_email: 'info@fabriktakt.com',
+    reply_to: data.email,
+    user_name: data.name,
+    user_email: data.email,
+    company: data.company || 'Not provided',
+    message: data.message,
+    form_type: 'Website project inquiry',
+    locale: data.locale,
+    submitted_at: new Intl.DateTimeFormat('en-GB', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+      timeZone: 'Europe/Berlin',
+    }).format(new Date()),
+  };
 
-      // Prepare email data with safe fallbacks
-      const userEmailData = {
-        to_email: data.email,
-        user_name: data.name || 'User',
-        company: data.company || 'Not specified',
-        message: data.message || data.challenge || 'No message provided',
-        form_type: this.getFormTypeDisplay(data.formType)
-      };
+  try {
+    await emailjs.send(serviceId, adminTemplate, templateData, { publicKey });
+    recordSuccessfulSubmission();
 
-      const adminEmailData = {
-        to_email: 'babak.barghi@gmail.com', // Your admin email
-        user_name: data.name || 'User',
-        user_email: data.email,
-        company: data.company || 'Not specified',
-        phone: data.phone || 'Not provided',
-        message: data.message || data.challenge || 'No message provided',
-        form_type: this.getFormTypeDisplay(data.formType),
-        timestamp: new Date().toLocaleString()
-      };
-
-      // Send admin notification first
-      console.log('📤 Sending admin notification...');
-      await emailjs.send(
-        this.serviceId,
-        this.adminTemplate,
-        adminEmailData,
-        { publicKey: this.publicKey }
-      );
-
-      // Send user confirmation (auto-reply)
-      console.log('📤 Sending user confirmation...');
-      await emailjs.send(
-        this.serviceId,
-        this.userTemplate,
-        userEmailData,
-        { publicKey: this.publicKey }
-      );
-
-      // Track success
-      this.trackSubmission(data.formType, true);
-
-      // Generate submission ID
-      const submissionId = `emailjs_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-      return {
-        success: true,
-        submissionId,
-        message: 'Thank you for your submission! We will respond within 24 hours.',
-        estimatedResponse: '24 hours'
-      };
-
-    } catch (error) {
-      // Track failure
-      this.trackSubmission(data.formType, false);
-
-      console.error('❌ EmailJS submission failed:', error);
-      
-      const errorMessage = error instanceof Error ? error.message : 'Failed to send message. Please try again.';
-      
-      return {
-        success: false,
-        message: errorMessage
-      };
+    if (userTemplate) {
+      void emailjs
+        .send(
+          serviceId,
+          userTemplate,
+          {
+            to_email: data.email,
+            user_name: data.name,
+            company: data.company || 'Not provided',
+            message: data.message,
+            form_type: 'Website project inquiry',
+          },
+          { publicKey },
+        )
+        .catch(() => undefined);
     }
-  }
 
-  // Health check method
-  async healthCheck(): Promise<boolean> {
-    try {
-      // Simple test to verify EmailJS configuration
-      return !!(this.publicKey && this.serviceId && this.userTemplate && this.adminTemplate);
-    } catch {
-      return false;
-    }
+    return {
+      success: true,
+      submissionId: crypto.randomUUID(),
+    };
+  } catch {
+    return { success: false, code: 'delivery' };
   }
-}
+};
 
-// Export singleton instance
-const emailService = new EmailService();
-export default emailService;
+export default submitContact;
