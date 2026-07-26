@@ -21,6 +21,7 @@ Implemented:
 - CI for install, browser setup, lint, TypeScript, build, and Playwright
 - removal of obsolete sections, broken audit scripts, unused UI primitives, and unused packages
 - current versions of Vite and compatible development tooling
+- deterministic Nginx production image with real 404 responses, health check, security headers, and cache policy
 
 ## Verified gates
 
@@ -58,9 +59,9 @@ The code is ready for review, but these live changes require a separate, explici
 - move Cloudflare SSL from Full to Full (strict)
 - raise minimum TLS to 1.2
 - add HSTS only after confirming every relevant subdomain
-- add CSP, `X-Content-Type-Options`, Referrer Policy, and Permissions Policy
-- apply immutable caching to hashed assets
-- enable and verify a Coolify application health check
+- switch the Coolify application from Nixpacks to the repository Dockerfile
+- enable and verify the `/healthz` Coolify application health check
+- verify the Nginx security headers and immutable hashed-asset caching
 - verify that unknown routes use the built `404.html` with a real HTTP 404 response
 
 ## Release sequence
