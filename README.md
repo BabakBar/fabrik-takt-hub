@@ -26,6 +26,7 @@ All public pages are localized, including Capabilities, Approach, Contact, Legal
 - React 18 and TypeScript
 - Vite 8 and Bun
 - plain responsive CSS with logical RTL properties
+- self-hosted Instrument Sans and Estedad variable fonts
 - EmailJS for contact delivery
 - React Helmet Async plus generated static route metadata
 - Playwright and axe-core for browser and accessibility testing

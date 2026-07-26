@@ -52,6 +52,38 @@ test('pages expose canonical and localized alternates', async ({ page }) => {
   );
 });
 
+test('localized typography uses the intended self-hosted font families', async ({ page }) => {
+  await page.goto('/en/');
+  await page.evaluate(() => document.fonts.ready);
+
+  const latinTypography = await page.evaluate(() => {
+    const heading = document.querySelector('h1');
+
+    return {
+      bodyFamily: getComputedStyle(document.body).fontFamily,
+      headingWeight: heading ? Number(getComputedStyle(heading).fontWeight) : 0,
+    };
+  });
+
+  expect(latinTypography.bodyFamily).toContain('Instrument Sans');
+  expect(latinTypography.headingWeight).toBeLessThanOrEqual(560);
+
+  await page.goto('/fa/');
+  await page.evaluate(() => document.fonts.ready);
+
+  const persianTypography = await page.evaluate(() => {
+    const heading = document.querySelector('h1');
+
+    return {
+      bodyFamily: getComputedStyle(document.body).fontFamily,
+      headingSpacing: heading ? getComputedStyle(heading).letterSpacing : '',
+    };
+  });
+
+  expect(persianTypography.bodyFamily).toContain('Estedad');
+  expect(persianTypography.headingSpacing).toBe('normal');
+});
+
 test('critical public routes have no serious accessibility violations', async ({ page }) => {
   for (const path of ['/', '/en/capabilities/', '/fa/contact/', '/privacy/']) {
     await page.goto(path);

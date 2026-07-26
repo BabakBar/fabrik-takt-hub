@@ -1,5 +1,7 @@
 # FabrikTakt Persian/Farsi Implementation Docs
 
+> Historical reference only. The implementation described here was superseded by the 2026 website recovery. Current Persian support uses `LanguageContext`, logical CSS, self-hosted Estedad, and Playwright coverage. See `docs/STATUS.md`.
+
 This folder holds the working documentation for delivering production-ready Persian (fa) support in the FabrikTakt frontend. The focus is a single, accurate implementation plan that mirrors the current codebase and can be executed step by step.
 
 ---

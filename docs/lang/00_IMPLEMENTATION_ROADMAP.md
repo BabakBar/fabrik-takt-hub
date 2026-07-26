@@ -1,5 +1,7 @@
 # FabrikTakt Persian Implementation – Execution Plan
 
+> Historical reference only. This plan was superseded by the completed 2026 website recovery. Do not use its dependency, font, or architecture proposals as current instructions. See `docs/STATUS.md`.
+
 This is the authoritative playbook for launching production-ready Persian (fa) support. Work through the steps in order; each section assumes all previous work is complete. Update this document if reality diverges so it always matches the repository.
 
 ---

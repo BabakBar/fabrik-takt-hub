@@ -14,6 +14,7 @@ Implemented:
 - custom lightweight manufacturing-intelligence hero artwork
 - Home, Capabilities, Approach, Contact, Legal Notice, Privacy, and Not Found pages
 - complete German, English, and Persian content with RTL behavior
+- self-hosted Instrument Sans for German and English, plus Estedad with Persian-specific display rhythm
 - one real EmailJS-backed contact flow with validation, consent, spam friction, and direct-email fallback
 - static route HTML with localized metadata, canonical URLs, hreflang, Open Graph, Twitter cards, and organization structured data
 - responsive behavior from 320 px through desktop
@@ -30,7 +31,7 @@ Run on 2026-07-26:
 - `bun run lint`: pass, zero warnings
 - `bun run typecheck`: pass
 - `bun run build`: pass
-- `bun run test:e2e`: 8 passed
+- `bun run test:e2e`: 9 passed
 - `bunx knip --reporter compact`: no findings
 - `bun audit`: no vulnerabilities
 - Lighthouse: Performance 99, Accessibility 100, Best Practices 100, SEO 100
@@ -66,10 +67,8 @@ The code is ready for review, but these live changes require a separate, explici
 
 ## Release sequence
 
-1. Review the desktop, mobile, and Persian captures.
-2. Supply and review the missing legal operator details.
-3. Commit and push this branch.
-4. Open a pull request into `main`.
-5. Confirm the Coolify automatic-deploy state before merging.
-6. Merge and verify the production deployment.
-7. Apply the infrastructure hardening changes one by one with read-back verification.
+1. Supply and review the missing legal operator details.
+2. Mark draft pull request #6 ready for review.
+3. Confirm the Coolify automatic-deploy state before merging.
+4. Merge and verify the production deployment.
+5. Apply the infrastructure hardening changes one by one with read-back verification.
