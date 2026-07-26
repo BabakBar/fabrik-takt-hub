@@ -1,4 +1,6 @@
-# Persian Implementation Progress Log
+# Persian Implementation Progress Log — Historical
+
+> Superseded on 2026-07-26. Persian is now implemented across the complete public route set and verified by Playwright at mobile width. See `docs/STATUS.md`.
 
 This log mirrors the execution steps in `docs/lang/00_IMPLEMENTATION_ROADMAP.md`. Update it after each completed sub-step so stakeholders can follow along.
 

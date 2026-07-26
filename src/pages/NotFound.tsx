@@ -1,30 +1,31 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { ArrowLeft } from 'lucide-react';
+import { Link } from '@/router';
+import SEO from '@/components/SEO';
+import { localizedPath, useLanguage } from '@/contexts/LanguageContext';
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+export default function NotFound() {
+  const { language, copy } = useLanguage();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-primary text-text-secondary px-6">
-      <div className="text-center max-w-md">
-        <h1 className="text-6xl font-black mb-4 text-text-primary">404</h1>
-        <p className="text-lg mb-8">Page not found.</p>
-        <Link
-          to="/"
-          className="inline-flex items-center justify-center rounded-lg bg-[--pulse-primary] text-[--bg-primary] font-semibold px-6 py-3 transition-all hover:bg-[--pulse-secondary] hover:shadow-[0_0_30px_var(--pulse-glow)]"
-        >
-          Return to Home
-        </Link>
-      </div>
-    </div>
+    <>
+      <SEO
+        title={`404 — FabrikTakt`}
+        description={copy.notFound.body}
+        path="/404"
+        noIndex
+      />
+      <main id="main-content" className="not-found">
+        <div className="signal-grid" aria-hidden="true" />
+        <div>
+          <span>404</span>
+          <h1>{copy.notFound.title}</h1>
+          <p>{copy.notFound.body}</p>
+          <Link className="button button-primary" to={localizedPath('/', language)}>
+            <ArrowLeft className="icon-directional" aria-hidden="true" />
+            {copy.notFound.cta}
+          </Link>
+        </div>
+      </main>
+    </>
   );
-};
-
-export default NotFound;
+}

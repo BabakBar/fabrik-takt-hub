@@ -1,102 +1,119 @@
-import { useState, useEffect } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
-import LanguageToggle from '../ui/LanguageToggle';
-import { Button } from '../ui/button';
-import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from '@/router';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+import {
+  localizedPath,
+  type Language,
+  useLanguage,
+} from '@/contexts/LanguageContext';
 
-const Header = () => {
-  const { t } = useLanguage();
+const languages: Language[] = ['en', 'de', 'fa'];
+
+const Brand = () => (
+  <span className="brand-lockup" aria-label="FabrikTakt">
+    <img src="/brand-mark.svg" alt="" width="32" height="32" />
+    <span className="brand-wordmark">
+      Fabrik<span>Takt</span>
+    </span>
+  </span>
+);
+
+export default function Header() {
+  const { language, setLanguage, copy } = useLanguage();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const navigation = [
+    { label: copy.nav.capabilities, path: '/capabilities' },
+    { label: copy.nav.approach, path: '/approach' },
+    { label: copy.nav.contact, path: '/contact' },
+  ];
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    document.body.classList.toggle('menu-open', isMenuOpen);
+    return () => document.body.classList.remove('menu-open');
+  }, [isMenuOpen]);
 
   return (
-    <header className={cn(
-      "fixed top-0 inset-x-0 z-50",
-      "bg-[--glass-bg] backdrop-blur-xl",
-      "border-b border-[--glass-border]",
-      "transition-all duration-300",
-      isScrolled && "bg-[--bg-primary]/95 shadow-md"
-    )}>
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <img
-              src="/favicon-original.png"
-              alt="FabrikTakt logo"
-              className="w-10 h-10 drop-shadow-lg transition-shadow rounded-lg"
-            />
-            <span className="text-xl md:text-2xl font-bold font-orbitron">
-              <span className="text-white">Fabrik</span>
-              <span className="text-[--pulse-primary]">Takt</span>
-            </span>
+    <>
+      <a className="skip-link" href="#main-content">
+        {copy.skipLink}
+      </a>
+      <header className="site-header">
+        <div className="site-shell header-inner">
+          <Link className="brand-link" to={localizedPath('/', language)}>
+            <Brand />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            <a
-              href="#services"
-              className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors px-3 py-2 rounded-md hover:bg-[--pulse-glow]"
-            >
-              {t('nav.services')}
-            </a>
-            <a
-              href="#contact"
-              className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors px-3 py-2 rounded-md hover:bg-[--pulse-glow]"
-            >
-              {t('nav.contact')}
-            </a>
+          <nav className="desktop-nav" aria-label={copy.footer.navigate}>
+            {navigation.map((item) => {
+              const destination = localizedPath(item.path, language);
+              const isActive = location.pathname.replace(/\/+$/, '') === destination.replace(/\/+$/, '');
+
+              return (
+                <Link key={item.path} to={destination} aria-current={isActive ? 'page' : undefined}>
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            <LanguageToggle />
+          <div className="header-actions">
+            <div className="language-switcher" aria-label={copy.languageLabel}>
+              {languages.map((locale) => (
+                <button
+                  key={locale}
+                  type="button"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setLanguage(locale);
+                  }}
+                  aria-pressed={language === locale}
+                  lang={locale}
+                >
+                  {locale.toUpperCase()}
+                </button>
+              ))}
+            </div>
 
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            <Link className="header-cta" to={localizedPath('/contact', language)}>
+              {copy.nav.contact}
+              <ArrowUpRight aria-hidden="true" />
+            </Link>
+
+            <button
+              ref={menuButtonRef}
+              type="button"
+              className="menu-button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? copy.nav.menuClose : copy.nav.menuOpen}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
+              {isMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-[--glass-border] bg-[--glass-bg] backdrop-blur-md p-4 mt-4 rounded-b-lg">
-            <nav className="flex flex-col gap-4">
-              <a
-                href="#services"
-                className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors py-2 px-3 rounded-md hover:bg-[--pulse-glow]"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('nav.services')}
-              </a>
-              <a
-                href="#contact"
-                className="text-sm font-medium text-[--text-secondary] hover:text-[--pulse-primary] transition-colors py-2 px-3 rounded-md hover:bg-[--pulse-glow]"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('nav.contact')}
-              </a>
+          <div id="mobile-navigation" className="mobile-navigation" data-open="true">
+            <nav className="site-shell" aria-label={copy.footer.navigate}>
+              <Link to={localizedPath('/', language)} onClick={() => setIsMenuOpen(false)}>
+                {copy.nav.home}
+              </Link>
+              {navigation.map((item) => (
+                <Link
+                  key={item.path}
+                  to={localizedPath(item.path, language)}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </nav>
           </div>
         )}
-      </div>
-    </header>
+      </header>
+    </>
   );
-};
-
-export default Header;
+}
