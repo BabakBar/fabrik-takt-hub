@@ -1,197 +1,118 @@
-# 🏭 FabrikTakt - Frontend
+# FabrikTakt Website
 
-Welcome! This is the public frontend repository for **FabrikTakt**, an AI-powered intelligence hub designed to help manufacturing teams work smarter, not harder.
+Public website for FabrikTakt, a manufacturing AI systems practice based in Germany.
 
-🌐 **Visit us**: [fabriktakt.com](https://fabriktakt.com/)
+FabrikTakt helps manufacturers turn production knowledge, machine signals, and business data into practical decision tools. The site positions the work around four focused capabilities:
 
----
+- production intelligence
+- AI knowledge systems
+- data and integration foundations
+- operational applications
 
-## What is FabrikTakt?
+## Experience
 
-FabrikTakt is like having a smart assistant on the factory floor. I'm building technology that helps small and medium manufacturers capture knowledge, solve problems faster, and make better decisions - all through simple, conversational interfaces.
+The website is available in German, English, and Persian:
 
-Think of it as the "Factory Brain" 🧠 that:
+| Language | Home | Example route |
+| --- | --- | --- |
+| German | `/` | `/capabilities/` |
+| English | `/en/` | `/en/capabilities/` |
+| Persian | `/fa/` | `/fa/capabilities/` |
 
-- Remembers solutions to problems so we don't have to solve them twice
-- Helps operators get quick answers to their questions
-- Keeps track of what's happening across our production
-- Speaks our language (literally - we support multiple languages!)
+All public pages are localized, including Capabilities, Approach, Contact, Legal Notice, Privacy, and Not Found. Persian uses an RTL layout and is covered by the browser test suite.
 
----
+## Stack
 
-## About This Repo
+- React 18 and TypeScript
+- Vite 8 and Bun
+- plain responsive CSS with logical RTL properties
+- EmailJS for contact delivery
+- React Helmet Async plus generated static route metadata
+- Playwright and axe-core for browser and accessibility testing
 
-This repo contains the **frontend interface** for FabrikTakt - the part you see and interact with. It's built with modern web technologies to be fast, responsive, and easy to use on any device.
+The site intentionally uses a small internal History API router. The route set is deterministic and does not require a general application-routing dependency.
 
-### 🛠️ Tech Stack
+## Local development
 
-- **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite 5
-- **Runtime**: Bun (for fast development)
-- **UI Components**: shadcn/ui (Radix UI primitives)
-- **Styling**: Tailwind CSS with "Industrial Pulse" design system
-- **Routing**: React Router v6
-- **Forms**: React Hook Form + Zod validation
-- **Animations**: Motion (Framer Motion successor)
-- **i18n**: Custom language context (German/English/Persian with RTL support)
-- **Email**: EmailJS for contact form submissions
-
-## The Story Behind FabrikTakt
-
-I've been, seen and worked in manufacturing industries from my childhood because of our family business. Manufacturing is incredibly complex, but the tools available to most small and medium manufacturers are either too simple or overwhelmingly complicated. Now it's time to build something different - technology that's powerful enough to make a real difference, but simple enough that anyone can use it.
-
-My goal is to help every manufacturing team capture their hard-earned knowledge, solve problems more efficiently, and ultimately build better products.
-
----
-
-## Status
-
-🚀 The product is in **early access** - actively building and iterating based on feedback from 3 factories.
-
-**Latest**: December 2025 - "Industrial Pulse" redesign complete
-- Lighthouse Performance: 100/100
-- Bundle size: ~157KB gzipped (optimized)
-- All automated quality checks passing
-
-### Key Features
-
-- ✅ **Trilingual Interface** - German (primary), English, and Persian with full RTL support
-- ✅ **Industrial Pulse Design** - Glassmorphism with cyan accent system
-- ✅ **Highly Optimized** - Lighthouse 100 performance score
-- ✅ **Responsive Design** - Mobile-first approach, works on all devices
-- ✅ **Modern UI** - Built with shadcn/ui component library
-- ✅ **Contact Forms** - Integrated with EmailJS for submissions
-- ✅ **Analytics Ready** - Optional Umami analytics integration
-- ✅ **Accessibility** - ARIA-compliant components (Lighthouse 95)
-- ✅ **SEO Optimized** - Meta tags and structured data (Lighthouse 100)
-
-### Project Structure
-
-```txt
-src/
-├── components/         # Reusable UI components
-│   ├── ui/            # shadcn/ui base components
-│   ├── sections/      # Page sections (Hero, Features, etc.)
-│   ├── layout/        # Header, Footer
-│   └── forms/         # Contact form components
-├── pages/             # Route pages (Index, Contact, etc.)
-├── contexts/          # React contexts (Language)
-├── hooks/             # Custom React hooks
-├── services/          # API services (EmailJS)
-├── lib/               # Utility functions
-└── styles/            # Global styles
+```bash
+bun install
+bun run dev
 ```
 
-## Development Setup
+The development server runs at `http://localhost:8080`.
 
-### Prerequisites
+## Quality commands
 
-- [Bun](https://bun.sh/) - Fast JavaScript runtime & package manager
-- Node.js 22.x (specified in package.json engines)
+```bash
+bun run lint
+bun run typecheck
+bun run build
+bun run test:e2e
+bun run check
+bun audit
+```
 
-### Installation Steps
+`bun run build` creates route-specific HTML entrypoints under `dist/` so language, title, description, canonical URL, Open Graph fields, and Twitter fields are available before JavaScript executes.
 
-1. **Clone the repository**
+Install the Playwright browser once on a new machine:
 
-   ```bash
-   git clone https://github.com/BabakBar/fabrik-takt-hub.git
-   cd fabrik-takt-hub
-   ```
+```bash
+bunx playwright install chromium
+```
 
-2. **Install dependencies**
+## Environment
 
-   ```bash
-   bun install
-   ```
+Copy `.env.example` to `.env` and populate only the services you use.
 
-3. **Configure environment variables**
+The contact form requires:
 
-   ```bash
-   cp .env.example .env
-   ```
+- `VITE_EMAILJS_PUBLIC_KEY`
+- `VITE_EMAILJS_SERVICE_ID`
+- `VITE_EMAILJS_ADMIN_TEMPLATE`
+- `VITE_EMAILJS_USER_TEMPLATE` for the optional confirmation email
 
-   Edit `.env` and add your configuration:
-   
-   **Required:**
-   - `VITE_EMAILJS_PUBLIC_KEY` - EmailJS public key
-   - `VITE_EMAILJS_SERVICE_ID` - EmailJS service ID
-   - `VITE_EMAILJS_USER_TEMPLATE` - Template ID for user confirmation emails
-   - `VITE_EMAILJS_ADMIN_TEMPLATE` - Template ID for admin notification emails
+Self-hosted Umami is optional:
 
-   **Optional:**
-   - `VITE_UMAMI_URL` - Umami analytics script URL
-   - `VITE_UMAMI_WEBSITE_ID` - Umami website identifier
+- `VITE_UMAMI_URL`
+- `VITE_UMAMI_WEBSITE_ID`
 
-4. **Start development server**
+Do not commit `.env` or print secrets in logs.
 
-   ```bash
-   bun run dev
-   ```
+## Contact behavior
 
-   The app will be available at `http://localhost:8080`
+There is one contact implementation shared by all languages. It provides:
 
-### Available Scripts
+- native required-field and email validation
+- explicit privacy consent
+- an RTL-safe honeypot
+- a minimum completion-time check
+- client-side successful-submission throttling
+- delivery success only after the admin notification succeeds
+- optional user confirmation that cannot turn a delivered enquiry into a false failure
+- a direct email fallback when configuration or delivery is unavailable
 
-- `bun run dev` - Start development server with HMR
-- `bun run build` - Build for production
-- `bun run build:dev` - Build in development mode
-- `bun run preview` - Preview production build locally
-- `bun run lint` - Run ESLint
+Client-side anti-spam controls are friction, not a security boundary. EmailJS template restrictions and provider-side protections must remain enabled.
 
-## Analytics & Privacy
+## Content and legal status
 
-This project optionally uses Umami Analytics for website usage tracking. Analytics are:
+The public story deliberately avoids invented customer logos, testimonials, or performance numbers. Case studies should only be added when evidence and publication permission exist.
 
-- **Completely optional** - controlled by environment variables
-- **Privacy-focused** - no personal data collection
-- **Configurable** - easy to disable or replace with your own tracking
+The legal and privacy routes are implemented, but the legal notice still needs Sia's exact legal operator name and service address before commercial deployment. Do not invent these details.
 
-To disable analytics, simply remove or leave empty the `VITE_UMAMI_*` variables in your `.env` file.
+See [docs/STATUS.md](docs/STATUS.md) for the exact release state and remaining production actions.
 
 ## Deployment
 
-The project is configured for deployment on platforms that support Vite applications:
+The live site is served through Cloudflare and Coolify. A push to `main` may trigger an automatic production deployment, so infrastructure state must be checked before publishing.
 
-- **Railway** - nixpacks.toml included for configuration
-- **Vercel** - Works out of the box
-- **Netlify** - Compatible with standard Vite setup
+The build output directory is:
 
-Build command: `bun run build`  
-Output directory: `dist`
+```text
+dist/
+```
 
-## Design System
+The canonical hostname is:
 
-### Industrial Pulse
-
-The "Industrial Pulse" design system visualizes FabrikTakt's promise: bringing digital intelligence to traditional manufacturing.
-
-**Color Palette:**
-- Primary Accent: `#00d4ff` (Cyan "Pulse")
-- Backgrounds: `#0a0f1a`, `#111827`, `#1f2937`
-- Full specifications: `docs/REDESIGN_SPEC.md`
-
-**Key Elements:**
-- Glassmorphism cards with backdrop blur
-- Pulse animations representing factory data flow
-- Factory photography with WebP optimization
-- Orbitron font for headlines, system fonts for body
-
-**Performance:**
-- Lazy-loaded sections below the fold
-- Code splitting for route-level chunks
-- WebP images with PNG fallbacks
-- ~157KB gzipped bundle size
-
-See `docs/IMPLEMENTATION_PLAN.md` for complete redesign documentation.
-
-## Contributing
-
-This is currently a solo project, but feedback and suggestions are welcome! Feel free to:
-
-- Open issues for bugs or feature requests
-- Submit PRs for improvements
-- Share your experience if you're in manufacturing
-
----
-
-Made with ❤️ by Sia, for the people who make the world's products
+```text
+https://fabriktakt.com
+```

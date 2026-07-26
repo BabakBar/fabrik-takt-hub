@@ -1,4 +1,6 @@
-# FabrikTakt Redesign - Progress Tracker
+# FabrikTakt Redesign - Historical Progress Tracker
+
+> Historical record only. This document describes the superseded 2025 V1 plan and must not be used as current release evidence. See `docs/STATUS.md` for the verified website state.
 
 **Design**: Industrial Pulse | **Branch**: feature/industrial-pulse-redesign
 **Started**: 2025-12-26 | **Last Update**: 2025-12-27
