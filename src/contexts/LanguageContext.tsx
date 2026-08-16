@@ -22,7 +22,7 @@ const copy = {
       seoDescription:
         'FabrikTakt entwickelt praktische KI-, Daten- und Automatisierungssysteme für produzierende Unternehmen – vom fokussierten Pilotprojekt bis zum verlässlichen Betrieb.',
       hero: {
-        eyebrow: 'Manufacturing intelligence, die im Alltag funktioniert',
+        eyebrow: 'Praxisnahe KI- und Datensysteme für die Fertigung',
         titleLead: 'Aus Daten wird',
         titleAccent: 'Handlungsfähigkeit.',
         intro:
@@ -35,7 +35,7 @@ const copy = {
         systemValue: 'Handlung priorisiert',
       },
       context: {
-        eyebrow: 'Die operative Lücke',
+        eyebrow: 'Wo im Werk Zeit und Wissen verloren gehen',
         title: 'Mehr Daten lösen das Problem nicht. Nutzbarer Kontext schon.',
         intro:
           'In vielen Werken stecken entscheidende Informationen in Schichtbüchern, Tabellen, Köpfen und getrennten Systemen. FabrikTakt macht diese Zusammenhänge auffindbar, verständlich und handlungsrelevant.',
@@ -59,7 +59,7 @@ const copy = {
       },
       capabilities: {
         eyebrow: 'Was wir umsetzen',
-        title: 'Fokussierte Systeme statt KI-Theater.',
+        title: 'Pragmatische Lösungen für konkrete Herausforderungen.',
         intro:
           'Jedes Vorhaben beginnt mit einer konkreten betrieblichen Frage und endet mit einem Werkzeug, das in Prozesse, Verantwortlichkeiten und bestehende IT passt.',
         explore: 'Alle Leistungen',
@@ -128,7 +128,7 @@ const copy = {
       },
       principles: {
         eyebrow: 'Für reale Bedingungen gebaut',
-        title: 'Pragmatisch in der Einführung. Streng im Betrieb.',
+        title: 'Einfach im Einstieg. Verlässlich im Dauerbetrieb.',
         items: [
           {
             title: 'Human in the loop',
@@ -211,17 +211,17 @@ const copy = {
       phases: [
         {
           index: '01',
-          title: 'Problem Framing',
+          title: 'Anwendungsfall schärfen',
           duration: 'Orientierung',
           body: 'Wir beobachten den realen Ablauf, definieren Nutzer und Entscheidung, prüfen verfügbare Daten und formulieren ein messbares Erfolgskriterium.',
-          outputs: ['Problem- und Nutzerbild', 'Datenrealitätscheck', 'Pilotumfang', 'Erfolgskriterium'],
+          outputs: ['Problem- und Nutzerbild', 'Prüfung der Datenbasis', 'Pilotumfang', 'Erfolgskriterium'],
         },
         {
           index: '02',
           title: 'Pilot',
-          duration: 'Evidenz',
-          body: 'Ein schmaler, funktionaler Pfad wird mit echten Daten gebaut und mit den späteren Anwendern erprobt.',
-          outputs: ['Nutzbarer Arbeitsablauf', 'Technischer Durchstich', 'Feedback aus dem Betrieb', 'Go-/No-Go-Evidenz'],
+          duration: 'Praxisnachweis',
+          body: 'Ein konkreter, funktionsfähiger Ablauf wird mit echten Daten aufgebaut und direkt mit den Anwendern erprobt.',
+          outputs: ['Nutzbarer Arbeitsablauf', 'Technischer Durchstich', 'Feedback aus dem Betrieb', 'Entscheidungsgrundlage (Go / No-Go)'],
         },
         {
           index: '03',
@@ -412,7 +412,7 @@ const copy = {
       },
       capabilities: {
         eyebrow: 'What we build',
-        title: 'Focused systems. No AI theatre.',
+        title: 'Practical solutions for real factory problems.',
         intro:
           'Every engagement starts with a concrete operational question and ends with a tool that fits existing processes, responsibilities, and technology.',
         explore: 'View all capabilities',
@@ -481,7 +481,7 @@ const copy = {
       },
       principles: {
         eyebrow: 'Built for real conditions',
-        title: 'Pragmatic to introduce. Rigorous to operate.',
+        title: 'Simple to adopt. Reliable in production.',
         items: [
           {
             title: 'Human in the loop',
@@ -728,7 +728,7 @@ const copy = {
       seoDescription:
         'FabrikTakt سامانه‌های کاربردی هوش مصنوعی، داده و اتوماسیون را برای شرکت‌های تولیدی، از پایلوت متمرکز تا بهره‌برداری پایدار، طراحی و پیاده‌سازی می‌کند.',
       hero: {
-        eyebrow: 'هوشمندی تولید که در عمل کار می‌کند',
+        eyebrow: 'هوش مصنوعی و سامانه‌های داده برای صنعت و تولید',
         titleLead: 'داده‌های کارخانه را به',
         titleAccent: 'شفافیت عملیاتی تبدیل کنید.',
         intro:
@@ -741,8 +741,8 @@ const copy = {
         systemValue: 'اقدام اولویت‌بندی شد',
       },
       context: {
-        eyebrow: 'شکاف عملیاتی',
-        title: 'داده بیشتر مسئله را حل نمی‌کند؛ زمینه قابل استفاده حل می‌کند.',
+        eyebrow: 'چالش پنهان در خط تولید',
+        title: 'داده‌های بیشتر مشکل را حل نمی‌کند؛ داده‌های معنادار و کاربردی حل می‌کند.',
         intro:
           'در بسیاری از کارخانه‌ها، اطلاعات حیاتی میان گزارش شیفت، فایل‌های پراکنده، تجربه افراد و سامانه‌های جدا از هم پنهان است. FabrikTakt این ارتباط‌ها را قابل جست‌وجو، قابل فهم و قابل اقدام می‌کند.',
         items: [
@@ -765,7 +765,7 @@ const copy = {
       },
       capabilities: {
         eyebrow: 'آنچه می‌سازیم',
-        title: 'سامانه‌های متمرکز، نه نمایش هوش مصنوعی.',
+        title: 'راهکارهای عملی برای چالش‌های واقعی تولید.',
         intro:
           'هر همکاری با یک پرسش عملیاتی مشخص آغاز می‌شود و با ابزاری پایان می‌یابد که با فرایندها، مسئولیت‌ها و فناوری موجود سازگار است.',
         explore: 'همه توانمندی‌ها',
@@ -834,7 +834,7 @@ const copy = {
       },
       principles: {
         eyebrow: 'برای شرایط واقعی ساخته شده',
-        title: 'عمل‌گرا در اجرا، سخت‌گیر در بهره‌برداری.',
+        title: 'شروع آسان، قابل اتکا و پایدار در خط تولید.',
         items: [
           {
             title: 'انسان در چرخه تصمیم',
@@ -918,16 +918,16 @@ const copy = {
         {
           index: '۰۱',
           title: 'تعریف مسئله',
-          duration: 'جهت‌گیری',
+          duration: 'بررسی اولیه',
           body: 'گردش‌کار واقعی را می‌بینیم، کاربر و تصمیم را تعریف می‌کنیم، داده موجود را می‌سنجیم و معیار موفقیت می‌گذاریم.',
-          outputs: ['تعریف مسئله و کاربر', 'ارزیابی واقعیت داده', 'دامنه پایلوت', 'معیار موفقیت'],
+          outputs: ['شناخت فرایند و کاربر', 'بررسی کیفیت و دسترسی داده‌ها', 'دامنه پایلوت', 'معیار موفقیت'],
         },
         {
           index: '۰۲',
           title: 'پایلوت',
-          duration: 'شواهد',
-          body: 'یک مسیر محدود و کاربردی با داده واقعی ساخته و توسط کاربران آینده آزموده می‌شود.',
-          outputs: ['گردش‌کار قابل استفاده', 'مسیر فنی کامل', 'بازخورد عملیات', 'شواهد ادامه یا توقف'],
+          duration: 'اثبات عملی',
+          body: 'یک نمونه کاربردی با داده‌های واقعی ساخته شده و توسط کاربران نهایی آزمایش می‌شود.',
+          outputs: ['گردش‌کار قابل استفاده', 'مسیر فنی کامل', 'بازخورد عملیات', 'معیار روشن برای ادامه یا توقف (Go / No-Go)'],
         },
         {
           index: '۰۳',
@@ -939,7 +939,7 @@ const copy = {
         {
           index: '۰۴',
           title: 'بهره‌برداری و توسعه',
-          duration: 'اثر',
+          duration: 'ارزیابی و نتیجه',
           body: 'استفاده و نتیجه اندازه‌گیری می‌شود و توسعه تنها بر پایه شواهد ادامه می‌یابد.',
           outputs: ['پایش', 'مدل پشتیبانی و مالکیت', 'سنجش اثر', 'نقشه راه اولویت‌بندی‌شده'],
         },
