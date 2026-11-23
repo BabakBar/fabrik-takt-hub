@@ -20,6 +20,8 @@ const initializeUmami = () => {
   script.dataset.websiteId = websiteId;
   script.dataset.domains = 'fabriktakt.com,www.fabriktakt.com';
   script.dataset.performance = 'true';
+  script.dataset.excludeSearch = 'true';
+  script.dataset.excludeHash = 'true';
   document.head.appendChild(script);
 };
 
